@@ -8,19 +8,19 @@ variable "az2" {}
 #variable "ad_writer_instance_profile_name" {}
 variable "naming_suffix" {}
 
-variable "ad_sg_cidr_ingress" {
-  description = "List of CIDR block ingress to AD machines SG"
-  type        = "list"
-}
+#variable "ad_sg_cidr_ingress" {
+#  description = "List of CIDR block ingress to AD machines SG"
+#  type        = "list"
+#}
 
 variable "region" {
   default = "eu-west-2"
 }
 
-variable "vpc_peering_connection_ids" {
-  description = "List of peering VPC connection ids."
-  type        = "map"
-}
+#variable "vpc_peering_connection_ids" {
+#  description = "List of peering VPC connection ids."
+#  type        = "map"
+#}
 
 #variable "route_table_cidr_blocks" {
 #  description = "Map of CIDR blocks for the Apps private route table."
