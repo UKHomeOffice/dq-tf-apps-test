@@ -1,11 +1,11 @@
 variable "cidr_block" {}
 variable "public_subnet_cidr_block" {}
-variable "ad_subnet_cidr_block" {}
+#variable "ad_subnet_cidr_block" {}
 variable "az" {}
 variable "az2" {}
-variable "adminpassword" {}
-variable "ad_aws_ssm_document_name" {}
-variable "ad_writer_instance_profile_name" {}
+#variable "adminpassword" {}
+#variable "ad_aws_ssm_document_name" {}
+#variable "ad_writer_instance_profile_name" {}
 variable "naming_suffix" {}
 
 variable "ad_sg_cidr_ingress" {
@@ -22,10 +22,10 @@ variable "vpc_peering_connection_ids" {
   type        = "map"
 }
 
-variable "route_table_cidr_blocks" {
-  description = "Map of CIDR blocks for the Apps private route table."
-  type        = "map"
-}
+#variable "route_table_cidr_blocks" {
+#  description = "Map of CIDR blocks for the Apps private route table."
+#  type        = "map"
+#}
 
 variable "s3_bucket_name" {
   description = "Map of the S3 bucket names"

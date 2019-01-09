@@ -124,11 +124,11 @@ resource "aws_route_table" "apps_route_table" {
   }
 }
 
-resource "aws_route" "ops" {
-  route_table_id            = "${aws_route_table.apps_route_table.id}"
-  destination_cidr_block    = "${var.route_table_cidr_blocks["ops_cidr"]}"
-  vpc_peering_connection_id = "${var.vpc_peering_connection_ids["peering_to_ops"]}"
-}
+#resource "aws_route" "ops" {
+#  route_table_id            = "${aws_route_table.apps_route_table.id}"
+#  destination_cidr_block    = "${var.route_table_cidr_blocks["ops_cidr"]}"
+#  vpc_peering_connection_id = "${var.vpc_peering_connection_ids["peering_to_ops"]}"
+#}
 
 #resource "aws_route" "peering" {
 #  route_table_id            = "${aws_route_table.apps_route_table.id}"
