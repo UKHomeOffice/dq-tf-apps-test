@@ -4,6 +4,21 @@ locals {
   naming_suffix = "apps-${var.naming_suffix}"
 }
 
+module "fms" {
+  source                           = "github.com/ukhomeoffice/dq-tf-fms"
+  appsvpc_id                       = "${aws_vpc.appsvpc.id}"
+  #data_pipe_apps_cidr_block        = "10.1.8.0/24"
+  opssubnet_cidr_block             = "${var.route_table_cidr_blocks["ops_cidr"]}"
+  fms_cidr_block                   = "10.1.40.0/24"
+  fms_cidr_block_az2               = "10.1.41.0/24"
+  peering_cidr_block               = "10.3.0.0/16"
+  #key_name                         = "test_instance"
+  az                               = "${var.az}"
+  az2                              = "${var.az2}"
+  naming_suffix                    = "${local.naming_suffix}"
+  route_table_id                   = "${aws_route_table.apps_route_table.id}"
+}
+
 #module "external_tableau" {
 #  source                       = "github.com/UKHomeOffice/dq-tf-external-tableau"
 #  acp_prod_ingress_cidr        = "10.5.0.0/16"
