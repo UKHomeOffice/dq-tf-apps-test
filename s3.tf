@@ -65,9 +65,9 @@ resource "aws_s3_bucket_metric" "log_archive_bucket_logging" {
   name   = "log_archive_bucket_metric"
 }
 
-resource "aws_s3_bucket" "data_archive_bucket" {
-  bucket = "${var.s3_bucket_name["archive_data"]}"
-  acl    = "${var.s3_bucket_acl["archive_data"]}"
+resource "aws_s3_bucket" "oag_archive_bucket" {
+  bucket = "${var.s3_bucket_name["oag_archive"]}"
+  acl    = "${var.s3_bucket_acl["oag_archive"]}"
   region = "${var.region}"
 
   server_side_encryption_configuration {
