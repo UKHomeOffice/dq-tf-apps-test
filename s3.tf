@@ -121,7 +121,7 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
   }
 }
 
-resource "aws_s3_bucket" "refefence_data_bucket" {
+resource "aws_s3_bucket" "reference_data_bucket" {
   bucket = "${var.s3_bucket_name["reference_data"]}"
   acl    = "${var.s3_bucket_acl["reference_data"]}"
   region = "${var.region}"
