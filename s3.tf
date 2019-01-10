@@ -421,11 +421,11 @@ resource "aws_s3_bucket" "cross_record_scored_bucket" {
 
   logging {
     target_bucket = "${aws_s3_bucket.log_archive_bucket.id}"
-    target_prefix = "raw_file_retrival_index_bucket/"
+    target_prefix = "cross_record_scored_bucket/"
   }
 
   tags = {
-    Name = "dq-raw-file-retrieval-index-${local.naming_suffix}"
+    Name = "dq-cross-record-scored-${local.naming_suffix}"
   }
 }
 
