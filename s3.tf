@@ -402,8 +402,8 @@ resource "aws_s3_bucket" "raw_file_retrieval_index_bucket" {
 }
 
 resource "aws_s3_bucket" "cross_record_scored_bucket" {
-  bucket = "${var.s3_bucket_name["raw_file_retrieval_index"]}"
-  acl    = "${var.s3_bucket_acl["raw_file_retrieval_index"]}"
+  bucket = "${var.s3_bucket_name["cross_record_scored"]}"
+  acl    = "${var.s3_bucket_acl["cross_record_scored"]}"
   region = "${var.region}"
 
   server_side_encryption_configuration {
