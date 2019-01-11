@@ -45,7 +45,7 @@ module "internal_tableau" {
   #dq_ops_ingress_cidr                   = "${var.route_table_cidr_blocks["ops_cidr"]}"
   opssubnet_cidr_block                  = "${var.route_table_cidr_blocks["ops_cidr"]}"
   dq_internal_dashboard_subnet_cidr     = "10.1.12.0/24"
-  dq_internal_dashboard_subnet_cidr_az2 = "10.1.12.0/24"
+  dq_internal_dashboard_subnet_cidr_az2 = "10.1.13.0/24"
   peering_cidr_block                    = "10.3.0.0/16"
   apps_vpc_id                           = "${aws_vpc.appsvpc.id}"
   route_table_id                        = "${aws_route_table.apps_route_table.id}"
