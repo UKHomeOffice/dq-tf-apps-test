@@ -22,10 +22,10 @@ variable "region" {
 #  type        = "map"
 #}
 
-#variable "route_table_cidr_blocks" {
-#  description = "Map of CIDR blocks for the Apps private route table."
-#  type        = "map"
-#}
+variable "route_table_cidr_blocks" {
+  description = "Map of CIDR blocks for the Apps private route table."
+  type        = "map"
+}
 
 variable "s3_bucket_name" {
   description = "Map of the S3 bucket names"
