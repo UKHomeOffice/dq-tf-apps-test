@@ -19,6 +19,18 @@ module "fms" {
   route_table_id                   = "${aws_route_table.apps_route_table.id}"
 }
 
+module "lambda" {
+  source                           = "github.com/ukhomeoffice/dq-tf-lambda"
+  appsvpc_id                       = "${aws_vpc.appsvpc.id}"
+  dq_lambda_subnet_cidr            = "10.1.42.0/24"
+  dq_lambda_subnet_cidr_az2        = "10.1.43.0/24"
+  peering_cidr_block               = "10.3.0.0/16"
+  az                               = "${var.az}"
+  az2                              = "${var.az2}"
+  naming_suffix                    = "${local.naming_suffix}"
+  route_table_id                   = "${aws_route_table.apps_route_table.id}"
+}
+
 module "external_tableau" {
   source                           = "github.com/UKHomeOffice/dq-tf-external-tableau-test"
   appsvpc_id                       = "${aws_vpc.appsvpc.id}"
