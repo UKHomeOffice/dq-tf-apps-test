@@ -215,6 +215,72 @@ resource "aws_s3_bucket" "reference_data_bucket" {
   }
 }
 
+resource "aws_s3_bucket" "reference_data_archive_bucket" {
+  bucket = "${var.s3_bucket_name["reference_data_archive"]}"
+  acl    = "${var.s3_bucket_acl["reference_data_archive"]}"
+  region = "${var.region}"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = "${aws_kms_key.bucket_key.arn}"
+        sse_algorithm     = "aws:kms"
+      }
+    }
+  }
+
+  versioning {
+    enabled = true
+  }
+
+  logging {
+    target_bucket = "${aws_s3_bucket.log_archive_bucket.id}"
+    target_prefix = "reference_data_archive_bucket/"
+  }
+
+  tags = {
+    Name = "dq-reference-data-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket" "reference_data_internal_bucket" {
+  bucket = "${var.s3_bucket_name["reference_data_internal"]}"
+  acl    = "${var.s3_bucket_acl["reference_data_internal"]}"
+  region = "${var.region}"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = "${aws_kms_key.bucket_key.arn}"
+        sse_algorithm     = "aws:kms"
+      }
+    }
+  }
+
+  versioning {
+    enabled = true
+  }
+
+  logging {
+    target_bucket = "${aws_s3_bucket.log_archive_bucket.id}"
+    target_prefix = "reference_data_internal_bucket/"
+  }
+
+  tags = {
+    Name = "dq-reference-data-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket" "api_archive_bucket" {
+  bucket = "${var.s3_bucket_name["api_archive"]}"
+  acl    = "${var.s3_bucket_acl["api_archive"]}"
+  region = "${var.region}"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        kms_master_key_id = "${aws_kms_key.bucket_key.arn}"
+        sse_algorithm     = "aws:kms"
 resource "aws_s3_bucket" "api_archive_bucket" {
   bucket = "${var.s3_bucket_name["api_archive"]}"
   acl    = "${var.s3_bucket_acl["api_archive"]}"
