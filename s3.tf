@@ -281,16 +281,6 @@ resource "aws_s3_bucket" "api_archive_bucket" {
       apply_server_side_encryption_by_default {
         kms_master_key_id = "${aws_kms_key.bucket_key.arn}"
         sse_algorithm     = "aws:kms"
-resource "aws_s3_bucket" "api_archive_bucket" {
-  bucket = "${var.s3_bucket_name["api_archive"]}"
-  acl    = "${var.s3_bucket_acl["api_archive"]}"
-  region = "${var.region}"
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = "${aws_kms_key.bucket_key.arn}"
-        sse_algorithm     = "aws:kms"
       }
     }
   }
