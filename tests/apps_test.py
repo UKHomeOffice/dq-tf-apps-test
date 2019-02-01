@@ -161,17 +161,17 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_airports_working(self):
         self.assertEqual(self.result['apps']["aws_s3_bucket.airports_working_bucket"]["tags.Name"], "dq-airports-working-apps-preprod-dq")
 
-    def test_name_suffix_nats_iam_group(self):
-        self.assertEqual(self.result['apps']["aws_iam_group.nats"]["name"], "iam-group-nats-apps-preprod-dq")
+    #def test_name_suffix_nats_iam_group(self):
+    #    self.assertEqual(self.result['apps']["aws_iam_group.nats"]["name"], "iam-group-nats-apps-preprod-dq")
 
-    def test_name_suffix_nats_iam_group_membership(self):
-        self.assertEqual(self.result['apps']["aws_iam_group_membership.nats"]["name"], "iam-group-membership-nats-apps-preprod-dq")
+    #def test_name_suffix_nats_iam_group_membership(self):
+    #    self.assertEqual(self.result['apps']["aws_iam_group_membership.nats"]["name"], "iam-group-membership-nats-apps-preprod-dq")
 
-    def test_name_suffix_nats_iam_group_policy(self):
-        self.assertEqual(self.result['apps']["aws_iam_group_policy.nats"]["name"], "group-policy-nats-apps-preprod-dq")
+    #def test_name_suffix_nats_iam_group_policy(self):
+    #    self.assertEqual(self.result['apps']["aws_iam_group_policy.nats"]["name"], "group-policy-nats-apps-preprod-dq")
 
-    def test_name_suffix_nats_iam_user(self):
-        self.assertEqual(self.result['apps']["aws_iam_user.nats"]["name"], "iam-user-nats-apps-preprod-dq")
+    #def test_name_suffix_nats_iam_user(self):
+    #    self.assertEqual(self.result['apps']["aws_iam_user.nats"]["name"], "iam-user-nats-apps-preprod-dq")
 
     def test_name_suffix_oag_archive(self):
         self.assertEqual(self.result['apps']["aws_s3_bucket.oag_archive_bucket"]["tags.Name"], "dq-oag-archive-apps-preprod-dq")
@@ -192,7 +192,7 @@ class TestE2E(unittest.TestCase):
         self.assertEqual(self.result['apps']["aws_s3_bucket.consolidated_schedule_bucket"]["tags.Name"], "dq-consolidated-schedule-apps-preprod-dq")
 
     def test_name_suffix_api_record_level_scoring(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.api_record_level_scoring_bucket"]["tags.Name"], "dq-api_record-level_scoring-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.api_record_level_scoring_bucket"]["tags.Name"], "dq-api-record-level-scoring-apps-preprod-dq")
 
     def test_name_suffix_raw_file_retrieval_index(self):
         self.assertEqual(self.result['apps']["aws_s3_bucket.raw_file_retrieval_index_bucket"]["tags.Name"], "dq-raw-file-retrieval-index-apps-preprod-dq")
