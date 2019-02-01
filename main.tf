@@ -35,6 +35,10 @@ module "airports_pipeline" {
   kms_key_s3                       = "${aws_kms_key.bucket_key.arn}"
 }
 
+module "airports_input_pipeline" {
+  source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input-pipeline.git"
+}
+
 module "external_tableau" {
   source                           = "github.com/UKHomeOffice/dq-tf-external-tableau-test"
   appsvpc_id                       = "${aws_vpc.appsvpc.id}"
