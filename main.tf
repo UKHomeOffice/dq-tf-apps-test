@@ -30,13 +30,16 @@ module "lambda" {
   route_table_id                   = "${aws_route_table.apps_route_table.id}"
 }
 
+module "airports_input_pipeline" {
+  source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
+}
+
 module "airports_pipeline" {
   source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-pipeline.git"
   kms_key_s3                       = "${aws_kms_key.bucket_key.arn}"
-}
-
-module "airports_input_pipeline" {
-  source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
+  lambda_subnet                    = "${module.lambda.lambda_subnet}"
+  lambda_subnet_az2                = "${module.lambda.lambda_subnet_az2}"
+  lambda_sgrp                      = "${module.lambda.lambda_sgrp}"
 }
 
 module "external_tableau" {
