@@ -1,5 +1,6 @@
 provider "aws" {
-  alias = "APPS"
+  region = "eu-west-2"
+  alias  = "APPS"
 }
 
 locals {
