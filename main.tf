@@ -36,9 +36,9 @@ module "lambda" {
 module "airports_pipeline" {
   source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-pipeline.git"
   kms_key_s3                       = "${aws_kms_key.bucket_key.arn}"
-  #lambda_subnet                    = "${module.lambda.lambda_subnet}"
-  #lambda_subnet_az2                = "${module.lambda.lambda_subnet_az2}"
-  #lambda_sgrp                      = "${module.lambda.lambda_sgrp}"
+  lambda_subnet                    = "${module.lambda.lambda_subnet}"
+  lambda_subnet_az2                = "${module.lambda.lambda_subnet_az2}"
+  lambda_sgrp                      = "${module.lambda.lambda_sgrp}"
   pipeline_count                   = "${var.pipeline_count}"
 }
 
