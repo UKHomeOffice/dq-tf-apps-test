@@ -1,4 +1,6 @@
-provider "aws" {}
+provider "aws" {
+  alias = "APPS"
+}
 
 locals {
   naming_suffix = "apps-${var.naming_suffix}"
