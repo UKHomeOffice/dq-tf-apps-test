@@ -36,19 +36,12 @@ module "lambda" {
 module "airports_pipeline" {
   source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-pipeline.git"
   kms_key_s3                       = "${aws_kms_key.bucket_key.arn}"
-  providers                        = {
-    aws.APPS = "aws.APPS"
-    aws      = "aws.APPS"
-  }
+  pipeline_count                   = "${var.pipeline_count}"
 }
 
 module "airports_input_pipeline" {
   source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
   pipeline_count                   = "${var.pipeline_count}"
-  providers                        = {
-    aws.APPS = "aws.APPS"
-    aws      = "aws.APPS"
-  }
 }
 
 module "external_tableau" {
