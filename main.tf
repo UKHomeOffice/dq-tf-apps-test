@@ -38,6 +38,7 @@ module "airports_pipeline" {
 module "airports_input_pipeline" {
   source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
   pipeline_count                   = "${var.pipeline_count}"
+  providers                        = {aws = "aws.APPS"}
 }
 
 module "external_tableau" {
