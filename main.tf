@@ -47,6 +47,14 @@ module "airports_input_pipeline" {
   pipeline_count                   = "${var.pipeline_count}"
 }
 
+module "rds_deploy" {
+  source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-rds-deploy.git?ref=feature/module_source"
+  lambda_subnet                    = "${module.lambda.lambda_subnet}"
+  lambda_subnet_az2                = "${module.lambda.lambda_subnet_az2}"
+  lambda_sgrp                      = "${module.lambda.lambda_sgrp}"
+  pipeline_count                   = "${var.pipeline_count}"
+}
+
 module "external_tableau" {
   source                           = "github.com/UKHomeOffice/dq-tf-external-tableau-test"
   appsvpc_id                       = "${aws_vpc.appsvpc.id}"
