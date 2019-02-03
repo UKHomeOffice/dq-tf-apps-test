@@ -40,13 +40,13 @@ module "airports_pipeline" {
   lambda_subnet_az2                = "${module.lambda.lambda_subnet_az2}"
   lambda_sgrp                      = "${module.lambda.lambda_sgrp}"
   pipeline_count                   = "${var.pipeline_count}"
-  NAMESPACE                        = "${local.naming_suffix}"
+  naming_suffix                    = "${local.naming_suffix}"
 }
 
 module "airports_input_pipeline" {
   source                           = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
   pipeline_count                   = "${var.pipeline_count}"
-  NAMESPACE                        = "${local.naming_suffix}"
+  naming_suffix                    = "${local.naming_suffix}"
 }
 
 module "external_tableau" {
