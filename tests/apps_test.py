@@ -212,64 +212,64 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_carrier_portal_working(self):
         self.assertEqual(self.result['apps']["aws_s3_bucket.carrier_portal_working_bucket"]["tags.Name"], "dq-carrier-portal-working-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_input_pipeline_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_lambda_function.lambda_athena"]["tags.Name"], "lambda-athena-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_input_pipeline_iam_lambda_trigger(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_iam_role.lambda_trigger"]["tags.Name"], "lambda-trigger-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
-        self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_ssm_parameter.lambda_trigger"]["tags.Name"], "lambda-trigger-enabled-airports-input-apps-preprod-dq")
+    def test_name_suffix_airports_input_pipeline_ssm_lambda_trigger(self):
+        self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_ssm_parameter.lambda_trigger"]["tags.Name"], "ssm-lambda-trigger-enabled-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_input_pipeline_iam_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_iam_role.lambda_athena"]["tags.Name"], "lambda-athena-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_input_pipeline_log_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_cloudwatch_log_group.lambda_athena"]["tags.Name"], "lambda-athena-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_input_pipeline_sfn_state_machine(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_sfn_state_machine.sfn_state_machine"]["tags.Name"], "sfn-state-machine-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_input_pipeline_lambda_trigger(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_lambda_function.lambda_trigger"]["tags.Name"], "lambda-trigger-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_input_pipeline_log_lambda_trigger(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_cloudwatch_log_group.lambda_trigger"]["tags.Name"], "lambda-trigger-airports-input-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_iam_lambda_trigger(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_iam_role.lambda_trigger"]["tags.Name"], "lambda-trigger-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_iam_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_iam_role.lambda_athena"]["tags.Name"], "lambda-athena-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
-        self.assertEqual(self.result['apps']['airports_pipeline']["aws_iam_role.lambda_rds"]["tags.Name"], "lambda-rds-airports-apps-preprod-dq")
+    def test_name_suffix_airports_pipeline_iam_lambda_rds(self):
+        self.assertEqual(self.result['apps']['airports_pipeline']["aws_iam_role.lambda_rds"]["tags.Name"], "iam-lambda-rds-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_step_function_exec(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_iam_role.step_function_exec"]["tags.Name"], "step-function-exec-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
-        self.assertEqual(self.result['apps']['airports_pipeline']["aws_ssm_parameter.lambda_trigger_enabled"]["tags.Name"], "lambda-trigger-enabled-airports-apps-preprod-dq")
+    def test_name_suffix_airports_pipeline_lambda_trigger_enabled(self):
+        self.assertEqual(self.result['apps']['airports_pipeline']["aws_ssm_parameter.lambda_trigger_enabled"]["tags.Name"], "ssm-lambda-trigger-enabled-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_lambda_function.lambda_athena"]["tags.Name"], "lambda-athena-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_lambda_trigger(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_lambda_function.lambda_trigger"]["tags.Name"], "lambda-trigger-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_lambda_rds(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_lambda_function.lambda_rds"]["tags.Name"], "lambda-rds-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_log_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_cloudwatch_log_group.lambda_athena"]["tags.Name"], "lambda-athena-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
-        self.assertEqual(self.result['apps']['airports_pipeline']["aws_cloudwatch_log_group.lambda_rds"]["tags.Name"], "lambda-rds-airports-apps-preprod-dq")
+    def test_name_suffix_airports_pipeline_log_lambda_rds(self):
+        self.assertEqual(self.result['apps']['airports_pipeline']["aws_cloudwatch_log_group.lambda_rds"]["tags.Name"], "logs-lambda-rds-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_log_lambda_trigger(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_cloudwatch_log_group.lambda_trigger"]["tags.Name"], "lambda-trigger-airports-apps-preprod-dq")
 
-    def test_name_suffix_carrier_portal_working(self):
+    def test_name_suffix_airports_pipeline_sfn_state_machine(self):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_sfn_state_machine.sfn_state_machine"]["tags.Name"], "sfn-state-machine-airports-apps-preprod-dq")
 
     def test_name_suffix_rds_deploy_iam_lambda_rds(self):
