@@ -270,7 +270,7 @@ class TestE2E(unittest.TestCase):
         self.assertEqual(self.result['apps']['airports_pipeline']["aws_cloudwatch_log_group.lambda_trigger"]["tags.Name"], "lambda-trigger-airports-apps-preprod-dq")
 
     def test_name_suffix_carrier_portal_working(self):
-        self.assertEqual(self.result['apps']['airports_pipeline']["aws_sfn_state_machine.sfn_state_machine"]["tags.Name"], "sfn-state-machine-airports-apps-preprod-dq-FALSE")
+        self.assertEqual(self.result['apps']['airports_pipeline']["aws_sfn_state_machine.sfn_state_machine"]["tags.Name"], "sfn-state-machine-airports-apps-preprod-dq")
 
 if __name__ == '__main__':
     unittest.main()
