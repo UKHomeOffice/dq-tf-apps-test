@@ -219,7 +219,7 @@ class TestE2E(unittest.TestCase):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_iam_role.lambda_trigger"]["tags.Name"], "iam-lambda-trigger-airports-input-apps-preprod-dq")
 
     def test_name_suffix_airports_input_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_ssm_parameter.lambda_trigger"]["tags.Name"], "ssm-lambda-trigger-enabled-airports-input-apps-preprod-dq")
+        self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_ssm_parameter.lambda_trigger_enabled"]["tags.Name"], "ssm-lambda-trigger-enabled-airports-input-apps-preprod-dq")
 
     def test_name_suffix_airports_input_pipeline_iam_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_iam_role.lambda_athena"]["tags.Name"], "iam-lambda-athena-airports-input-apps-preprod-dq")
