@@ -3,8 +3,10 @@ variable "public_subnet_cidr_block" {}
 variable "ad_subnet_cidr_block" {}
 variable "az" {}
 variable "az2" {}
+
 #variable "adminpassword" {}
 variable "ad_aws_ssm_document_name" {}
+
 #variable "ad_writer_instance_profile_name" {}
 variable "naming_suffix" {}
 
@@ -39,4 +41,18 @@ variable "s3_bucket_acl" {
 
 variable "pipeline_count" {
   default = 1
+}
+
+variable "rds_instance" {
+  default = "internal_tableau"
+}
+
+variable "rds_endpoint" {
+  description = "Lambda env var"
+  default     = "int-tableau-postgres-internal-tableau-apps-test-dq.czqp9ptbtrmd.eu-west-2.rds.amazonaws.com"
+}
+
+variable "rds_db_name" {
+  description = "Lambda env var"
+  default     = "internal_tableau"
 }
