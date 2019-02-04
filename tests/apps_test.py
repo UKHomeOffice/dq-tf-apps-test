@@ -213,7 +213,10 @@ class TestE2E(unittest.TestCase):
         self.assertEqual(self.result['apps']["aws_s3_bucket.carrier_portal_working_bucket"]["tags.Name"], "dq-carrier-portal-working-apps-preprod-dq")
 
     def test_name_suffix_carrier_portal_working(self):
-        self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_lambda_function.lambda_athena"]["function_name"], "airports-input-preprod-dq-athena-lambda")
+        self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_lambda_function.lambda_athena"]["function_name"], "airports-input-apps-preprod-dq-athena-lambda")
+
+    def test_name_suffix_carrier_portal_working(self):
+        self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_lambda_function.lambda_athena"]["tags.Name"], "lambda-athena-airports-input-apps-preprod-dq")
 
 if __name__ == '__main__':
     unittest.main()
