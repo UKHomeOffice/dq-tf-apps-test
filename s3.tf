@@ -155,7 +155,7 @@ resource "aws_s3_bucket" "oag_archive_bucket" {
   }
 
   tags = {
-    Name = "dq-oag-archive-${local.naming_suffix}"
+    Name = "s3-dq-oag-archive-${local.naming_suffix}"
   }
 }
 
@@ -183,7 +183,7 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
   }
 
   tags = {
-    Name = "dq-acl-archive-${local.naming_suffix}"
+    Name = "s3-dq-acl-archive-${local.naming_suffix}"
   }
 }
 
@@ -211,7 +211,7 @@ resource "aws_s3_bucket" "reference_data_bucket" {
   }
 
   tags = {
-    Name = "dq-reference-data-${local.naming_suffix}"
+    Name = "s3-dq-reference-data-${local.naming_suffix}"
   }
 }
 
@@ -239,7 +239,7 @@ resource "aws_s3_bucket" "reference_data_archive_bucket" {
   }
 
   tags = {
-    Name = "dq-reference-data-archive-${local.naming_suffix}"
+    Name = "s3-dq-reference-data-archive-${local.naming_suffix}"
   }
 }
 
@@ -267,7 +267,7 @@ resource "aws_s3_bucket" "reference_data_internal_bucket" {
   }
 
   tags = {
-    Name = "dq-reference-data-internal-${local.naming_suffix}"
+    Name = "s3-dq-reference-data-internal-${local.naming_suffix}"
   }
 }
 
@@ -295,7 +295,7 @@ resource "aws_s3_bucket" "api_archive_bucket" {
   }
 
   tags = {
-    Name = "dq-api-archive-${local.naming_suffix}"
+    Name = "s3-dq-api-archive-${local.naming_suffix}"
   }
 }
 
@@ -323,7 +323,7 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
   }
 
   tags = {
-    Name = "dq-airports-archive-${local.naming_suffix}"
+    Name = "s3-dq-airports-archive-${local.naming_suffix}"
   }
 }
 
@@ -351,7 +351,7 @@ resource "aws_s3_bucket" "oag_internal_bucket" {
   }
 
   tags = {
-    Name = "dq-oag-internal-${local.naming_suffix}"
+    Name = "s3-dq-oag-internal-${local.naming_suffix}"
   }
 }
 
@@ -379,7 +379,7 @@ resource "aws_s3_bucket" "oag_transform_bucket" {
   }
 
   tags = {
-    Name = "dq-oag-transform-${local.naming_suffix}"
+    Name = "s3-dq-oag-transform-${local.naming_suffix}"
   }
 }
 
@@ -407,7 +407,7 @@ resource "aws_s3_bucket" "acl_internal_bucket" {
   }
 
   tags = {
-    Name = "dq-acl-internal-${local.naming_suffix}"
+    Name = "s3-dq-acl-internal-${local.naming_suffix}"
   }
 }
 
@@ -435,7 +435,7 @@ resource "aws_s3_bucket" "api_internal_bucket" {
   }
 
   tags = {
-    Name = "dq-api-internal-${local.naming_suffix}"
+    Name = "s3-dq-api-internal-${local.naming_suffix}"
   }
 }
 
@@ -463,7 +463,7 @@ resource "aws_s3_bucket" "airports_internal_bucket" {
   }
 
   tags = {
-    Name = "dq-airports-internal-${local.naming_suffix}"
+    Name = "s3-dq-airports-internal-${local.naming_suffix}"
   }
 }
 
@@ -491,7 +491,7 @@ resource "aws_s3_bucket" "consolidated_schedule_bucket" {
   }
 
   tags = {
-    Name = "dq-consolidated-schedule-${local.naming_suffix}"
+    Name = "s3-dq-consolidated-schedule-${local.naming_suffix}"
   }
 }
 
@@ -519,7 +519,7 @@ resource "aws_s3_bucket" "api_record_level_scoring_bucket" {
   }
 
   tags = {
-    Name = "dq-api-record-level-scoring-${local.naming_suffix}"
+    Name = "s3-dq-api-record-level-scoring-${local.naming_suffix}"
   }
 }
 
@@ -547,7 +547,7 @@ resource "aws_s3_bucket" "raw_file_retrieval_index_bucket" {
   }
 
   tags = {
-    Name = "dq-raw-file-retrieval-index-${local.naming_suffix}"
+    Name = "s3-dq-raw-file-retrieval-index-${local.naming_suffix}"
   }
 }
 
@@ -575,7 +575,7 @@ resource "aws_s3_bucket" "cross_record_scored_bucket" {
   }
 
   tags = {
-    Name = "dq-cross-record-scored-${local.naming_suffix}"
+    Name = "s3-dq-cross-record-scored-${local.naming_suffix}"
   }
 }
 
@@ -603,7 +603,7 @@ resource "aws_s3_bucket" "drt_working_bucket" {
   }
 
   tags = {
-    Name = "dq-drt-working-${local.naming_suffix}"
+    Name = "s3-dq-drt-working-${local.naming_suffix}"
   }
 }
 
@@ -631,7 +631,7 @@ resource "aws_s3_bucket" "fms_working_bucket" {
   }
 
   tags = {
-    Name = "dq-fms-working-${local.naming_suffix}"
+    Name = "s3-dq-fms-working-${local.naming_suffix}"
   }
 }
 
@@ -659,7 +659,7 @@ resource "aws_s3_bucket" "airports_working_bucket" {
   }
 
   tags = {
-    Name = "dq-airports-working-${local.naming_suffix}"
+    Name = "s3-dq-airports-working-${local.naming_suffix}"
   }
 }
 
@@ -687,7 +687,7 @@ resource "aws_s3_bucket" "reporting_internal_working_bucket" {
   }
 
   tags = {
-    Name = "dq-reporting-internal-working-${local.naming_suffix}"
+    Name = "s3-dq-reporting-internal-working-${local.naming_suffix}"
   }
 }
 
@@ -715,7 +715,7 @@ resource "aws_s3_bucket" "carrier_portal_working_bucket" {
   }
 
   tags = {
-    Name = "dq-carrier-portal-working-${local.naming_suffix}"
+    Name = "s3-dq-carrier-portal-working-${local.naming_suffix}"
   }
 }
 
