@@ -43,11 +43,7 @@ variable "pipeline_count" {
   default = 1
 }
 
-variable "rds_instance" {
-  default = "internal_tableau"
-}
-
-variable "rds_endpoint" {
+variable "rds_internal_tableau_address" {
   description = "Lambda env var"
   default     = "int-tableau-postgres-internal-tableau-apps-test-dq.czqp9ptbtrmd.eu-west-2.rds.amazonaws.com"
 }
