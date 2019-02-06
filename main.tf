@@ -1,7 +1,4 @@
-provider "aws" {
-  region = "eu-west-2"
-  alias  = "APPS"
-}
+provider "aws" {}
 
 locals {
   naming_suffix = "apps-${var.naming_suffix}"
