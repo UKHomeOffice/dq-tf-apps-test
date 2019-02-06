@@ -45,14 +45,14 @@ module "airports_pipeline" {
   rds_internal_tableau_address       = "${module.internal_tableau.rds_internal_tableau_address}"
   pipeline_count                     = "${var.pipeline_count}"
   naming_suffix                      = "${local.naming_suffix}"
-  namespace                          = "${var.naming_suffix}"
+  namespace                          = "${var.namespace}"
 }
 
 module "airports_input_pipeline" {
   source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
   pipeline_count = "${var.pipeline_count}"
   naming_suffix  = "${local.naming_suffix}"
-  namespace      = "${var.naming_suffix}"
+  namespace      = "${var.namespace}"
 }
 
 module "rds_deploy" {
@@ -64,7 +64,7 @@ module "rds_deploy" {
   rds_internal_tableau_address       = "${module.internal_tableau.rds_internal_tableau_address}"
   pipeline_count                     = "${var.pipeline_count}"
   naming_suffix                      = "${local.naming_suffix}"
-  namespace                          = "${var.naming_suffix}"
+  namespace                          = "${var.namespace}"
 }
 
 module "external_tableau" {

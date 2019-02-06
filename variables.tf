@@ -52,3 +52,6 @@ variable "rds_db_name" {
   description = "Lambda env var"
   default     = "internal_tableau"
 }
+
+variable "namespace" {}
+
