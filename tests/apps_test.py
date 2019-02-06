@@ -175,43 +175,43 @@ class TestE2E(unittest.TestCase):
     #    self.assertEqual(self.result['apps']["aws_iam_user.nats"]["name"], "iam-user-nats-apps-preprod-dq")
 
     def test_name_suffix_oag_archive(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.oag_archive_bucket"]["tags.Name"], "dq-oag-archive-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.oag_archive_bucket"]["tags.Name"], "s3-dq-oag-archive-apps-preprod-dq")
 
     def test_name_suffix_oag_internal(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.oag_internal_bucket"]["tags.Name"], "dq-oag-internal-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.oag_internal_bucket"]["tags.Name"], "s3-dq-oag-internal-apps-preprod-dq")
 
     def test_name_suffix_oag_transform(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.oag_transform_bucket"]["tags.Name"], "dq-oag-transform-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.oag_transform_bucket"]["tags.Name"], "s3-dq-oag-transform-apps-preprod-dq")
 
     def test_name_suffix_acl_archive(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.acl_archive_bucket"]["tags.Name"], "dq-acl-archive-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.acl_archive_bucket"]["tags.Name"], "s3-dq-acl-archive-apps-preprod-dq")
 
     def test_name_suffix_acl_internal(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.acl_internal_bucket"]["tags.Name"], "dq-acl-internal-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.acl_internal_bucket"]["tags.Name"], "s3-dq-acl-internal-apps-preprod-dq")
 
     def test_name_suffix_consolidated_schedule(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.consolidated_schedule_bucket"]["tags.Name"], "dq-consolidated-schedule-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.consolidated_schedule_bucket"]["tags.Name"], "s3-dq-consolidated-schedule-apps-preprod-dq")
 
     def test_name_suffix_api_record_level_scoring(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.api_record_level_scoring_bucket"]["tags.Name"], "dq-api-record-level-scoring-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.api_record_level_scoring_bucket"]["tags.Name"], "s3-dq-api-record-level-scoring-apps-preprod-dq")
 
     def test_name_suffix_raw_file_retrieval_index(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.raw_file_retrieval_index_bucket"]["tags.Name"], "dq-raw-file-retrieval-index-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.raw_file_retrieval_index_bucket"]["tags.Name"], "s3-dq-raw-file-retrieval-index-apps-preprod-dq")
 
     def test_name_suffix_cross_record_scored(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.cross_record_scored_bucket"]["tags.Name"], "dq-cross-record-scored-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.cross_record_scored_bucket"]["tags.Name"], "s3-dq-cross-record-scored-apps-preprod-dq")
 
     def test_name_suffix_drt_working(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.drt_working_bucket"]["tags.Name"], "dq-drt-working-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.drt_working_bucket"]["tags.Name"], "s3-dq-drt-working-apps-preprod-dq")
 
     def test_name_suffix_fms_working(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.fms_working_bucket"]["tags.Name"], "dq-fms-working-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.fms_working_bucket"]["tags.Name"], "s3-dq-fms-working-apps-preprod-dq")
 
     def test_name_suffix_reporting_internal_working(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.reporting_internal_working_bucket"]["tags.Name"], "dq-reporting-internal-working-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.reporting_internal_working_bucket"]["tags.Name"], "s3-dq-reporting-internal-working-apps-preprod-dq")
 
     def test_name_suffix_carrier_portal_working(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.carrier_portal_working_bucket"]["tags.Name"], "dq-carrier-portal-working-apps-preprod-dq")
+        self.assertEqual(self.result['apps']["aws_s3_bucket.carrier_portal_working_bucket"]["tags.Name"], "s3-dq-carrier-portal-working-apps-preprod-dq")
 
     def test_name_suffix_airports_input_pipeline_lambda_athena(self):
         self.assertEqual(self.result['apps']['airports_input_pipeline']["aws_lambda_function.lambda_athena"]["tags.Name"], "lambda-athena-airports-input-apps-preprod-dq")
