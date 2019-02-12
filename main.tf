@@ -39,6 +39,7 @@ module "lambda" {
 module "airports_pipeline" {
   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-pipeline.git"
   kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
+  kms_key_glue      = "${data.aws_kms_key.glue.arn}"
   lambda_subnet     = "${module.lambda.lambda_subnet}"
   lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
   lambda_sgrp       = "${module.lambda.lambda_sgrp}"
@@ -50,7 +51,7 @@ module "airports_pipeline" {
 }
 
 module "airports_input_pipeline" {
-  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git?ref=feature-kms"
+  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
   kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
   kms_key_glue   = "${data.aws_kms_key.glue.arn}"
   pipeline_count = "${var.pipeline_count}"
