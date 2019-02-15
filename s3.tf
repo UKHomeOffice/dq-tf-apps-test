@@ -37,6 +37,7 @@ resource "aws_kms_key" "bucket_key" {
 EOF
 }
 
+
 resource "aws_s3_bucket" "log_archive_bucket" {
   bucket = "${var.s3_bucket_name["archive_log"]}"
   acl    = "${var.s3_bucket_acl["archive_log"]}"
@@ -325,6 +326,31 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
   tags = {
     Name = "s3-dq-airports-archive-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "airports_archive_policy" {
+  bucket = "${var.s3_bucket_name["airports_archive"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "DENYHTTP",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "oag_internal_bucket" {
