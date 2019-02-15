@@ -334,7 +334,6 @@ resource "aws_s3_bucket_policy" "airports_archive_policy" {
   policy = <<POLICY
 {
   "Version": "2012-10-17",
-  "Id": "DENYHTTP",
   "Statement": [
     {
       "Sid": "HTTP",
