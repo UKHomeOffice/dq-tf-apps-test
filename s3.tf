@@ -341,7 +341,7 @@ resource "aws_s3_bucket_policy" "airports_archive_policy" {
       "Effect": "Deny",
       "Principal": "*",
       "Action": "*",
-      "Resource": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["airports_archive"]}/*",
       "Condition": {
         "Bool": {
           "aws:SecureTransport": "false"
