@@ -37,6 +37,7 @@ resource "aws_kms_key" "bucket_key" {
 EOF
 }
 
+
 resource "aws_s3_bucket" "log_archive_bucket" {
   bucket = "${var.s3_bucket_name["archive_log"]}"
   acl    = "${var.s3_bucket_acl["archive_log"]}"
@@ -63,6 +64,30 @@ resource "aws_s3_bucket" "log_archive_bucket" {
 resource "aws_s3_bucket_metric" "log_archive_bucket_logging" {
   bucket = "${var.s3_bucket_name["archive_log"]}"
   name   = "log_archive_bucket_metric"
+}
+
+resource "aws_s3_bucket_policy" "archive_log_policy" {
+  bucket = "${var.s3_bucket_name["archive_log"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["archive_log"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "data_archive_bucket" {
@@ -98,6 +123,30 @@ resource "aws_s3_bucket_metric" "data_archive_bucket_logging" {
   name   = "data_archive_bucket_metric"
 }
 
+resource "aws_s3_bucket_policy" "archive_data__policy" {
+  bucket = "${var.s3_bucket_name["archive_data"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["archive_data"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "data_working_bucket" {
   bucket = "${var.s3_bucket_name["working_data"]}"
   acl    = "${var.s3_bucket_acl["working_data"]}"
@@ -131,6 +180,30 @@ resource "aws_s3_bucket_metric" "data_working_bucket_logging" {
   name   = "data_working_bucket_metric"
 }
 
+resource "aws_s3_bucket_policy" "working_data_policy" {
+  bucket = "${var.s3_bucket_name["working_data"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["working_data"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "oag_archive_bucket" {
   bucket = "${var.s3_bucket_name["oag_archive"]}"
   acl    = "${var.s3_bucket_acl["oag_archive"]}"
@@ -157,6 +230,30 @@ resource "aws_s3_bucket" "oag_archive_bucket" {
   tags = {
     Name = "s3-dq-oag-archive-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "oag_archive_policy" {
+  bucket = "${var.s3_bucket_name["oag_archive"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["oag_archive"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "acl_archive_bucket" {
@@ -187,6 +284,30 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "acl_archive_policy" {
+  bucket = "${var.s3_bucket_name["acl_archive"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["acl_archive"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "reference_data_bucket" {
   bucket = "${var.s3_bucket_name["reference_data"]}"
   acl    = "${var.s3_bucket_acl["reference_data"]}"
@@ -213,6 +334,30 @@ resource "aws_s3_bucket" "reference_data_bucket" {
   tags = {
     Name = "s3-dq-reference-data-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "reference_data_policy" {
+  bucket = "${var.s3_bucket_name["reference_data"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["reference_data"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "reference_data_archive_bucket" {
@@ -243,6 +388,30 @@ resource "aws_s3_bucket" "reference_data_archive_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "reference_data_archive_policy" {
+  bucket = "${var.s3_bucket_name["reference_data_archive"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["reference_data_archive"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "reference_data_internal_bucket" {
   bucket = "${var.s3_bucket_name["reference_data_internal"]}"
   acl    = "${var.s3_bucket_acl["reference_data_internal"]}"
@@ -269,6 +438,30 @@ resource "aws_s3_bucket" "reference_data_internal_bucket" {
   tags = {
     Name = "s3-dq-reference-data-internal-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "reference_data_internal_policy" {
+  bucket = "${var.s3_bucket_name["reference_data_internal"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["reference_data_internal"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "api_archive_bucket" {
@@ -299,6 +492,30 @@ resource "aws_s3_bucket" "api_archive_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "api_archive_policy" {
+  bucket = "${var.s3_bucket_name["api_archive"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["api_archive"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "airports_archive_bucket" {
   bucket = "${var.s3_bucket_name["airports_archive"]}"
   acl    = "${var.s3_bucket_acl["airports_archive"]}"
@@ -325,6 +542,30 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
   tags = {
     Name = "s3-dq-airports-archive-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "airports_archive_policy" {
+  bucket = "${var.s3_bucket_name["airports_archive"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["airports_archive"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "oag_internal_bucket" {
@@ -355,6 +596,30 @@ resource "aws_s3_bucket" "oag_internal_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "oag_internal_policy" {
+  bucket = "${var.s3_bucket_name["oag_internal"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["oag_internal"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "oag_transform_bucket" {
   bucket = "${var.s3_bucket_name["oag_transform"]}"
   acl    = "${var.s3_bucket_acl["oag_transform"]}"
@@ -381,6 +646,30 @@ resource "aws_s3_bucket" "oag_transform_bucket" {
   tags = {
     Name = "s3-dq-oag-transform-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "oag_transform_policy" {
+  bucket = "${var.s3_bucket_name["oag_transform"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["oag_transform"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "acl_internal_bucket" {
@@ -411,6 +700,30 @@ resource "aws_s3_bucket" "acl_internal_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "acl_internal_policy" {
+  bucket = "${var.s3_bucket_name["acl_internal"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["acl_internal"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "api_internal_bucket" {
   bucket = "${var.s3_bucket_name["api_internal"]}"
   acl    = "${var.s3_bucket_acl["api_internal"]}"
@@ -437,6 +750,30 @@ resource "aws_s3_bucket" "api_internal_bucket" {
   tags = {
     Name = "s3-dq-api-internal-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "api_internal_policy" {
+  bucket = "${var.s3_bucket_name["api_internal"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["api_internal"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "airports_internal_bucket" {
@@ -467,6 +804,30 @@ resource "aws_s3_bucket" "airports_internal_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "airports_internal_policy" {
+  bucket = "${var.s3_bucket_name["airports_internal"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["airports_internal"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "consolidated_schedule_bucket" {
   bucket = "${var.s3_bucket_name["consolidated_schedule"]}"
   acl    = "${var.s3_bucket_acl["consolidated_schedule"]}"
@@ -493,6 +854,30 @@ resource "aws_s3_bucket" "consolidated_schedule_bucket" {
   tags = {
     Name = "s3-dq-consolidated-schedule-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "consolidated_schedule_policy" {
+  bucket = "${var.s3_bucket_name["consolidated_schedule"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["consolidated_schedule"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "api_record_level_scoring_bucket" {
@@ -523,6 +908,30 @@ resource "aws_s3_bucket" "api_record_level_scoring_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "api_record_level_scoring_policy" {
+  bucket = "${var.s3_bucket_name["api_record_level_scoring"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["api_record_level_scoring"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "raw_file_retrieval_index_bucket" {
   bucket = "${var.s3_bucket_name["raw_file_retrieval_index"]}"
   acl    = "${var.s3_bucket_acl["raw_file_retrieval_index"]}"
@@ -549,6 +958,30 @@ resource "aws_s3_bucket" "raw_file_retrieval_index_bucket" {
   tags = {
     Name = "s3-dq-raw-file-retrieval-index-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "raw_file_retrieval_index_policy" {
+  bucket = "${var.s3_bucket_name["raw_file_retrieval_index"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["raw_file_retrieval_index"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "cross_record_scored_bucket" {
@@ -579,6 +1012,30 @@ resource "aws_s3_bucket" "cross_record_scored_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "cross_record_scored_policy" {
+  bucket = "${var.s3_bucket_name["cross_record_scored"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["cross_record_scored"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "drt_working_bucket" {
   bucket = "${var.s3_bucket_name["drt_working"]}"
   acl    = "${var.s3_bucket_acl["drt_working"]}"
@@ -605,6 +1062,30 @@ resource "aws_s3_bucket" "drt_working_bucket" {
   tags = {
     Name = "s3-dq-drt-working-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "drt_working_policy" {
+  bucket = "${var.s3_bucket_name["drt_working"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["drt_working"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "fms_working_bucket" {
@@ -635,6 +1116,30 @@ resource "aws_s3_bucket" "fms_working_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "fms_working_policy" {
+  bucket = "${var.s3_bucket_name["fms_working"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["fms_working"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "airports_working_bucket" {
   bucket = "${var.s3_bucket_name["airports_working"]}"
   acl    = "${var.s3_bucket_acl["airports_working"]}"
@@ -661,6 +1166,30 @@ resource "aws_s3_bucket" "airports_working_bucket" {
   tags = {
     Name = "s3-dq-airports-working-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "airports_working_policy" {
+  bucket = "${var.s3_bucket_name["airports_working"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["airports_working"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_s3_bucket" "reporting_internal_working_bucket" {
@@ -691,6 +1220,30 @@ resource "aws_s3_bucket" "reporting_internal_working_bucket" {
   }
 }
 
+resource "aws_s3_bucket_policy" "reporting_internal_working_policy" {
+  bucket = "${var.s3_bucket_name["reporting_internal_working"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["reporting_internal_working"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_s3_bucket" "carrier_portal_working_bucket" {
   bucket = "${var.s3_bucket_name["carrier_portal_working"]}"
   acl    = "${var.s3_bucket_acl["carrier_portal_working"]}"
@@ -717,6 +1270,30 @@ resource "aws_s3_bucket" "carrier_portal_working_bucket" {
   tags = {
     Name = "s3-dq-carrier-portal-working-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_policy" "carrier_portal_working_policy" {
+  bucket = "${var.s3_bucket_name["carrier_portal_working"]}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["carrier_portal_working"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_vpc_endpoint" "s3_endpoint" {
