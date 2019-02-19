@@ -73,7 +73,7 @@ module "oag_input_pipeline" {
   namespace      = "${var.namespace}"
 }
 
-module "oag_pipeline" {
+module "oag_transform_pipeline" {
   source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-transform-pipeline.git?ref=feature-cors-102"
   kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
   pipeline_count = "${var.pipeline_count}"
