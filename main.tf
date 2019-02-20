@@ -66,7 +66,7 @@ module "rds_deploy" {
 }
 
 module "oag_input_pipeline" {
-  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-input-pipeline.git?ref=feature-tags"
+  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-input-pipeline.git"
   kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
   pipeline_count = "${var.pipeline_count}"
   naming_suffix  = "${local.naming_suffix}"
@@ -74,7 +74,7 @@ module "oag_input_pipeline" {
 }
 
 module "oag_transform_pipeline" {
-  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-transform-pipeline.git?ref=feature-cors-102"
+  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-transform-pipeline.git"
   kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
   pipeline_count = "${var.pipeline_count}"
   naming_suffix  = "${local.naming_suffix}"
