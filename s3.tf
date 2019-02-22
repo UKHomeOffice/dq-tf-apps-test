@@ -37,7 +37,6 @@ resource "aws_kms_key" "bucket_key" {
 EOF
 }
 
-
 resource "aws_s3_bucket" "log_archive_bucket" {
   bucket = "${var.s3_bucket_name["archive_log"]}"
   acl    = "${var.s3_bucket_acl["archive_log"]}"

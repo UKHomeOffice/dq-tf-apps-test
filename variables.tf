@@ -54,4 +54,3 @@ variable "rds_db_name" {
 }
 
 variable "namespace" {}
-

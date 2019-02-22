@@ -89,9 +89,11 @@ resource "aws_security_group" "sg" {
 #  subnet_id     = "${aws_subnet.ad_subnet.id}"
 #  key_name      = "test_instance"
 
+
 #  vpc_security_group_ids = [
 #    "${aws_security_group.sg.id}",
 #  ]
+
 
 #  user_data = <<EOF
 ##!/bin/bash
@@ -104,9 +106,12 @@ resource "aws_security_group" "sg" {
 #reboot
 #EOF
 
+
 #  count = "${local.rhel}"
+
 
 #  tags {
 #    Name = "ad-rhel${count.index}-${local.naming_suffix}"
 #  }
 #}
+

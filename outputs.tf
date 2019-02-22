@@ -35,3 +35,4 @@ output "log_archive_bucket_arn" {
 #output "iam_roles" {
 #  value = "${concat(module.data_ingest.iam_roles, module.data_pipeline.iam_roles, module.data_feeds.iam_roles, module.external_tableau.iam_roles, module.internal_tableau.iam_roles, module.gpdb-secondary.iam_roles)}"
 #}
+
