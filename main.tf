@@ -120,7 +120,7 @@ module "api_record_level_score_pipeline" {
 }
 
 module "api_cross_record_score_pipeline" {
-  source         = "git::ssh://ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-cross-record-score-pipeline.git"
+  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-cross-record-score-pipeline.git"
   kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
   pipeline_count = "${var.pipeline_count}"
   naming_suffix  = "${local.naming_suffix}"
