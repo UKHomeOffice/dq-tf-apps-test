@@ -113,7 +113,7 @@ module "api_input_pipeline" {
   namespace      = "${var.namespace}"
 }
 
-module "record_level_score_pipeline" {
+module "api_record_level_score_pipeline" {
   source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-record-level-score-pipeline.git"
   kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
   pipeline_count = "${var.pipeline_count}"
