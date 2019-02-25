@@ -61,6 +61,7 @@ class TestE2E(unittest.TestCase):
                 reporting_internal_working = "abcd"
                 carrier_portal_working = "abcd"
                 gait_internal = "abcd"
+                mds_extract = "abcd"
               }
 
               s3_bucket_acl = {
@@ -90,6 +91,7 @@ class TestE2E(unittest.TestCase):
                 reporting_internal_working = "abcd"
                 carrier_portal_working = "abcd"
                 gait_internal = "abcd"
+                mds_extract = "abcd"
               }
 
               route_table_cidr_blocks     = {
