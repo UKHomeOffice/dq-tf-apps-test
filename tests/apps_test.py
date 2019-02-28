@@ -490,5 +490,14 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_internal_reporting_pipeline_log_lambda_rds(self):
         self.assertEqual(self.result['apps']['internal_reporting_pipeline']["aws_cloudwatch_log_group.lambda_rds"]["tags.Name"], "log-lambda-rds-internal-reporting-apps-preprod-dq")
 
+    def test_name_suffix_mds_extractor_lambda_mds_extractor(self):
+        self.assertEqual(self.result['apps']['mds_extractor']["aws_lambda_function.lambda_mds_extractor"]["tags.Name"], "lambda-mds-extractor-apps-preprod-dq")
+
+    def test_name_suffix_mds_extractor_lambda_role_mds_extractor(self):
+        self.assertEqual(self.result['apps']['mds_extractor']["aws_iam_role.lambda_role_mds_extractor"]["tags.Name"], "lambda-role-mds-extractor-apps-preprod-dq")
+
+    def test_name_suffix_mds_extractor_lambda_log_group_mds_extractor(self):
+        self.assertEqual(self.result['apps']['mds_extractor']["aws_cloudwatch_log_group.lambda_log_group_mds_extractor"]["tags.Name"], "lambda-log-group-mds-extractor-apps-preprod-dq")
+
 if __name__ == '__main__':
     unittest.main()
