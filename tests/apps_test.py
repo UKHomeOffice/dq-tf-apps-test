@@ -499,5 +499,11 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_mds_extractor_lambda_log_group_mds_extractor(self):
         self.assertEqual(self.result['apps']['mds_extractor']["aws_cloudwatch_log_group.lambda_log_group_mds_extractor"]["tags.Name"], "lambda-log-group-mds-extractor-apps-preprod-dq")
 
+    def test_name_suffix_raw_file_index_pipeline_step_function_exec(self):
+        self.assertEqual(self.result['apps']['raw_file_index_pipeline']["aws_iam_role.step_function_exec"]["tags.Name"], "step-function-exec-raw-file-index-apps-preprod-dq")
+
+    def test_name_suffix_raw_file_index_pipeline_sfn_state_machine(self):
+        self.assertEqual(self.result['apps']['raw_file_index_pipeline']["aws_sfn_state_machine.sfn_state_machine"]["tags.Name"], "sfn-state-machine-raw-file-index-apps-preprod-dq")
+
 if __name__ == '__main__':
     unittest.main()
