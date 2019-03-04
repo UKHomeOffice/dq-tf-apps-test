@@ -54,7 +54,7 @@ class TestE2E(unittest.TestCase):
                 api_internal = "abcd"
                 consolidated_schedule = "abcd"
                 api_record_level_scoring = "abcd"
-                raw_file_retrieval_index = "abcd"
+                raw_file_index_internal = "abcd"
                 cross_record_scored = "abcd"
                 drt_working = "abcd"
                 fms_working = "abcd"
@@ -84,7 +84,7 @@ class TestE2E(unittest.TestCase):
                 api_internal = "abcd"
                 consolidated_schedule = "abcd"
                 api_record_level_scoring = "abcd"
-                raw_file_retrieval_index = "abcd"
+                raw_file_index_internal = "abcd"
                 cross_record_scored = "abcd"
                 drt_working = "abcd"
                 fms_working = "abcd"
@@ -199,8 +199,8 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_api_record_level_scoring(self):
         self.assertEqual(self.result['apps']["aws_s3_bucket.api_record_level_scoring_bucket"]["tags.Name"], "s3-dq-api-record-level-scoring-apps-preprod-dq")
 
-    def test_name_suffix_raw_file_retrieval_index(self):
-        self.assertEqual(self.result['apps']["aws_s3_bucket.raw_file_retrieval_index_bucket"]["tags.Name"], "s3-dq-raw-file-retrieval-index-apps-preprod-dq")
+    def test_name_suffix_raw_file_index_internal(self):
+        self.assertEqual(self.result['apps']["aws_s3_bucket.raw_file_index_internal_bucket"]["tags.Name"], "s3-dq-raw-file-index-internal-apps-preprod-dq")
 
     def test_name_suffix_cross_record_scored(self):
         self.assertEqual(self.result['apps']["aws_s3_bucket.cross_record_scored_bucket"]["tags.Name"], "s3-dq-cross-record-scored-apps-preprod-dq")

@@ -931,9 +931,9 @@ resource "aws_s3_bucket_policy" "api_record_level_scoring_policy" {
 POLICY
 }
 
-resource "aws_s3_bucket" "raw_file_retrieval_index_bucket" {
-  bucket = "${var.s3_bucket_name["raw_file_retrieval_index"]}"
-  acl    = "${var.s3_bucket_acl["raw_file_retrieval_index"]}"
+resource "aws_s3_bucket" "raw_file_index_internal_bucket" {
+  bucket = "${var.s3_bucket_name["raw_file_index_internal"]}"
+  acl    = "${var.s3_bucket_acl["raw_file_index_internal"]}"
   region = "${var.region}"
 
   server_side_encryption_configuration {
@@ -951,7 +951,7 @@ resource "aws_s3_bucket" "raw_file_retrieval_index_bucket" {
 
   logging {
     target_bucket = "${aws_s3_bucket.log_archive_bucket.id}"
-    target_prefix = "raw_file_retrival_index_bucket/"
+    target_prefix = "raw_file_index_internal_bucket/"
   }
 
   tags = {
@@ -959,8 +959,8 @@ resource "aws_s3_bucket" "raw_file_retrieval_index_bucket" {
   }
 }
 
-resource "aws_s3_bucket_policy" "raw_file_retrieval_index_policy" {
-  bucket = "${var.s3_bucket_name["raw_file_retrieval_index"]}"
+resource "aws_s3_bucket_policy" "raw_file_index_internal_policy" {
+  bucket = "${var.s3_bucket_name["raw_file_index_internal"]}"
 
   policy = <<POLICY
 {
@@ -971,7 +971,7 @@ resource "aws_s3_bucket_policy" "raw_file_retrieval_index_policy" {
       "Effect": "Deny",
       "Principal": "*",
       "Action": "*",
-      "Resource": "arn:aws:s3:::${var.s3_bucket_name["raw_file_retrieval_index"]}/*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["raw_file_index_internal"]}/*",
       "Condition": {
         "Bool": {
           "aws:SecureTransport": "false"
