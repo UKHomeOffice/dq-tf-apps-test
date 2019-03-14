@@ -62,6 +62,7 @@ class TestE2E(unittest.TestCase):
                 carrier_portal_working = "abcd"
                 gait_internal = "abcd"
                 mds_extract = "abcd"
+                athena_log = "abcd"
               }
 
               s3_bucket_acl = {
@@ -92,6 +93,7 @@ class TestE2E(unittest.TestCase):
                 carrier_portal_working = "abcd"
                 gait_internal = "abcd"
                 mds_extract = "abcd"
+                athena_log = "abcd"
               }
 
               route_table_cidr_blocks     = {
