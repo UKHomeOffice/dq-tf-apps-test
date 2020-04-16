@@ -59,18 +59,18 @@ module "airports_input_pipeline" {
   namespace      = "${var.namespace}"
 }
 
-# module "rds_deploy" {
-#   source                       = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-rds-deploy.git"
-#   lambda_subnet                = "${module.lambda.lambda_subnet}"
-#   lambda_subnet_az2            = "${module.lambda.lambda_subnet_az2}"
-#   lambda_sgrp                  = "${module.lambda.lambda_sgrp}"
-#   rds_db_name                  = "${var.rds_db_name}"
-#   rds_internal_tableau_address = "${module.internal_tableau.rds_internal_tableau_address}"
-#   pipeline_count               = "${var.pipeline_count}"
-#   naming_suffix                = "${local.naming_suffix}"
-#   namespace                    = "${var.namespace}"
-# }
-#
+module "rds_deploy" {
+  source                       = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-rds-deploy.git"
+  lambda_subnet                = "${module.lambda.lambda_subnet}"
+  lambda_subnet_az2            = "${module.lambda.lambda_subnet_az2}"
+  lambda_sgrp                  = "${module.lambda.lambda_sgrp}"
+  rds_db_name                  = "${var.rds_db_name}"
+  rds_internal_tableau_address = "${module.internal_tableau.rds_internal_tableau_address}"
+  pipeline_count               = "${var.pipeline_count}"
+  naming_suffix                = "${local.naming_suffix}"
+  namespace                    = "${var.namespace}"
+}
+
 module "external_tableau" {
   source                = "github.com/UKHomeOffice/dq-tf-external-tableau-test"
   appsvpc_id            = "${aws_vpc.appsvpc.id}"
