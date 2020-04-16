@@ -61,7 +61,6 @@ class TestE2E(unittest.TestCase):
                 reporting_internal_working = "abcd"
                 carrier_portal_working = "abcd"
                 gait_internal = "abcd"
-                mds_extract = "abcd"
                 raw_file_index_internal = "abcd"
                 athena_log = "abcd"
               }
@@ -93,7 +92,6 @@ class TestE2E(unittest.TestCase):
                 reporting_internal_working = "abcd"
                 carrier_portal_working = "abcd"
                 gait_internal = "abcd"
-                mds_extract = "abcd"
                 raw_file_index_internal = "abcd"
                 athena_log = "abcd"
               }
