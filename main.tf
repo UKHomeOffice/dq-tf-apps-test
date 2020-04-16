@@ -50,15 +50,15 @@ module "airports_pipeline" {
   namespace         = "${var.namespace}"
 }
 
-# module "airports_input_pipeline" {
-#   source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
-#   kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
-#   kms_key_glue   = "${data.aws_kms_key.glue.arn}"
-#   pipeline_count = "${var.pipeline_count}"
-#   naming_suffix  = "${local.naming_suffix}"
-#   namespace      = "${var.namespace}"
-# }
-#
+module "airports_input_pipeline" {
+  source         = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
+  kms_key_s3     = "${aws_kms_key.bucket_key.arn}"
+  kms_key_glue   = "${data.aws_kms_key.glue.arn}"
+  pipeline_count = "${var.pipeline_count}"
+  naming_suffix  = "${local.naming_suffix}"
+  namespace      = "${var.namespace}"
+}
+
 # module "rds_deploy" {
 #   source                       = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-rds-deploy.git"
 #   lambda_subnet                = "${module.lambda.lambda_subnet}"
