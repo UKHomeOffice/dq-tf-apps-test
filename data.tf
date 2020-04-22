@@ -14,7 +14,7 @@
 #   ]
 # }
 
-data "aws_availability_zones" "available" {}
+# data "aws_availability_zones" "available" {}
 
 # data "aws_ami" "rhel" {
 #   most_recent = true
