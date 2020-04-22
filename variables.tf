@@ -7,8 +7,8 @@ variable "adminpassword" {}
 variable "ad_aws_ssm_document_name" {}
 variable "ad_writer_instance_profile_name" {}
 variable "naming_suffix" {}
-variable "haproxy_private_ip" {}
-variable "haproxy_private_ip2" {}
+# variable "haproxy_private_ip" {}
+# variable "haproxy_private_ip2" {}
 variable "namespace" {}
 
 variable "ad_sg_cidr_ingress" {
@@ -118,13 +118,13 @@ variable "s3_httpd_config_bucket_key" {
   description = "HTTPD config bucket KMS Key ARN"
 }
 
-variable "haproxy_config_bucket" {
-  description = "HAPROXY config bucket ID"
-}
-
-variable "haproxy_config_bucket_key" {
-  description = "HAPROXY config bucket KMS key"
-}
+# variable "haproxy_config_bucket" {
+#   description = "HAPROXY config bucket ID"
+# }
+#
+# variable "haproxy_config_bucket_key" {
+#   description = "HAPROXY config bucket KMS key"
+# }
 
 variable "athena_maintenance_bucket" {
   description = "Athena Maintenance Bucket Name"
