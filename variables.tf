@@ -1,20 +1,20 @@
 variable "cidr_block" {}
 variable "public_subnet_cidr_block" {}
-variable "ad_subnet_cidr_block" {}
+# variable "ad_subnet_cidr_block" {}
 variable "az" {}
 variable "az2" {}
 # variable "adminpassword" {}
-variable "ad_aws_ssm_document_name" {}
-variable "ad_writer_instance_profile_name" {}
+# variable "ad_aws_ssm_document_name" {}
+# variable "ad_writer_instance_profile_name" {}
 variable "naming_suffix" {}
 # variable "haproxy_private_ip" {}
 # variable "haproxy_private_ip2" {}
 variable "namespace" {}
 
-variable "ad_sg_cidr_ingress" {
-  description = "List of CIDR block ingress to AD machines SG"
-  type        = "list"
-}
+# variable "ad_sg_cidr_ingress" {
+#   description = "List of CIDR block ingress to AD machines SG"
+#   type        = "list"
+# }
 
 variable "region" {
   default = "eu-west-2"
