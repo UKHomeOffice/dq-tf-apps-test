@@ -97,226 +97,226 @@ module "lambda" {
   route_table_id            = "${aws_route_table.apps_route_table.id}"
 }
 
-module "airports_pipeline" {
-  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-pipeline.git"
-  kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
-  kms_key_glue      = "${data.aws_kms_key.glue.arn}"
-  lambda_subnet     = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp       = "${module.lambda.lambda_sgrp}"
-  rds_db_name       = "${var.rds_db_name}"
-  rds_address       = "${module.internal_tableau.rds_internal_tableau_address}"
-  lambda_slack      = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix     = "${local.naming_suffix}"
-  namespace         = "${var.namespace}"
-}
+# module "airports_pipeline" {
+#   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-pipeline.git"
+#   kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
+#   kms_key_glue      = "${data.aws_kms_key.glue.arn}"
+#   lambda_subnet     = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp       = "${module.lambda.lambda_sgrp}"
+#   rds_db_name       = "${var.rds_db_name}"
+#   rds_address       = "${module.internal_tableau.rds_internal_tableau_address}"
+#   lambda_slack      = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix     = "${local.naming_suffix}"
+#   namespace         = "${var.namespace}"
+# }
 
-module "airports_input_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  kms_key_glue  = "${data.aws_kms_key.glue.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
+# module "airports_input_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-input.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   kms_key_glue  = "${data.aws_kms_key.glue.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
 
-module "oag_input_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-input-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "oag_transform_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-transform-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  naming_suffix = "${local.naming_suffix}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  namespace     = "${var.namespace}"
-}
-
-module "acl_input_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-acl-input-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  naming_suffix = "${local.naming_suffix}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  namespace     = "${var.namespace}"
-}
-
-module "reference_data_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-reference-data-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "consolidated_schedule_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-consolidated-schedule-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "cdlz" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-cdlz.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "api_input_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-input-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "api_record_level_score_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-record-level-score-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "api_cross_record_scored_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-cross-record-score-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "gait_pipeline" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-gait-pipeline.git"
-  kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "internal_reporting_pipeline" {
-  source                       = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-internal-reporting-pipeline.git"
-  lambda_subnet                = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2            = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp                  = "${module.lambda.lambda_sgrp}"
-  rds_db_name                  = "${var.rds_db_name}"
-  rds_internal_tableau_address = "${module.internal_tableau.rds_internal_tableau_address}"
-  kms_key_s3                   = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack                 = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix                = "${local.naming_suffix}"
-  namespace                    = "${var.namespace}"
-}
-
-module "rds_deploy" {
-  source                               = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-rds-deploy.git"
-  lambda_subnet                        = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2                    = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp                          = "${module.lambda.lambda_sgrp}"
-  rds_internal_tableau_address         = "${module.internal_tableau.rds_internal_tableau_address}"
-  rds_fms_address                      = "${module.fms.rds_address}"
-  rds_datafeed_address                 = "${module.data_feeds.rds_address}"
-  naming_suffix                        = "${local.naming_suffix}"
-  namespace                            = "${var.naming_suffix}"
-  rds_internal_tableau_staging_address = "${module.internal_tableau.rds_internal_tableau_staging_endpoint}"
-}
-
-module "fms_pipeline" {
-  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-fms-pipeline.git"
-  lambda_subnet     = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp       = "${module.lambda.lambda_sgrp}"
-  rds_address       = "${module.fms.rds_address}"
-  kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack      = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix     = "${local.naming_suffix}"
-  namespace         = "${var.namespace}"
-}
-
-module "drt_pipeline" {
-  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-drt-pipeline.git"
-  lambda_subnet     = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp       = "${module.lambda.lambda_sgrp}"
-  rds_address       = "${module.data_feeds.rds_address}"
-  kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack      = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix     = "${local.naming_suffix}"
-  namespace         = "${var.namespace}"
-}
-
-module "carrier_portal_pipeline" {
-  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-carrier-portal-pipeline.git"
-  lambda_subnet     = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp       = "${module.lambda.lambda_sgrp}"
-  rds_address       = "${module.external_tableau.rds_address}"
-  kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
-  lambda_slack      = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix     = "${local.naming_suffix}"
-  namespace         = "${var.namespace}"
-}
-
-module "mds_extractor" {
-  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-mds-extractor.git"
-  lambda_subnet     = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp       = "${module.lambda.lambda_sgrp}"
-  server            = "${module.data_ingest.rds_mds_address}"
-  kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
-  naming_suffix     = "${local.naming_suffix}"
-  namespace         = "${var.namespace}"
-}
-
-module "raw_file_index" {
-  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-raw-file-index.git"
-  kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
-  lambda_subnet     = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp       = "${module.lambda.lambda_sgrp}"
-  rds_db_name       = "${var.rds_db_name}"
-  rds_address       = "${module.internal_tableau.rds_internal_tableau_address}"
-  lambda_slack      = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix     = "${local.naming_suffix}"
-  namespace         = "${var.namespace}"
-}
-
-module "fms" {
-  source     = "github.com/ukhomeoffice/dq-tf-fms"
-  appsvpc_id = "${aws_vpc.appsvpc.id}"
-
-  opssubnet_cidr_block = "${var.route_table_cidr_blocks["ops_cidr"]}"
-  fms_cidr_block       = "10.1.40.0/24"
-  fms_cidr_block_az2   = "10.1.41.0/24"
-  peering_cidr_block   = "10.3.0.0/16"
-
-  az                           = "${var.az}"
-  az2                          = "${var.az2}"
-  naming_suffix                = "${local.naming_suffix}"
-  route_table_id               = "${aws_route_table.apps_route_table.id}"
-  rds_enhanced_monitoring_role = "${aws_iam_role.rds_enhanced_monitoring_role.arn}"
-  environment                  = "${var.namespace}"
-}
-
-module "ops_pipeline" {
-  source                                = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-pipeline-ops.git"
-  kms_key_s3                            = "${aws_kms_key.bucket_key.arn}"
-  lambda_subnet                         = "${module.lambda.lambda_subnet}"
-  lambda_subnet_az2                     = "${module.lambda.lambda_subnet_az2}"
-  lambda_sgrp                           = "${module.lambda.lambda_sgrp}"
-  rds_internal_tableau_address          = "${module.internal_tableau.rds_internal_tableau_address}"
-  rds_fms_address                       = "${module.fms.rds_address}"
-  rds_datafeed_address                  = "${module.data_feeds.rds_address}"
-  naming_suffix                         = "${local.naming_suffix}"
-  namespace                             = "${var.namespace}"
-  athena_maintenance_bucket             = "${var.athena_maintenance_bucket}"
-  dq_pipeline_ops_readwrite_bucket_list = "${var.dq_pipeline_ops_readwrite_bucket_list}"
-}
+# module "oag_input_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-input-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "oag_transform_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-oag-transform-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   naming_suffix = "${local.naming_suffix}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "acl_input_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-acl-input-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   naming_suffix = "${local.naming_suffix}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "reference_data_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-reference-data-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "consolidated_schedule_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-consolidated-schedule-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "cdlz" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-cdlz.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "api_input_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-input-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "api_record_level_score_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-record-level-score-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "api_cross_record_scored_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-api-cross-record-score-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "gait_pipeline" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-gait-pipeline.git"
+#   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "internal_reporting_pipeline" {
+#   source                       = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-internal-reporting-pipeline.git"
+#   lambda_subnet                = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2            = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp                  = "${module.lambda.lambda_sgrp}"
+#   rds_db_name                  = "${var.rds_db_name}"
+#   rds_internal_tableau_address = "${module.internal_tableau.rds_internal_tableau_address}"
+#   kms_key_s3                   = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack                 = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix                = "${local.naming_suffix}"
+#   namespace                    = "${var.namespace}"
+# }
+#
+# module "rds_deploy" {
+#   source                               = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-rds-deploy.git"
+#   lambda_subnet                        = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2                    = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp                          = "${module.lambda.lambda_sgrp}"
+#   rds_internal_tableau_address         = "${module.internal_tableau.rds_internal_tableau_address}"
+#   rds_fms_address                      = "${module.fms.rds_address}"
+#   rds_datafeed_address                 = "${module.data_feeds.rds_address}"
+#   naming_suffix                        = "${local.naming_suffix}"
+#   namespace                            = "${var.naming_suffix}"
+#   rds_internal_tableau_staging_address = "${module.internal_tableau.rds_internal_tableau_staging_endpoint}"
+# }
+#
+# module "fms_pipeline" {
+#   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-fms-pipeline.git"
+#   lambda_subnet     = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp       = "${module.lambda.lambda_sgrp}"
+#   rds_address       = "${module.fms.rds_address}"
+#   kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack      = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix     = "${local.naming_suffix}"
+#   namespace         = "${var.namespace}"
+# }
+#
+# module "drt_pipeline" {
+#   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-drt-pipeline.git"
+#   lambda_subnet     = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp       = "${module.lambda.lambda_sgrp}"
+#   rds_address       = "${module.data_feeds.rds_address}"
+#   kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack      = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix     = "${local.naming_suffix}"
+#   namespace         = "${var.namespace}"
+# }
+#
+# module "carrier_portal_pipeline" {
+#   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-carrier-portal-pipeline.git"
+#   lambda_subnet     = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp       = "${module.lambda.lambda_sgrp}"
+#   rds_address       = "${module.external_tableau.rds_address}"
+#   kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
+#   lambda_slack      = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix     = "${local.naming_suffix}"
+#   namespace         = "${var.namespace}"
+# }
+#
+# module "mds_extractor" {
+#   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-mds-extractor.git"
+#   lambda_subnet     = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp       = "${module.lambda.lambda_sgrp}"
+#   server            = "${module.data_ingest.rds_mds_address}"
+#   kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
+#   naming_suffix     = "${local.naming_suffix}"
+#   namespace         = "${var.namespace}"
+# }
+#
+# module "raw_file_index" {
+#   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-raw-file-index.git"
+#   kms_key_s3        = "${aws_kms_key.bucket_key.arn}"
+#   lambda_subnet     = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp       = "${module.lambda.lambda_sgrp}"
+#   rds_db_name       = "${var.rds_db_name}"
+#   rds_address       = "${module.internal_tableau.rds_internal_tableau_address}"
+#   lambda_slack      = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix     = "${local.naming_suffix}"
+#   namespace         = "${var.namespace}"
+# }
+#
+# module "fms" {
+#   source     = "github.com/ukhomeoffice/dq-tf-fms"
+#   appsvpc_id = "${aws_vpc.appsvpc.id}"
+#
+#   opssubnet_cidr_block = "${var.route_table_cidr_blocks["ops_cidr"]}"
+#   fms_cidr_block       = "10.1.40.0/24"
+#   fms_cidr_block_az2   = "10.1.41.0/24"
+#   peering_cidr_block   = "10.3.0.0/16"
+#
+#   az                           = "${var.az}"
+#   az2                          = "${var.az2}"
+#   naming_suffix                = "${local.naming_suffix}"
+#   route_table_id               = "${aws_route_table.apps_route_table.id}"
+#   rds_enhanced_monitoring_role = "${aws_iam_role.rds_enhanced_monitoring_role.arn}"
+#   environment                  = "${var.namespace}"
+# }
+#
+# module "ops_pipeline" {
+#   source                                = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-pipeline-ops.git"
+#   kms_key_s3                            = "${aws_kms_key.bucket_key.arn}"
+#   lambda_subnet                         = "${module.lambda.lambda_subnet}"
+#   lambda_subnet_az2                     = "${module.lambda.lambda_subnet_az2}"
+#   lambda_sgrp                           = "${module.lambda.lambda_sgrp}"
+#   rds_internal_tableau_address          = "${module.internal_tableau.rds_internal_tableau_address}"
+#   rds_fms_address                       = "${module.fms.rds_address}"
+#   rds_datafeed_address                  = "${module.data_feeds.rds_address}"
+#   naming_suffix                         = "${local.naming_suffix}"
+#   namespace                             = "${var.namespace}"
+#   athena_maintenance_bucket             = "${var.athena_maintenance_bucket}"
+#   dq_pipeline_ops_readwrite_bucket_list = "${var.dq_pipeline_ops_readwrite_bucket_list}"
+# }
 
 module "dailytasks" {
   source        = "github.com/UKHomeOffice/dq-tf-dailytasks"
@@ -330,19 +330,19 @@ module "dailytasks" {
 #   namespace     = "${var.namespace}"
 # }
 
-module "cdlz_bitd_input" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-btid-cdlz-pipeline.git"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
-
-module "kpi_accuracy_scoring" {
-  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-kpi-accuracy-scoring-pipeline.git"
-  lambda_slack  = "${module.ops_pipeline.lambda_slack}"
-  naming_suffix = "${local.naming_suffix}"
-  namespace     = "${var.namespace}"
-}
+# module "cdlz_bitd_input" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-btid-cdlz-pipeline.git"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
+#
+# module "kpi_accuracy_scoring" {
+#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-kpi-accuracy-scoring-pipeline.git"
+#   lambda_slack  = "${module.ops_pipeline.lambda_slack}"
+#   naming_suffix = "${local.naming_suffix}"
+#   namespace     = "${var.namespace}"
+# }
 
 resource "aws_vpc" "appsvpc" {
   cidr_block           = "${var.cidr_block}"
