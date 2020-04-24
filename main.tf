@@ -324,11 +324,11 @@ module "dailytasks" {
   namespace     = "${var.namespace}"
 }
 
-# module "nats_internal_pipeline" {
-#   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-fpl-pipeline.git"
-#   naming_suffix = "${local.naming_suffix}"
-#   namespace     = "${var.namespace}"
-# }
+module "nats_internal_pipeline" {
+  source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-fpl-pipeline.git"
+  naming_suffix = "${local.naming_suffix}"
+  namespace     = "${var.namespace}"
+}
 
 module "cdlz_bitd_input" {
   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-btid-cdlz-pipeline.git"
