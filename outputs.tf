@@ -26,9 +26,9 @@ output "log_archive_bucket_arn" {
   value = "${aws_s3_bucket.log_archive_bucket.arn}"
 }
 
-output "iam_roles" {
-  value = "${concat(module.external_tableau.iam_roles, module.internal_tableau.iam_roles)}"
-}
+# output "iam_roles" {
+#   value = "${concat(module.external_tableau.iam_roles, module.internal_tableau.iam_roles)}"
+# }
 
 output "athena_log_bucket" {
   value = "${aws_s3_bucket.athena_log_bucket.id}"
@@ -38,18 +38,18 @@ output "aws_bucket_key" {
   value = "${aws_kms_key.bucket_key.arn}"
 }
 
-# output "dq_pipeline_ops_readwrite_database_name_list" {
-#   value = "${var.dq_pipeline_ops_readwrite_database_name_list}"
-# }
-#
-# output "dq_pipeline_ops_readonly_database_name_list" {
-#   value = "${var.dq_pipeline_ops_readonly_database_name_list}"
-# }
-#
-# output "dq_pipeline_ops_readwrite_bucket_list" {
-#   value = "${var.dq_pipeline_ops_readwrite_bucket_list}"
-# }
-#
-# output "dq_pipeline_ops_readonly_bucket_list" {
-#   value = "${var.dq_pipeline_ops_readonly_bucket_list}"
-# }
+output "dq_pipeline_ops_readwrite_database_name_list" {
+  value = "${var.dq_pipeline_ops_readwrite_database_name_list}"
+}
+
+output "dq_pipeline_ops_readonly_database_name_list" {
+  value = "${var.dq_pipeline_ops_readonly_database_name_list}"
+}
+
+output "dq_pipeline_ops_readwrite_bucket_list" {
+  value = "${var.dq_pipeline_ops_readwrite_bucket_list}"
+}
+
+output "dq_pipeline_ops_readonly_bucket_list" {
+  value = "${var.dq_pipeline_ops_readonly_bucket_list}"
+}
