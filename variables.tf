@@ -30,15 +30,15 @@ variable "route_table_cidr_blocks" {
   type        = "map"
 }
 
-variable "s3_bucket_name" {
-  description = "Map of the S3 bucket names"
-  type        = "map"
-}
+# variable "s3_bucket_name" {
+#   description = "Map of the S3 bucket names"
+#   type        = "map"
+# }
 
-variable "s3_bucket_acl" {
-  description = "Map of the S3 bucket canned ACLs"
-  type        = "map"
-}
+# variable "s3_bucket_acl" {
+#   description = "Map of the S3 bucket canned ACLs"
+#   type        = "map"
+# }
 
 # variable "rds_db_name" {
 #   description = "Supplies the database name for a Postgres deployment"
