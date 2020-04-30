@@ -110,13 +110,13 @@ variable "dq_pipeline_ops_readonly_bucket_list" {
   default = ["s3-dq-api-internal"]
 }
 
-variable "s3_httpd_config_bucket" {
-  description = "HTTPD config bucket ID"
-}
+# variable "s3_httpd_config_bucket" {
+#   description = "HTTPD config bucket ID"
+# }
 
-variable "s3_httpd_config_bucket_key" {
-  description = "HTTPD config bucket KMS Key ARN"
-}
+# variable "s3_httpd_config_bucket_key" {
+#   description = "HTTPD config bucket KMS Key ARN"
+# }
 
 variable "haproxy_config_bucket" {
   description = "HAPROXY config bucket ID"
