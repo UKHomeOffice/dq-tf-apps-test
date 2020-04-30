@@ -7,8 +7,8 @@ variable "adminpassword" {}
 variable "ad_aws_ssm_document_name" {}
 variable "ad_writer_instance_profile_name" {}
 variable "naming_suffix" {}
-variable "haproxy_private_ip" {}
-variable "haproxy_private_ip2" {}
+# variable "haproxy_private_ip" {}
+# variable "haproxy_private_ip2" {}
 variable "namespace" {}
 
 variable "ad_sg_cidr_ingress" {
@@ -45,22 +45,22 @@ variable "s3_bucket_acl" {
 #   default     = "internal_tableau"
 # }
 #
-variable "dq_pipeline_ops_readwrite_database_name_list" {
-  default = ["reference_data",
-    "acl",
-    "consolidated_schedule",
-    "api_record_level_score",
-    "api_cross_record_scored",
-    "api_input",
-    "oag_transform",
-    "internal_reporting",
-    "drt",
-    "airports_working",
-    "airports_input",
-    "carrier_portal",
-    "fms",
-  ]
-}
+# variable "dq_pipeline_ops_readwrite_database_name_list" {
+#   default = ["reference_data",
+#     "acl",
+#     "consolidated_schedule",
+#     "api_record_level_score",
+#     "api_cross_record_scored",
+#     "api_input",
+#     "oag_transform",
+#     "internal_reporting",
+#     "drt",
+#     "airports_working",
+#     "airports_input",
+#     "carrier_portal",
+#     "fms",
+#   ]
+# }
 #
 # variable "dq_pipeline_athena_readwrite_database_name_list" {
 #   default = ["reference_data",
@@ -82,33 +82,33 @@ variable "dq_pipeline_ops_readwrite_database_name_list" {
 #   ]
 # }
 #
-variable "dq_pipeline_ops_readonly_database_name_list" {
-  default = ["api_input"]
-}
+# variable "dq_pipeline_ops_readonly_database_name_list" {
+#   default = ["api_input"]
+# }
+# #
+# variable "dq_pipeline_ops_readwrite_bucket_list" {
+#   default = ["s3-dq-reference-data-internal",
+#     "s3-dq-acl-internal",
+#     "s3-dq-oag-internal",
+#     "s3-dq-oag-transform",
+#     "s3-dq-consolidated-schedule",
+#     "s3-dq-api-record-level-scoring",
+#     "s3-dq-api-internal",
+#     "s3-dq-cross-record-scored",
+#     "s3-dq-raw-file-index-internal",
+#     "s3-dq-athena-log",
+#     "s3-dq-drt-working",
+#     "s3-dq-reporting-internal-working",
+#     "s3-dq-airports-working",
+#     "s3-dq-airports-internal",
+#     "s3-dq-carrier-portal-working",
+#     "s3-dq-fms-working",
+#   ]
+# }
 #
-variable "dq_pipeline_ops_readwrite_bucket_list" {
-  default = ["s3-dq-reference-data-internal",
-    "s3-dq-acl-internal",
-    "s3-dq-oag-internal",
-    "s3-dq-oag-transform",
-    "s3-dq-consolidated-schedule",
-    "s3-dq-api-record-level-scoring",
-    "s3-dq-api-internal",
-    "s3-dq-cross-record-scored",
-    "s3-dq-raw-file-index-internal",
-    "s3-dq-athena-log",
-    "s3-dq-drt-working",
-    "s3-dq-reporting-internal-working",
-    "s3-dq-airports-working",
-    "s3-dq-airports-internal",
-    "s3-dq-carrier-portal-working",
-    "s3-dq-fms-working",
-  ]
-}
-
-variable "dq_pipeline_ops_readonly_bucket_list" {
-  default = ["s3-dq-api-internal"]
-}
+# variable "dq_pipeline_ops_readonly_bucket_list" {
+#   default = ["s3-dq-api-internal"]
+# }
 
 # variable "s3_httpd_config_bucket" {
 #   description = "HTTPD config bucket ID"
@@ -118,18 +118,18 @@ variable "dq_pipeline_ops_readonly_bucket_list" {
 #   description = "HTTPD config bucket KMS Key ARN"
 # }
 
-variable "haproxy_config_bucket" {
-  description = "HAPROXY config bucket ID"
-}
-
-variable "haproxy_config_bucket_key" {
-  description = "HAPROXY config bucket KMS key"
-}
-
-variable "athena_maintenance_bucket" {
-  description = "Athena Maintenance Bucket Name"
-  default     = "s3-dq-athena-maintenance-bucket"
-}
+# variable "haproxy_config_bucket" {
+#   description = "HAPROXY config bucket ID"
+# }
+#
+# variable "haproxy_config_bucket_key" {
+#   description = "HAPROXY config bucket KMS key"
+# }
+#
+# variable "athena_maintenance_bucket" {
+#   description = "Athena Maintenance Bucket Name"
+#   default     = "s3-dq-athena-maintenance-bucket"
+# }
 
 # variable "athena_adhoc_maintenance_database" {
 #   description = "Athena maintenance database name"
