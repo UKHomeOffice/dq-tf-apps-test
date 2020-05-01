@@ -86,16 +86,16 @@ locals {
 #   rds_enhanced_monitoring_role = "${aws_iam_role.rds_enhanced_monitoring_role.arn}"
 # }
 #
-# module "lambda" {
-#   source                    = "github.com/ukhomeoffice/dq-tf-lambda"
-#   appsvpc_id                = "${aws_vpc.appsvpc.id}"
-#   dq_lambda_subnet_cidr     = "10.1.42.0/24"
-#   dq_lambda_subnet_cidr_az2 = "10.1.43.0/24"
-#   az                        = "${var.az}"
-#   az2                       = "${var.az2}"
-#   naming_suffix             = "${local.naming_suffix}"
-#   route_table_id            = "${aws_route_table.apps_route_table.id}"
-# }
+module "lambda" {
+  source                    = "github.com/ukhomeoffice/dq-tf-lambda"
+  appsvpc_id                = "${aws_vpc.appsvpc.id}"
+  dq_lambda_subnet_cidr     = "10.1.42.0/24"
+  dq_lambda_subnet_cidr_az2 = "10.1.43.0/24"
+  az                        = "${var.az}"
+  az2                       = "${var.az2}"
+  naming_suffix             = "${local.naming_suffix}"
+  route_table_id            = "${aws_route_table.apps_route_table.id}"
+}
 #
 # module "airports_pipeline" {
 #   source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-airports-pipeline.git"
@@ -263,10 +263,10 @@ locals {
 # }
 #
 module "mds_extractor" {
-  source = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-mds-extractor.git"
-  # lambda_subnet     = "${module.lambda.lambda_subnet}"
-  # lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
-  # lambda_sgrp       = "${module.lambda.lambda_sgrp}"
+  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-mds-extractor.git"
+  lambda_subnet     = "${module.lambda.lambda_subnet}"
+  lambda_subnet_az2 = "${module.lambda.lambda_subnet_az2}"
+  lambda_sgrp       = "${module.lambda.lambda_sgrp}"
   # server            = "${module.data_ingest.rds_mds_address}"
   kms_key_s3    = "${aws_kms_key.bucket_key.arn}"
   naming_suffix = "${local.naming_suffix}"
