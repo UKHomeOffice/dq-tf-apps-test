@@ -30,15 +30,15 @@ variable "route_table_cidr_blocks" {
   type        = "map"
 }
 
-# variable "s3_bucket_name" {
-#   description = "Map of the S3 bucket names"
-#   type        = "map"
-# }
+variable "s3_bucket_name" {
+  description = "Map of the S3 bucket names"
+  type        = "map"
+}
 
-# variable "s3_bucket_acl" {
-#   description = "Map of the S3 bucket canned ACLs"
-#   type        = "map"
-# }
+variable "s3_bucket_acl" {
+  description = "Map of the S3 bucket canned ACLs"
+  type        = "map"
+}
 
 # variable "rds_db_name" {
 #   description = "Supplies the database name for a Postgres deployment"
@@ -86,50 +86,50 @@ variable "route_table_cidr_blocks" {
 #   default = ["api_input"]
 # }
 # #
-# variable "dq_pipeline_ops_readwrite_bucket_list" {
-#   default = ["s3-dq-reference-data-internal",
-#     "s3-dq-acl-internal",
-#     "s3-dq-oag-internal",
-#     "s3-dq-oag-transform",
-#     "s3-dq-consolidated-schedule",
-#     "s3-dq-api-record-level-scoring",
-#     "s3-dq-api-internal",
-#     "s3-dq-cross-record-scored",
-#     "s3-dq-raw-file-index-internal",
-#     "s3-dq-athena-log",
-#     "s3-dq-drt-working",
-#     "s3-dq-reporting-internal-working",
-#     "s3-dq-airports-working",
-#     "s3-dq-airports-internal",
-#     "s3-dq-carrier-portal-working",
-#     "s3-dq-fms-working",
-#   ]
-# }
-#
-# variable "dq_pipeline_ops_readonly_bucket_list" {
-#   default = ["s3-dq-api-internal"]
-# }
+variable "dq_pipeline_ops_readwrite_bucket_list" {
+  default = ["s3-dq-reference-data-internal",
+    "s3-dq-acl-internal",
+    "s3-dq-oag-internal",
+    "s3-dq-oag-transform",
+    "s3-dq-consolidated-schedule",
+    "s3-dq-api-record-level-scoring",
+    "s3-dq-api-internal",
+    "s3-dq-cross-record-scored",
+    "s3-dq-raw-file-index-internal",
+    "s3-dq-athena-log",
+    "s3-dq-drt-working",
+    "s3-dq-reporting-internal-working",
+    "s3-dq-airports-working",
+    "s3-dq-airports-internal",
+    "s3-dq-carrier-portal-working",
+    "s3-dq-fms-working",
+  ]
+}
 
-# variable "s3_httpd_config_bucket" {
-#   description = "HTTPD config bucket ID"
-# }
+variable "dq_pipeline_ops_readonly_bucket_list" {
+  default = ["s3-dq-api-internal"]
+}
 
-# variable "s3_httpd_config_bucket_key" {
-#   description = "HTTPD config bucket KMS Key ARN"
-# }
+variable "s3_httpd_config_bucket" {
+  description = "HTTPD config bucket ID"
+}
 
-# variable "haproxy_config_bucket" {
-#   description = "HAPROXY config bucket ID"
-# }
-#
-# variable "haproxy_config_bucket_key" {
-#   description = "HAPROXY config bucket KMS key"
-# }
-#
-# variable "athena_maintenance_bucket" {
-#   description = "Athena Maintenance Bucket Name"
-#   default     = "s3-dq-athena-maintenance-bucket"
-# }
+variable "s3_httpd_config_bucket_key" {
+  description = "HTTPD config bucket KMS Key ARN"
+}
+
+variable "haproxy_config_bucket" {
+  description = "HAPROXY config bucket ID"
+}
+
+variable "haproxy_config_bucket_key" {
+  description = "HAPROXY config bucket KMS key"
+}
+
+variable "athena_maintenance_bucket" {
+  description = "Athena Maintenance Bucket Name"
+  default     = "s3-dq-athena-maintenance-bucket"
+}
 
 # variable "athena_adhoc_maintenance_database" {
 #   description = "Athena maintenance database name"
