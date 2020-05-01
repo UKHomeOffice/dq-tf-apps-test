@@ -30,10 +30,10 @@ output "log_archive_bucket_arn" {
 #   value = "${concat(module.external_tableau.iam_roles, module.internal_tableau.iam_roles)}"
 # }
 
-# output "athena_log_bucket" {
-#   value = "${aws_s3_bucket.athena_log_bucket.id}"
-# }
-#
+output "athena_log_bucket" {
+  value = "${aws_s3_bucket.athena_log_bucket.id}"
+}
+
 output "aws_bucket_key" {
   value = "${aws_kms_key.bucket_key.arn}"
 }
