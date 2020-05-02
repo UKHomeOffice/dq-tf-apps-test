@@ -295,12 +295,12 @@ module "fms" {
   fms_cidr_block_az2   = "10.1.41.0/24"
   peering_cidr_block   = "10.3.0.0/16"
 
-  az             = "${var.az}"
-  az2            = "${var.az2}"
-  naming_suffix  = "${local.naming_suffix}"
-  route_table_id = "${aws_route_table.apps_route_table.id}"
-  # rds_enhanced_monitoring_role = "${aws_iam_role.rds_enhanced_monitoring_role.arn}"
-  environment = "${var.namespace}"
+  az                           = "${var.az}"
+  az2                          = "${var.az2}"
+  naming_suffix                = "${local.naming_suffix}"
+  route_table_id               = "${aws_route_table.apps_route_table.id}"
+  rds_enhanced_monitoring_role = "${aws_iam_role.rds_enhanced_monitoring_role.arn}"
+  environment                  = "${var.namespace}"
 }
 
 # module "ops_pipeline" {
