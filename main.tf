@@ -25,8 +25,7 @@ locals {
 # }
 #
 module "internal_tableau" {
-  source                                = "github.com/UKHomeOffice/dq-tf-internal-tableau-test"
-  apps_vpc_id                           = "${aws_vpc.appsvpc.id}"
+  source                                = "github.com/UKHomeOffice/dq-tf-internal-tableau"
   acp_prod_ingress_cidr                 = "10.5.0.0/16"
   dq_ops_ingress_cidr                   = "${var.route_table_cidr_blocks["ops_cidr"]}"
   dq_internal_dashboard_subnet_cidr     = "10.1.12.0/24"
@@ -37,10 +36,17 @@ module "internal_tableau" {
   az                                    = "${var.az}"
   az2                                   = "${var.az2}"
   naming_suffix                         = "${local.naming_suffix}"
-
-  #s3_archive_bucket_name                = "${aws_s3_bucket.data_archive_bucket.id}"
-  #s3_archive_bucket                     = "${aws_s3_bucket.data_archive_bucket.arn}"
-  #s3_archive_bucket_key                 = "${aws_kms_key.bucket_key.arn}"
+  s3_archive_bucket_name                = "${aws_s3_bucket.data_archive_bucket.id}"
+  s3_archive_bucket                     = "${aws_s3_bucket.data_archive_bucket.arn}"
+  s3_archive_bucket_key                 = "${aws_kms_key.bucket_key.arn}"
+  haproxy_private_ip                    = "${var.haproxy_private_ip}"
+  environment                           = "${var.namespace}"
+  s3_httpd_config_bucket                = "${var.s3_httpd_config_bucket}"
+  s3_httpd_config_bucket_key            = "${var.s3_httpd_config_bucket_key}"
+  security_group_ids                    = "${module.lambda.lambda_sgrp}"
+  lambda_subnet                         = "${module.lambda.lambda_subnet}"
+  lambda_subnet_az2                     = "${module.lambda.lambda_subnet_az2}"
+  rds_enhanced_monitoring_role          = "${aws_iam_role.rds_enhanced_monitoring_role.arn}"
 }
 
 # module "data_feeds" {
