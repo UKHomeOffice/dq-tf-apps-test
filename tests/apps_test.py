@@ -135,9 +135,9 @@ class TestE2E(unittest.TestCase):
     # def test_root_destroy(self):
     #     self.assertEqual(self.result["destroy"], False)
 
-    def test_print(self):
-        # print(json.dumps(self.result, indent=4, sort_keys=True))
-        print(self.result)
+    # def test_print(self):
+    #     # print(json.dumps(self.result, indent=4, sort_keys=True))
+    #     print(self.result)
 
     def test_apps_vpc_cidr_block(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_vpc.appsvpc", "cidr_block"), "10.1.0.0/16")
