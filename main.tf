@@ -26,7 +26,7 @@ locals {
 # }
 #
 module "internal_tableau" {
-  source = "git::https://github.com/UKHomeOffice/dq-tf-internal-tableau-test.git?ref=tf12-upgrade-final"
+  source = "github.com/UKHomeOffice/dq-tf-internal-tableau-test"
 
   acp_prod_ingress_cidr                 = "10.5.0.0/16"
   dq_ops_ingress_cidr                   = var.route_table_cidr_blocks["ops_cidr"]
