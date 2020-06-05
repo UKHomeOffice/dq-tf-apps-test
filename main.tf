@@ -89,7 +89,7 @@ module "internal_tableau" {
 # }
 #
 module "lambda" {
-  source                    = "git::https://github.com/ukhomeoffice/dq-tf-lambda.git?ref=TF12-upgrade"
+  source = "github.com/ukhomeoffice/dq-tf-lambda"
 
   appsvpc_id                = aws_vpc.appsvpc.id
   dq_lambda_subnet_cidr     = "10.1.42.0/24"
@@ -267,7 +267,7 @@ module "lambda" {
 # }
 #
 module "mds_extractor" {
-  source            = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-mds-extractor.git?ref=TF12-upgrade"
+  source = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-mds-extractor.git"
 
   lambda_subnet     = module.lambda.lambda_subnet
   lambda_subnet_az2 = module.lambda.lambda_subnet_az2
@@ -294,7 +294,7 @@ module "mds_extractor" {
 # }
 #
 module "fms" {
-  source     = "git::https://github.com/ukhomeoffice/dq-tf-fms.git?ref=TF12-upgrade"
+  source = "github.com/ukhomeoffice/dq-tf-fms"
 
   appsvpc_id = aws_vpc.appsvpc.id
 
