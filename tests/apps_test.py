@@ -72,6 +72,7 @@ class TestE2E(unittest.TestCase):
                 cdlz_bitd_input               = "abcd"
                 api_arrivals                  = "abcd"
                 accuracy_score                = "abcd"
+                api_cdlz_msk                  = "abcd"
               }
 
               s3_bucket_acl = {
@@ -108,6 +109,8 @@ class TestE2E(unittest.TestCase):
                 cdlz_bitd_input               = "private"
                 api_arrivals                  = "private"
                 accuracy_score                = "private"
+                api_cdlz_msk                  = "private"
+
               }
 
               route_table_cidr_blocks     = {
@@ -618,6 +621,10 @@ class TestE2E(unittest.TestCase):
 
     def test_name_suffix_accuracy_score(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.accuracy_score_bucket", "tags"), {'Name': "s3-dq-accuracy-score-apps-preprod-dq"})
+
+    def test_name_suffix_api_cdlz_msk(self):
+          self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.api_cdlz_msk", "tags"), {'Name': "s3-dq-api-cdlz-msk-apps-preprod-dq"})
+
 
 if __name__ == '__main__':
     unittest.main()
