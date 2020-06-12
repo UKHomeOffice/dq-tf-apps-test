@@ -1895,7 +1895,7 @@ resource "aws_s3_bucket_metric" "accuracy_score_logging" {
   name   = "accuracy_score_bucket_metric"
 }
 
-resource "aws_s3_bucket" "api_cdlz_msk_bucket" {
+resource "aws_s3_bucket" "api_cdlz_msk" {
   bucket = var.s3_bucket_name["api_cdlz_msk"]
   acl    = var.s3_bucket_acl["api_cdlz_msk"]
 
@@ -1921,7 +1921,7 @@ resource "aws_s3_bucket" "api_cdlz_msk_bucket" {
   }
 }
 
-resource "aws_s3_bucket_policy" "api_cdlz_msk_bucket_policy" {
+resource "aws_s3_bucket_policy" "api_cdlz_msk_policy" {
   bucket = var.s3_bucket_name["api_cdlz_msk"]
 
   policy = <<POLICY
@@ -1946,9 +1946,9 @@ POLICY
 
 }
 
-resource "aws_s3_bucket_metric" "api_cdlz_msk_bucket_logging" {
+resource "aws_s3_bucket_metric" "api_cdlz_msk_logging" {
   bucket = var.s3_bucket_name["api_cdlz_msk"]
-  name   = "api_cdlz_msk_bucket_metric"
+  name   = "api_cdlz_msk_metric"
 }
 
 resource "aws_vpc_endpoint" "s3_endpoint" {
