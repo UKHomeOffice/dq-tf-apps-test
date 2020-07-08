@@ -628,7 +628,7 @@ class TestE2E(unittest.TestCase):
           self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.api_cdlz_msk_bucket", "tags"), {'Name': "s3-dq-api-cdlz-msk-apps-preprod-dq"})
 
     def test_name_suffix_cdl_s3_s4(self):
-          self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.cdl_s3_s4_bucket", "tags"), {'Name': "s3-dq-cdl-s3-s4-preprod-dq"})
+          self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.cdl_s3_s4_bucket", "tags"), {'Name': "s3-dq-cdl-s3-s4-apps-preprod-dq"})
 
 if __name__ == '__main__':
     unittest.main()
