@@ -1951,6 +1951,65 @@ resource "aws_s3_bucket_metric" "api_cdlz_msk_bucket_logging" {
   name   = "api_cdlz_msk_metric"
 }
 
+resource "aws_s3_bucket" "cdl_s3_s4_bucket" {
+  count  = var.namespace == "test" ? 1 : 0
+  bucket = var.s3_bucket_name["cdl_s3_s4"]
+  acl    = var.s3_bucket_acl["cdl_s3_s4"]
+
+  versioning {
+    enabled = true
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  logging {
+    target_bucket = aws_s3_bucket.log_archive_bucket.id
+    target_prefix = "cdl_s3_s4/"
+  }
+
+  tags = {
+    Name = "s3-dq-cdl-s3-s4-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_policy" "cdl_s3_s4_bucket_policy" {
+  bucket = var.s3_bucket_name["cdl_s3_s4"]
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["cdl_s3_s4"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+
+}
+
+resource "aws_s3_bucket_metric" "cdl_s3_s4_bucket_logging" {
+  bucket = var.s3_bucket_name["cdl_s3_s4"]
+  name   = "cdl_s3_s4_metric"
+}
+
+
+
 resource "aws_vpc_endpoint" "s3_endpoint" {
   vpc_id          = aws_vpc.appsvpc.id
   route_table_ids = [aws_route_table.apps_route_table.id]
