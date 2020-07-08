@@ -73,6 +73,7 @@ class TestE2E(unittest.TestCase):
                 api_arrivals                  = "abcd"
                 accuracy_score                = "abcd"
                 api_cdlz_msk                  = "abcd"
+                cdl_s3_s4                     = "abcd"
               }
 
               s3_bucket_acl = {
@@ -110,6 +111,7 @@ class TestE2E(unittest.TestCase):
                 api_arrivals                  = "private"
                 accuracy_score                = "private"
                 api_cdlz_msk                  = "private"
+                cdl_s3_s4                     = "private"
 
               }
 
@@ -625,6 +627,8 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_api_cdlz_msk(self):
           self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.api_cdlz_msk_bucket", "tags"), {'Name': "s3-dq-api-cdlz-msk-apps-preprod-dq"})
 
+    def test_name_suffix_api_cdlz_msk(self):
+          self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.cdl_s3_s4_bucket", "tags"), {'Name': "s3-dq-cdl-s3-s4-preprod-dq"})
 
 if __name__ == '__main__':
     unittest.main()
