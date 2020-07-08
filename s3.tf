@@ -1952,7 +1952,6 @@ resource "aws_s3_bucket_metric" "api_cdlz_msk_bucket_logging" {
 }
 
 resource "aws_s3_bucket" "cdl_s3_s4_bucket" {
-  count  = var.namespace == "test" ? 1 : 0
   bucket = var.s3_bucket_name["cdl_s3_s4"]
   acl    = var.s3_bucket_acl["cdl_s3_s4"]
 
