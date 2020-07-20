@@ -2007,6 +2007,64 @@ resource "aws_s3_bucket_metric" "cdl_s3_s4_bucket_logging" {
   name   = "cdl_s3_s4_metric"
 }
 
+#======
+
+resource "aws_s3_bucket" "cdl_s4_s3_parsed" {
+  bucket = var.s3_bucket_name["cdl_s4_s3_parsed"]
+  acl    = var.s3_bucket_acl["cdl_s4_s3_parsed"]
+
+  versioning {
+    enabled = true
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  logging {
+    target_bucket = aws_s3_bucket.log_archive_bucket.id
+    target_prefix = "cdl_s3_s4_parsed/"
+  }
+
+  tags = {
+    Name = "s3-dq-cdl-s3-s4-parsed-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_policy" "cdl_s3_s4_parsed_bucket_policy" {
+  bucket = var.s3_bucket_name["cdl_s3_s4_parsed"]
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["cdl_s3_s4_parsed"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+
+}
+
+resource "aws_s3_bucket_metric" "cdl_s3_s4_parsed_bucket_logging" {
+  bucket = var.s3_bucket_name["cdl_s3_s4_parsed"]
+  name   = "cdl_s3_s4_parsed_metric"
+}
+
 
 
 resource "aws_vpc_endpoint" "s3_endpoint" {
