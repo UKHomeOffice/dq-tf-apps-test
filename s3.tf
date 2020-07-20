@@ -2009,9 +2009,9 @@ resource "aws_s3_bucket_metric" "cdl_s3_s4_bucket_logging" {
 
 #======
 
-resource "aws_s3_bucket" "cdl_s4_s3_parsed" {
-  bucket = var.s3_bucket_name["cdl_s4_s3_parsed"]
-  acl    = var.s3_bucket_acl["cdl_s4_s3_parsed"]
+resource "aws_s3_bucket" "cdl_s3_s4_parsed" {
+  bucket = var.s3_bucket_name["cdl_s3_s4_parsed"]
+  acl    = var.s3_bucket_acl["cdl_s3_s4_parsed"]
 
   versioning {
     enabled = true
