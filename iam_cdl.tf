@@ -30,8 +30,8 @@ resource "aws_iam_group_policy" "cdl_user" {
                 "s3:ListMultipartUploadParts"
       ],
       "Resource": [
-        "${aws_s3_bucket.cdl_s4_s3_parsed.arn}",
-        "${aws_s3_bucket.cdl_s4_s3_parsed.arn}/*"
+        "${aws_s3_bucket.cdl_s3_s4_parsed.arn}",
+        "${aws_s3_bucket.cdl_s3_s4_parsed.arn}/*"
       ]
     },
     {
@@ -40,7 +40,7 @@ resource "aws_iam_group_policy" "cdl_user" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "${aws_s3_bucket.cdl_s4_s3_parsed.arn}/*"
+        "${aws_s3_bucket.cdl_s3_s4_parsed.arn}/*"
       ]
     },
     {
