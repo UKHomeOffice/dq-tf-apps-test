@@ -35,15 +35,6 @@ resource "aws_iam_group_policy" "cdl_user" {
       ]
     },
     {
-      "Action": [
-        "s3:PutObject"
-      ],
-      "Effect": "Allow",
-      "Resource": [
-        "${aws_s3_bucket.cdl_s3_s4_parsed.arn}/*"
-      ]
-    },
-    {
       "Effect": "Allow",
       "Action": [
         "kms:Encrypt",
