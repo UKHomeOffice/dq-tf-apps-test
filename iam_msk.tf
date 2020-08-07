@@ -41,6 +41,15 @@ resource "aws_iam_group_policy" "api_cdlz_msk_bucket_policy" {
       ]
     },
     {
+      "Action": [
+        "lambda:Invokefunction"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:lambda:eu-west-2:797728447925:function:api-kafka-input-test-trigger"
+      ]
+    },
+    {
       "Effect": "Allow",
       "Action": [
         "kms:Encrypt",
