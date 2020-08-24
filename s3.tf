@@ -2065,6 +2065,62 @@ resource "aws_s3_bucket_metric" "cdl_s3_s4_parsed_bucket_logging" {
   name   = "cdl_s3_s4_parsed_metric"
 }
 
+resource "aws_s3_bucket" "api-rls-xrs-reconciliation" {
+  bucket = var.s3_bucket_name["api-rls-xrs-reconciliation"]
+  acl    = var.s3_bucket_acl["api-rls-xrs-reconciliation"]
+
+  versioning {
+    enabled = true
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  logging {
+    target_bucket = aws_s3_bucket.log_archive_bucket.id
+    target_prefix = "api-rls-xrs-reconciliation/"
+  }
+
+  tags = {
+    Name = "s3-api-rls-xrs-reconciliation-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_policy" "api-rls-xrs-reconciliation_bucket_policy" {
+  bucket = var.s3_bucket_name["api-rls-xrs-reconciliation"]
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "HTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "*",
+      "Resource": "arn:aws:s3:::${var.s3_bucket_name["api-rls-xrs-reconciliation"]}/*",
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": "false"
+        }
+      }
+    }
+  ]
+}
+POLICY
+
+}
+
+resource "aws_s3_bucket_metric" "api-rls-xrs-reconciliation_bucket_logging" {
+  bucket = var.s3_bucket_name["api-rls-xrs-reconciliation"]
+  name   = "api-rls-xrs-reconciliation_metric"
+}
+
 
 
 resource "aws_vpc_endpoint" "s3_endpoint" {
