@@ -75,6 +75,7 @@ class TestE2E(unittest.TestCase):
                 api_cdlz_msk                  = "abcd"
                 cdl_s3_s4                     = "abcd"
                 cdl_s3_s4_parsed              = "abcd"
+                api-rls-xrs-reconciliation    = "abcd"
               }
 
               s3_bucket_acl = {
@@ -114,6 +115,7 @@ class TestE2E(unittest.TestCase):
                 api_cdlz_msk                  = "private"
                 cdl_s3_s4                     = "private"
                 cdl_s3_s4_parsed              = "private"
+                api-rls-xrs-reconciliation    = "private"
 
               }
 
