@@ -89,7 +89,7 @@ module "internal_tableau" {
 # }
 #
 module "lambda" {
-  source = "github.com/ukhomeoffice/dq-tf-lambda"
+  source = "github.com/ukhomeoffice/dq-tf-lambda-test"
 
   appsvpc_id                = aws_vpc.appsvpc.id
   dq_lambda_subnet_cidr     = "10.1.42.0/24"
