@@ -2194,7 +2194,7 @@ resource "aws_s3_bucket" "dq_fs_internal" {
   }
 
   logging {
-    target_bucket = aws_s3_bucket.log_internal_bucket.id
+    target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "dq_fs_internal/"
   }
 
