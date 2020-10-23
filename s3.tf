@@ -2152,7 +2152,7 @@ resource "aws_s3_bucket_policy" "dq_fs_archive_bucket_policy" {
 
   policy = <<POLICY
 {
-  "Version": "2012_10_17",
+  "Version": "2012-10-17",
   "Statement": [
     {
       "Sid": "HTTP",
@@ -2208,7 +2208,7 @@ resource "aws_s3_bucket_policy" "dq_fs_internal_bucket_policy" {
 
   policy = <<POLICY
 {
-  "Version": "2012_10_17",
+  "Version": "2012-10-17",
   "Statement": [
     {
       "Sid": "HTTP",
