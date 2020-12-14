@@ -78,6 +78,8 @@ class TestE2E(unittest.TestCase):
                 api-rls-xrs-reconciliation    = "abcd"
                 dq_fs_archive                 = "abcd"
                 dq_fs_internal                = "abcd"
+                dq_rm_archive                 = "abcd"
+                dq_rm_internal                = "abcd"
               }
 
               s3_bucket_acl = {
@@ -120,6 +122,8 @@ class TestE2E(unittest.TestCase):
                 api-rls-xrs-reconciliation    = "private"
                 dq_fs_archive                 = "private"
                 dq_fs_internal                = "private"
+                dq_rm_archive                 = "private"
+                dq_rm_internal                = "private"
 
               }
 
