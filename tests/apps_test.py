@@ -81,6 +81,10 @@ class TestE2E(unittest.TestCase):
                 dq_rm_archive                 = "abcd"
                 dq_rm_internal                = "abcd"
                 dq_aws_config                 = "abcd"
+                dq_asn_archive                = "abcd"
+                dq_asn_internal               = "abcd"
+                dq_snsgb_archive              = "abcd"
+                dq_snsgb_internal             = "abcd"
               }
 
               s3_bucket_acl = {
@@ -126,6 +130,11 @@ class TestE2E(unittest.TestCase):
                 dq_rm_archive                 = "private"
                 dq_rm_internal                = "private"
                 dq_aws_config                 = "private"
+                dq_asn_archive                = "private"
+                dq_asn_internal               = "private"
+                dq_snsgb_archive              = "private"
+                dq_snsgb_internal             = "private"
+
 
               }
 
