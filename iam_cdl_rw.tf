@@ -64,7 +64,7 @@ resource "aws_iam_user" "cdl_user_rw" {
 }
 
 resource "aws_iam_access_key" "cdl_user_rw" {
-  user  = aws_iam_user.cdl_user_rw.name
+  user = aws_iam_user.cdl_user_rw.name
 }
 
 resource "aws_ssm_parameter" "cdl_user_id_rw" {
