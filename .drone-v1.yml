@@ -12,8 +12,6 @@ steps:
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
   - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check && echo $?
-  environment:
-    DOCKER_HOST: tcp://172.17.0.1:2375
   when:
     event:
     - push
