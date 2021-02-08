@@ -9,12 +9,12 @@ resource "aws_iam_group_membership" "cdl_user_group" {
     "${aws_iam_user.cdl_user.name}",
   ]
 
-  group = "${aws_iam_group.cdl_user_group.name}"
+  group = aws_iam_group.cdl_user_group.name
 }
 
 resource "aws_iam_group_policy" "cdl_user" {
   name  = "iam-group-policy-cdl-${local.naming_suffix}"
-  group = "${aws_iam_group.cdl_user_group.id}"
+  group = aws_iam_group.cdl_user_group.id
 
   policy = <<EOF
 {
@@ -55,17 +55,17 @@ resource "aws_iam_user" "cdl_user" {
 }
 
 resource "aws_iam_access_key" "cdl_user" {
-  user = "${aws_iam_user.cdl_user.name}"
+  user = aws_iam_user.cdl_user.name
 }
 
 resource "aws_ssm_parameter" "cdl_user_id" {
   name  = "cdl-user-id-${local.naming_suffix}"
   type  = "SecureString"
-  value = "${aws_iam_access_key.cdl_user.id}"
+  value = "aws_iam_access_key.cdl_user.id
 }
 
 resource "aws_ssm_parameter" "cdl_user_key" {
   name  = "cdl-user-key-${local.naming_suffix}"
   type  = "SecureString"
-  value = "${aws_iam_access_key.cdl_user.secret}"
+  value = aws_iam_access_key.cdl_user.secret
 }
