@@ -2,6 +2,7 @@
 kind: pipeline
 name: default
 type: kubernetes
+
 platform:
   os: linux
   arch: amd64
