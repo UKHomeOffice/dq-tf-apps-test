@@ -61,7 +61,7 @@ resource "aws_iam_access_key" "cdl_user" {
 resource "aws_ssm_parameter" "cdl_user_id" {
   name  = "cdl-user-id-${local.naming_suffix}"
   type  = "SecureString"
-  value = "aws_iam_access_key.cdl_user.id
+  value = aws_iam_access_key.cdl_user.id
 }
 
 resource "aws_ssm_parameter" "cdl_user_key" {
