@@ -1,16 +1,3 @@
-resource "aws_iam_user" "aftc_sc_msk_bucket" {
-  name = "aftc_sc_msk_bucket_user"
-}
-
-
-resource "aws_iam_access_key" "aftc_sc_msk_bucket" {
-  user = aws_iam_user.aftc_sc_msk_bucket.name
-}
-
-resource "aws_iam_group" "aftc_sc_msk_bucket" {
-  name = "aftc_sc_msk_bucket"
-}
-
 resource "aws_iam_group_policy" "aftc_sc_msk_bucket_policy" {
   name  = "aftc_sc_msk_bucket_policy"
   group = aws_iam_group.aftc_sc_msk_bucket.id
@@ -58,10 +45,35 @@ resource "aws_iam_group_policy" "aftc_sc_msk_bucket_policy" {
 EOF
 }
 
+resource "aws_iam_user" "aftc_sc_msk_bucket" {
+  name = "aftc_sc_msk_bucket_user"
+}
+
+
+resource "aws_iam_access_key" "aftc_sc_msk_bucket" {
+  user = aws_iam_user.aftc_sc_msk_bucket.name
+}
+
+resource "aws_iam_group" "aftc_sc_msk_bucket" {
+  name = "aftc_sc_msk_bucket"
+}
+
 resource "aws_iam_group_membership" "aftc_sc_msk_bucket" {
   name = "aftc_sc_msk_bucket"
 
   users = [aws_iam_user.aftc_sc_msk_bucket.name]
 
   group = aws_iam_group.aftc_sc_msk_bucket.name
+}
+
+resource "aws_ssm_parameter" "aftc_sc_msk_bucket" {
+  name  = "aftc-sc-msk-bucket-user-id-${local.naming_suffix}"
+  type  = "SecureString"
+  value = aws_iam_access_key.aftc_sc_msk_bucket.id
+}
+
+resource "aws_ssm_parameter" "athena_key" {
+  name  = "aftc-sc-msk-bucket-user-key-${local.naming_suffix}"
+  type  = "SecureString"
+  value = aws_iam_access_key.aftc_sc_msk_bucket.secret
 }
