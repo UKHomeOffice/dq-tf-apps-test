@@ -54,6 +54,10 @@ module "internal_tableau" {
 module "cloudwatch_alarms_ec2" {
   source = "github.com/UKHomeOffice/dq-tf-cloudwatch-ec2-test"
 
+  environment     = "test"
+  ec2_instance_id = "${aws_instance.instance.id}"
+  pipeline_name   = "ec2_alarms"
+
 }
 
 # module "data_feeds" {
