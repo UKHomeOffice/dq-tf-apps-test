@@ -51,6 +51,14 @@ module "internal_tableau" {
   rds_enhanced_monitoring_role          = aws_iam_role.rds_enhanced_monitoring_role.arn
 }
 
+module "cloudwatch_alarms_ec2" {
+  source          = "github.com/UKHomeOffice/dq-tf-cloudwatch-ec2-test"
+  environment     = "test"
+  naming_suffix   = "${local.naming_suffix}"
+  ec2_instance_id = "${aws_instance.instance.id}"
+  pipeline_name   = "cloudwatch_alarms_ec2"
+}
+
 # module "data_feeds" {
 #   source                       = "github.com/ukhomeoffice/dq-tf-datafeeds"
 #   appsvpc_id                   = "${aws_vpc.appsvpc.id}"
