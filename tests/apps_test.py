@@ -662,5 +662,30 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_cdl_s3_s4_parsed(self):
           self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.cdl_s3_s4_parsed", "tags"), {'Name': "s3-dq-cdl-s3-s4-parsed-apps-preprod-dq"})
 
+    def test_name_vault_admin_iam_group(self):
+        self.assertEqual(self.runner.get_value("module.apps.aws_iam_group.vault_admin", "name"), "iam-group-vault-admin")
+
+    def test_name_vault_admin_iam_group_membership(self):
+        self.assertEqual(self.runner.get_value("module.apps.aws_iam_group_membership.vault_admin", "name"), "iam-group-membership-vault-admin")
+
+    def test_name_vault_admin_iam_policy(self):
+        self.assertEqual(self.runner.get_value("module.apps.aws_iam_policy.vault_admin", "name"), "iam-policy-vault-admin")
+
+    def test_name_vault_admin_iam_user(self):
+        self.assertEqual(self.runner.get_value("module.apps.aws_iam_user.vault_admin", "name"), "iam-user-vault-admin")
+
+    def test_name_ssm_vault_admin_id(self):
+        self.assertEqual(self.runner.get_value("module.apps.aws_ssm_parameter.vault_admin_id", "name"), "vault-admin-user-id")
+
+    def test_name_ssm_vault_admin_key(self):
+        self.assertEqual(self.runner.get_value("module.apps.aws_ssm_parameter.vault_admin_key", "name"), "vault-admin-user-key")
+
+    def test_name_vault_drone_iam_group(self):
+        self.assertEqual(self.runner.get_value("module.apps.aws_iam_group.vault_drone", "name"), "iam-group-vault-drone")
+
+
+if __name__ == '__main__':
+    unittest.main()
+
 if __name__ == '__main__':
     unittest.main()
