@@ -4,23 +4,23 @@ resource "aws_iam_policy" "analysis_proxy_user" {
   name = "analysis_proxy_user_policy"
 
   policy = <<EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Action": [
-          "s3:GetBucketLocation",
-          "s3:ListBucket",
-          "s3:ListBucketMultipartUploads",
-          "s3:ListMultipartUploadParts"
-        ],
-        "Effect": "Allow",
-        "Resource": [
-          "${aws_s3_bucket.data_archive_bucket.arn}"
-        ]
-      }
-    ]
-  }
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:GetBucketLocation",
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:ListMultipartUploadParts"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "${aws_s3_bucket.data_archive_bucket.arn}"
+      ]
+    }
+  ]
+}
 EOF
 }
 
