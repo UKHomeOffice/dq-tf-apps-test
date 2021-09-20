@@ -18,6 +18,47 @@ resource "aws_iam_policy" "analysis_proxy_user" {
       "Resource": [
         "${aws_s3_bucket.data_archive_bucket.arn}"
       ]
+    },
+    {
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "${aws_s3_bucket.data_archive_bucket.arn}/analysis/*"
+      ]
+    },
+    {
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "${aws_s3_bucket.data_archive_bucket.arn}",
+        "${aws_s3_bucket.data_archive_bucket.arn}/analysis/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+        ],
+        "Resource": [
+          "${aws_kms_key.bucket_key.arn}"
+        ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+                 "ssm:GetParameter"
+      ],
+      "Resource": [
+      "arn:aws:ssm:eu-west-2:*:parameter/slack_notification_webhook"
+      ]
     }
   ]
 }
