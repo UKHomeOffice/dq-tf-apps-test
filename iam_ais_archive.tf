@@ -65,3 +65,15 @@ resource "aws_iam_group_membership" "dq_ais_archive_bucket" {
 
   group = aws_iam_group.dq_ais_archive_bucket.name
 }
+
+resource "aws_ssm_parameter" "dq_ais_archive_bucket_id" {
+  name  = "dq-ais-archive-bucket-user-id-${local.naming_suffix}"
+  type  = "SecureString"
+  value = aws_iam_access_key.dq_ais_archive_bucket.id
+}
+
+resource "aws_ssm_parameter" "dq_ais_archive_bucket_key" {
+  name  = "dq-ais-archive-bucket-user-key-${local.naming_suffix}"
+  type  = "SecureString"
+  value = aws_iam_access_key.dq_ais_archive_bucket.secret
+}
