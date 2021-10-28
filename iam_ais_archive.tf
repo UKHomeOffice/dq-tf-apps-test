@@ -28,7 +28,7 @@ resource "aws_iam_group_policy" "dq_ais_archive_bucket_policy" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "${aws_s3_bucket.dq_ais_archive.arn}"
+        "${aws_s3_bucket.dq_ais_archive_bucket.arn}"
       ]
     },
     {
@@ -37,7 +37,7 @@ resource "aws_iam_group_policy" "dq_ais_archive_bucket_policy" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "${aws_s3_bucket.dq_ais_archive.arn}/*"
+        "${aws_s3_bucket.dq_ais_archive_bucket.arn}/*"
       ]
     },
     {
@@ -50,7 +50,7 @@ resource "aws_iam_group_policy" "dq_ais_archive_bucket_policy" {
         "kms:DescribeKey"
         ],
         "Resource": [
-          "${aws_s3_bucket.dq_ais_archive.arn}"
+          "${aws_s3_bucket.dq_ais_archive_bucket.arn}"
         ]
       }
   ]
