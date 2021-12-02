@@ -31,9 +31,7 @@ output "log_archive_bucket_arn" {
 # }
 
 output "iam_roles" {
-  value = concat(
-    module.internal_tableau.iam_roles,
-  )
+  value = module.internal_tableau.iam_roles
 }
 
 output "athena_log_bucket" {
