@@ -63,6 +63,15 @@ variable "s3_bucket_acl" {
   type        = map(string)
 }
 
+variable "account_id" {
+  type = map(string)
+  default = {
+    "test"    = "797728447925"
+    "notprod" = "483846886818"
+    "prod"    = "337779336338"
+  }
+}
+
 # variable "rds_db_name" {
 #   description = "Supplies the database name for a Postgres deployment"
 #   default     = "internal_tableau"
