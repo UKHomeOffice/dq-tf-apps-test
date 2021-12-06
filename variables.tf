@@ -63,6 +63,11 @@ variable "s3_bucket_acl" {
   type        = map(string)
 }
 
+variable "account_id" {
+  type = map(string)
+}
+
+
 # variable "rds_db_name" {
 #   description = "Supplies the database name for a Postgres deployment"
 #   default     = "internal_tableau"
