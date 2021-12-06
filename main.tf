@@ -49,6 +49,7 @@ module "internal_tableau" {
   lambda_subnet                         = module.lambda.lambda_subnet
   lambda_subnet_az2                     = module.lambda.lambda_subnet_az2
   rds_enhanced_monitoring_role          = aws_iam_role.rds_enhanced_monitoring_role.arn
+  policy_arn                            = "arn:aws:iam::${var.account_id[var.environment]}:policy/dq-tf-infra-write-to-cw"
 }
 
 # module "data_feeds" {
