@@ -91,6 +91,7 @@ class TestE2E(unittest.TestCase):
                 aftc_sc_msk                   = "adcd"
                 dq_ais_archive                = "adcd"
                 dq_pnr_archive                = "adcd"
+                dq_pnr_internal               = "adcd"
               }
 
               s3_bucket_acl = {
@@ -145,6 +146,7 @@ class TestE2E(unittest.TestCase):
                 aftc_sc_msk                   = "private"
                 dq_ais_archive                = "private"
                 dq_pnr_archive                = "private"
+                dq_pnr_internal               = "private"
 
 
               }
