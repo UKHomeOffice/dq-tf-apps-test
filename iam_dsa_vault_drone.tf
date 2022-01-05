@@ -178,7 +178,7 @@ resource "aws_iam_policy" "vault_drone_1" {
            "organizations:ListTargetsForPolicy"
        ],
        "Resource": "*"
-    },
+    }
   ]
 }
 EOF
