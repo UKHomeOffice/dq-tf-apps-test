@@ -34,8 +34,8 @@ resource "aws_iam_group" "vault_drone" {
 #   policy_arn = var.vault_drone_managed_policies[count.index]
 # }
 
-resource "aws_iam_policy" "vault_drone" {
-  name = "iam-vault-drone-policy"
+resource "aws_iam_policy" "vault_drone_0" {
+  name = "iam-vault-drone-policy-0"
 
   policy = <<EOF
 {
@@ -91,7 +91,19 @@ resource "aws_iam_policy" "vault_drone" {
                ]
            }
        }
-    },
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "vault_drone_1" {
+  name = "iam-vault-drone-policy-1"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
       "Sid": "RDSFullAccess",
        "Action": [
@@ -167,6 +179,19 @@ resource "aws_iam_policy" "vault_drone" {
        ],
        "Resource": "*"
     },
+  ]
+}
+EOF
+
+}
+
+resource "aws_iam_policy" "vault_drone_2" {
+  name = "iam-vault-drone-policy-2"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
     {
        "Sid": "DirectoryServiceFullAccess",
        "Action": [
@@ -475,7 +500,17 @@ EOF
 
 }
 
-resource "aws_iam_group_policy_attachment" "vault_drone" {
+resource "aws_iam_group_policy_attachment" "vault_drone_0" {
   group      = aws_iam_group.vault_drone.name
-  policy_arn = aws_iam_policy.vault_drone.arn
+  policy_arn = aws_iam_policy.vault_drone_0.arn
+}
+
+resource "aws_iam_group_policy_attachment" "vault_drone_1" {
+  group      = aws_iam_group.vault_drone.name
+  policy_arn = aws_iam_policy.vault_drone_1.arn
+}
+
+resource "aws_iam_group_policy_attachment" "vault_drone_2" {
+  group      = aws_iam_group.vault_drone.name
+  policy_arn = aws_iam_policy.vault_drone_2.arn
 }
