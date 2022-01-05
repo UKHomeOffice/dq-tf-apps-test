@@ -90,6 +90,7 @@ class TestE2E(unittest.TestCase):
                 dq_asn_marine_internal        = "adcd"
                 aftc_sc_msk                   = "adcd"
                 dq_ais_archive                = "adcd"
+                dq_ais_internal               = "adcd"
                 dq_pnr_archive                = "adcd"
                 dq_pnr_internal               = "adcd"
               }
@@ -145,6 +146,7 @@ class TestE2E(unittest.TestCase):
                 dq_asn_marine_internal        = "private"
                 aftc_sc_msk                   = "private"
                 dq_ais_archive                = "private"
+                dq_ais_internal               = "private"
                 dq_pnr_archive                = "private"
                 dq_pnr_internal               = "private"
 
