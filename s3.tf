@@ -1395,7 +1395,7 @@ resource "aws_s3_bucket_policy" "athena_log_policy" {
       ],
       "Condition": {
           "NotIpAddress": {
-              "aws:SourceIp": [ ${concat(var.dq_pub_ips)}
+              "aws:SourceIp": [ "${join("\", \"", concat(var.dq_pub_ips))}"
               ]
           },
           "Bool": {
