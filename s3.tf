@@ -1383,7 +1383,25 @@ resource "aws_s3_bucket_policy" "athena_log_policy" {
           "aws:SecureTransport": "false"
         }
       }
-    }
+    },
+    {
+      "Sid": "IPAllow",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+          "arn:aws:s3:::s3-dq-athena-log-notprod/*",
+          "arn:aws:s3:::s3-dq-athena-log-notprod"
+      ],
+      "Condition": {
+          "NotIpAddress": {
+              "aws:SourceIp": ${var.dq_pub_ips}
+          },
+          "Bool": {
+              "aws:ViaAWSService": "true"
+          }
+      }
+  }
   ]
 }
 POLICY
