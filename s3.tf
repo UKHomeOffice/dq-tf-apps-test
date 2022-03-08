@@ -1390,8 +1390,8 @@ resource "aws_s3_bucket_policy" "athena_log_policy" {
       "Principal": "*",
       "Action": "s3:*",
       "Resource": [
-          "arn:aws:s3:::s3-dq-athena-log-notprod/*",
-          "arn:aws:s3:::s3-dq-athena-log-notprod"
+          "arn:aws:s3:::${var.s3_bucket_name["athena_log"]}/*",
+          "arn:aws:s3:::${var.s3_bucket_name["athena_log"]}"
       ],
       "Condition": {
           "NotIpAddress": {

@@ -161,12 +161,8 @@ variable "athena_maintenance_bucket" {
 }
 
 variable "dq_pub_ips" {
-  type = list(string)
-  default = [
-    "52.56.43.118/32",
-    "35.177.168.246/32",
-    "35.177.128.206/32"
-  ]
+  type    = list(string)
+  default = []
 }
 
 # variable "athena_adhoc_maintenance_database" {
