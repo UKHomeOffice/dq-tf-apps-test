@@ -160,6 +160,11 @@ variable "athena_maintenance_bucket" {
   default     = "s3-dq-athena-maintenance-bucket"
 }
 
+variable "dq_pub_ips" {
+  type    = list(string)
+  default = []
+}
+
 # variable "athena_adhoc_maintenance_database" {
 #   description = "Athena maintenance database name"
 #   default     = "api_input"
