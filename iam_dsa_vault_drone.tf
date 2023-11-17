@@ -412,6 +412,7 @@ resource "aws_iam_policy" "vault_drone_2" {
            "kms:List*",
            "kms:TagResource",
            "kms:UntagResource",
+           "kms:PutKeyPolicy",
            "iam:ListGroups",
            "iam:ListRoles",
            "iam:ListUsers"
@@ -493,6 +494,14 @@ resource "aws_iam_policy" "vault_drone_2" {
        "Effect": "Allow",
        "Action": "iam:PassRole",
        "Resource": "arn:aws:iam::*:role/AWS_Events_Invoke_Targets"
+    },
+    {
+        "Sid": "ConfigFullAccess",
+        "Effect": "Allow",
+        "Action": [
+            "config:*"
+        ],
+        "Resource": "*"
     }
   ]
 }
