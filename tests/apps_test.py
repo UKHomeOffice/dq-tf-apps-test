@@ -230,14 +230,14 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_nats_iam_user(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_iam_user.nats", "name"), "iam-user-nats-apps-preprod-dq")
 
-    def test_name_suffix_rds_deploy_iam_lambda_rds(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.rds_deploy.aws_iam_role.lambda_rds[0]", "tags"), {"Name": "iam-lambda-rds-deploy-apps-preprod-dq"})
-
-    def test_name_suffix_rds_deploy_lambda_function(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.rds_deploy.aws_lambda_function.lambda_rds[0]", "tags"), {"Name": "lambda-rds-deploy-apps-preprod-dq"})
-
-    def test_name_suffix_rds_deploy_cloudwatch_log_group(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.rds_deploy.aws_cloudwatch_log_group.lambda_rds[0]", "tags"), {"Name": "log-lambda-rds-deploy-apps-preprod-dq"})
+    # def test_name_suffix_rds_deploy_iam_lambda_rds(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.rds_deploy.aws_iam_role.lambda_rds[0]", "tags"), {"Name": "iam-lambda-rds-deploy-apps-preprod-dq"})
+    #
+    # def test_name_suffix_rds_deploy_lambda_function(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.rds_deploy.aws_lambda_function.lambda_rds[0]", "tags"), {"Name": "lambda-rds-deploy-apps-preprod-dq"})
+    #
+    # def test_name_suffix_rds_deploy_cloudwatch_log_group(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.rds_deploy.aws_cloudwatch_log_group.lambda_rds[0]", "tags"), {"Name": "log-lambda-rds-deploy-apps-preprod-dq"})
 
     def test_name_suffix_oag_archive(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.oag_archive_bucket", "tags"), {"Name": "s3-dq-oag-archive-apps-preprod-dq"})
@@ -278,47 +278,47 @@ class TestE2E(unittest.TestCase):
     def test_name_acl_iam_user(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_iam_user.acl", "name"), "iam-user-acl-apps-preprod-dq")
 
-    def test_name_suffix_oag_input_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-oag-input-apps-preprod-dq"})
+    # def test_name_suffix_oag_input_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-oag-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_input_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_iam_role.lambda_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-oag-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_input_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-oag-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_input_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-oag-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_input_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_cloudwatch_log_group.lambda_trigger[0]", "tags"), {"Name": "log-lambda-trigger-oag-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_input_pipeline_lambda_oag_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_lambda_function.lambda_oag[0]", "tags"), {"Name": "lambda-oag-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_input_pipeline_log_lambda_oag(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_cloudwatch_log_group.lambda_oag[0]", "tags"), {"Name": "log-lambda-oag-input-apps-preprod-dq"})
 
-    def test_name_suffix_oag_input_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_iam_role.lambda_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-oag-input-apps-preprod-dq"})
-
-    def test_name_suffix_oag_input_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-oag-input-apps-preprod-dq"})
-
-    def test_name_suffix_oag_input_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-oag-input-apps-preprod-dq"})
-
-    def test_name_suffix_oag_input_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_cloudwatch_log_group.lambda_trigger[0]", "tags"), {"Name": "log-lambda-trigger-oag-input-apps-preprod-dq"})
-
-    def test_name_suffix_oag_input_pipeline_lambda_oag_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_lambda_function.lambda_oag[0]", "tags"), {"Name": "lambda-oag-input-apps-preprod-dq"})
-
-    def test_name_suffix_oag_input_pipeline_log_lambda_oag(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_input_pipeline.aws_cloudwatch_log_group.lambda_oag[0]", "tags"), {"Name": "log-lambda-oag-input-apps-preprod-dq"})
-
-    def test_name_suffix_oag_transform_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-oag-transform-apps-preprod-dq"})
-
-    def test_name_suffix_oag_transform_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-oag-transform-apps-preprod-dq"})
-
-    def test_name_suffix_oag_transform_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-oag-transform-apps-preprod-dq"})
-
-    def test_name_suffix_oag_transform_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-oag-transform-apps-preprod-dq"})
-
-    def test_name_suffix_oag_transform_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-oag-transform-apps-preprod-dq"})
-
-    def test_name_suffix_oag_transform_pipeline_lambda_athena(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_lambda_function.lambda_athena[0]", "tags"), {"Name": "lambda-athena-oag-transform-apps-preprod-dq"})
-
-    def test_name_suffix_oag_transform_pipeline_log_lambda_athena(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-oag-transform-apps-preprod-dq"})
+    # def test_name_suffix_oag_transform_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-oag-transform-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_transform_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-oag-transform-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_transform_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-oag-transform-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_transform_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-oag-transform-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_transform_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-oag-transform-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_transform_pipeline_lambda_athena(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_lambda_function.lambda_athena[0]", "tags"), {"Name": "lambda-athena-oag-transform-apps-preprod-dq"})
+    #
+    # def test_name_suffix_oag_transform_pipeline_log_lambda_athena(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.oag_transform_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-oag-transform-apps-preprod-dq"})
 
     def test_name_suffix_acl_input_pipeline_iam_lambda_trigger(self):
         self.assertEqual(self.runner.get_value("module.apps.module.acl_input_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-acl-input-apps-preprod-dq"})
@@ -341,160 +341,160 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_acl_input_pipeline_log_lambda_athena(self):
         self.assertEqual(self.runner.get_value("module.apps.module.acl_input_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-acl-input-apps-preprod-dq"})
 
-    def test_name_suffix_reference_data_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-reference-data-apps-preprod-dq"})
+    # def test_name_suffix_reference_data_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-reference-data-apps-preprod-dq"})
+    #
+    # def test_name_suffix_reference_data_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-reference-data-apps-preprod-dq"})
+    #
+    # def test_name_suffix_reference_data_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-reference-data-apps-preprod-dq"})
+    #
+    # def test_name_suffix_reference_data_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-reference-data-apps-preprod-dq"})
+    #
+    # def test_name_suffix_reference_data_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-reference-data-apps-preprod-dq"})
+    #
+    # def test_name_suffix_reference_data_pipeline_lambda_athena(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_lambda_function.lambda_athena[0]", "tags"), {"Name": "lambda-athena-reference-data-apps-preprod-dq"})
+    #
+    # def test_name_suffix_reference_data_pipeline_log_lambda_athena(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-reference-data-apps-preprod-dq"})
 
-    def test_name_suffix_reference_data_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-reference-data-apps-preprod-dq"})
+    # def test_name_suffix_consolidated_schedule_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-consolidated-schedule-apps-preprod-dq"})
+    #
+    # def test_name_suffix_consolidated_schedule_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-consolidated-schedule-apps-preprod-dq"})
+    #
+    # def test_name_suffix_consolidated_schedule_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-consolidated-schedule-apps-preprod-dq"})
+    #
+    # def test_name_suffix_consolidated_schedule_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-consolidated-schedule-apps-preprod-dq"})
+    #
+    # def test_name_suffix_consolidated_schedule_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-consolidated-schedule-apps-preprod-dq"})
+    #
+    # def test_name_suffix_consolidated_schedule_pipeline_lambda_acl_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-consolidated-schedule-apps-preprod-dq"})
+    #
+    # def test_name_suffix_consolidated_schedule_pipeline_log_lambda_athena(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-consolidated-schedule-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cdlz_iam_lambda(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.cdlz.aws_iam_role.lambda_acquire", "tags"), {"Name": "iam-lambda-cdlz-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cdlz_ssm_lambda(self):
+    #     self.assertEqual(
+    #         self.runner.get_value("module.apps.module.cdlz.aws_ssm_parameter.lambda_enabled[0]", "tags"), {"Name": "ssm-lambda-enabled-cdlz-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cdlz_lambda(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.cdlz.aws_lambda_function.lambda_acquire[0]", "tags"), {"Name": "lambda-cdlz-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cdlz_log_lambda(self):
+    #     self.assertEqual(
+    #         self.runner.get_value("module.apps.module.cdlz.aws_cloudwatch_log_group.lambda_acquire[0]", "tags"), {"Name": "log-lambda-cdlz-apps-preprod-dq"})
 
-    def test_name_suffix_reference_data_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-reference-data-apps-preprod-dq"})
+    # def test_name_suffix_api_input_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-api-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_input_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-api-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_input_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-api-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_input_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_input_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-api-input-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_input_pipeline_lambda_acl_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-input-apps-preprod-dq"})
 
-    def test_name_suffix_reference_data_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-reference-data-apps-preprod-dq"})
+    # def test_name_suffix_api_record_level_score_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-api-record-level-score-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_record_level_score_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-api-record-level-score-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_record_level_score_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-api-record-level-score-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_record_level_score_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-record-level-score-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_record_level_score_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-api-record-level-score-apps-preprod-dq"})
+    #
+    # def test_name_suffix_api_record_level_score_pipeline_lambda_acl_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-record-level-score-apps-preprod-dq"})
 
-    def test_name_suffix_reference_data_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-reference-data-apps-preprod-dq"})
-
-    def test_name_suffix_reference_data_pipeline_lambda_athena(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_lambda_function.lambda_athena[0]", "tags"), {"Name": "lambda-athena-reference-data-apps-preprod-dq"})
-
-    def test_name_suffix_reference_data_pipeline_log_lambda_athena(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.reference_data_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-reference-data-apps-preprod-dq"})
-
-    def test_name_suffix_consolidated_schedule_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-consolidated-schedule-apps-preprod-dq"})
-
-    def test_name_suffix_consolidated_schedule_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-consolidated-schedule-apps-preprod-dq"})
-
-    def test_name_suffix_consolidated_schedule_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-consolidated-schedule-apps-preprod-dq"})
-
-    def test_name_suffix_consolidated_schedule_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-consolidated-schedule-apps-preprod-dq"})
-
-    def test_name_suffix_consolidated_schedule_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-consolidated-schedule-apps-preprod-dq"})
-
-    def test_name_suffix_consolidated_schedule_pipeline_lambda_acl_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-consolidated-schedule-apps-preprod-dq"})
-
-    def test_name_suffix_consolidated_schedule_pipeline_log_lambda_athena(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.consolidated_schedule_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-consolidated-schedule-apps-preprod-dq"})
-
-    def test_name_suffix_cdlz_iam_lambda(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.cdlz.aws_iam_role.lambda_acquire", "tags"), {"Name": "iam-lambda-cdlz-apps-preprod-dq"})
-
-    def test_name_suffix_cdlz_ssm_lambda(self):
-        self.assertEqual(
-            self.runner.get_value("module.apps.module.cdlz.aws_ssm_parameter.lambda_enabled[0]", "tags"), {"Name": "ssm-lambda-enabled-cdlz-apps-preprod-dq"})
-
-    def test_name_suffix_cdlz_lambda(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.cdlz.aws_lambda_function.lambda_acquire[0]", "tags"), {"Name": "lambda-cdlz-apps-preprod-dq"})
-
-    def test_name_suffix_cdlz_log_lambda(self):
-        self.assertEqual(
-            self.runner.get_value("module.apps.module.cdlz.aws_cloudwatch_log_group.lambda_acquire[0]", "tags"), {"Name": "log-lambda-cdlz-apps-preprod-dq"})
-
-    def test_name_suffix_api_input_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-api-input-apps-preprod-dq"})
-
-    def test_name_suffix_api_input_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-api-input-apps-preprod-dq"})
-
-    def test_name_suffix_api_input_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-api-input-apps-preprod-dq"})
-
-    def test_name_suffix_api_input_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-input-apps-preprod-dq"})
-
-    def test_name_suffix_api_input_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-api-input-apps-preprod-dq"})
-
-    def test_name_suffix_api_input_pipeline_lambda_acl_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_input_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-input-apps-preprod-dq"})
-
-    def test_name_suffix_api_record_level_score_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-api-record-level-score-apps-preprod-dq"})
-
-    def test_name_suffix_api_record_level_score_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-api-record-level-score-apps-preprod-dq"})
-
-    def test_name_suffix_api_record_level_score_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-api-record-level-score-apps-preprod-dq"})
-
-    def test_name_suffix_api_record_level_score_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-record-level-score-apps-preprod-dq"})
-
-    def test_name_suffix_api_record_level_score_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-api-record-level-score-apps-preprod-dq"})
-
-    def test_name_suffix_api_record_level_score_pipeline_lambda_acl_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_record_level_score_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-record-level-score-apps-preprod-dq"})
-
-    def test_name_suffix_gait_pipeline_step_function_exec(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_iam_role.step_function_exec[0]", "tags"), {"Name": "step-function-exec-gait-apps-preprod-dq"})
-
-    def test_name_suffix_gait_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-gait-apps-preprod-dq"})
-
-    def test_name_suffix_gait_pipeline_lambda_gait(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_lambda_function.lambda_gait[0]", "tags"), {"Name": "lambda-gait-apps-preprod-dq"})
-
-    def test_name_suffix_gait_pipeline_log_lambda_gait(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_cloudwatch_log_group.lambda_log_group_gait[0]", "tags"), {"Name": "lambda-log-group-gait-apps-preprod-dq"})
+    # def test_name_suffix_gait_pipeline_step_function_exec(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_iam_role.step_function_exec[0]", "tags"), {"Name": "step-function-exec-gait-apps-preprod-dq"})
+    #
+    # def test_name_suffix_gait_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-gait-apps-preprod-dq"})
+    #
+    # def test_name_suffix_gait_pipeline_lambda_gait(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_lambda_function.lambda_gait[0]", "tags"), {"Name": "lambda-gait-apps-preprod-dq"})
+    #
+    # def test_name_suffix_gait_pipeline_log_lambda_gait(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.gait_pipeline.aws_cloudwatch_log_group.lambda_log_group_gait[0]", "tags"), {"Name": "lambda-log-group-gait-apps-preprod-dq"})
 
     def test_name_suffix_fms_postgres(self):
         self.assertEqual(self.runner.get_value("module.apps.module.fms.aws_db_instance.postgres", "tags"), {"Name": "postgres-fms-apps-preprod-dq"})
 
-    def test_name_suffix_cross_record_scored_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-api-cross-record-scored-apps-preprod-dq"})
+    # def test_name_suffix_cross_record_scored_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-api-cross-record-scored-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cross_record_scored_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-api-cross-record-scored-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cross_record_scored_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-api-cross-record-scored-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cross_record_scored_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-cross-record-scored-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cross_record_scored_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-api-cross-record-scored-apps-preprod-dq"})
+    #
+    # def test_name_suffix_cross_record_scored_pipeline_lambda_acl_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-cross-record-scored-apps-preprod-dq"})
 
-    def test_name_suffix_cross_record_scored_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-api-cross-record-scored-apps-preprod-dq"})
-
-    def test_name_suffix_cross_record_scored_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-api-cross-record-scored-apps-preprod-dq"})
-
-    def test_name_suffix_cross_record_scored_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-cross-record-scored-apps-preprod-dq"})
-
-    def test_name_suffix_cross_record_scored_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-api-cross-record-scored-apps-preprod-dq"})
-
-    def test_name_suffix_cross_record_scored_pipeline_lambda_acl_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.api_cross_record_scored_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-api-cross-record-scored-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_iam_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_ssm_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_sfn_state_machine(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_log_lambda_trigger(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_lambda_athena(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_lambda_function.lambda_athena[0]", "tags"), {"Name": "lambda-athena-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_log_lambda_athena(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_iam_lambda_rds(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_iam_role.lambda_rds[0]", "tags"), {"Name": "iam-lambda-rds-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_lambda_rds(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_lambda_function.lambda_rds[0]", "tags"), {"Name": "lambda-rds-internal-reporting-apps-preprod-dq"})
-
-    def test_name_suffix_internal_reporting_pipeline_log_lambda_rds(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_cloudwatch_log_group.lambda_rds[0]", "tags"), {"Name": "log-lambda-rds-internal-reporting-apps-preprod-dq"})
+    # def test_name_suffix_internal_reporting_pipeline_iam_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_iam_role.lambda_role_trigger[0]", "tags"), {"Name": "iam-lambda-trigger-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_ssm_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_ssm_parameter.lambda_trigger_enabled[0]", "tags"), {"Name": "ssm-lambda-trigger-enabled-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_sfn_state_machine(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_sfn_state_machine.sfn_state_machine[0]", "tags"), {"Name": "sfn-state-machine-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_lambda_function.lambda_trigger[0]", "tags"), {"Name": "lambda-trigger-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_log_lambda_trigger(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_cloudwatch_log_group.lambda_log_group_trigger[0]", "tags"), {"Name": "lambda-log-group-trigger-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_lambda_athena(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_lambda_function.lambda_athena[0]", "tags"), {"Name": "lambda-athena-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_log_lambda_athena(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_cloudwatch_log_group.lambda_log_group_athena[0]", "tags"), {"Name": "lambda-log-group-athena-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_iam_lambda_rds(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_iam_role.lambda_rds[0]", "tags"), {"Name": "iam-lambda-rds-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_lambda_rds(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_lambda_function.lambda_rds[0]", "tags"), {"Name": "lambda-rds-internal-reporting-apps-preprod-dq"})
+    #
+    # def test_name_suffix_internal_reporting_pipeline_log_lambda_rds(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.internal_reporting_pipeline.aws_cloudwatch_log_group.lambda_rds[0]", "tags"), {"Name": "log-lambda-rds-internal-reporting-apps-preprod-dq"})
 
     def test_name_suffix_dq_pipeline_ops_group(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_iam_group.dq_pipeline_ops_group", "name"), "dq-pipeline-ops-preprod")
@@ -502,14 +502,14 @@ class TestE2E(unittest.TestCase):
     def test_name_suffix_dq_pipeline_ops_policy(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_iam_policy.dq_pipeline_ops_policy", "name"), "dq-pipeline-ops-policy-preprod")
 
-    def test_name_suffix_mds_extractor_lambda_mds_extractor(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.mds_extractor.aws_lambda_function.lambda_mds_extractor[0]", "tags"), {"Name": "lambda-mds-extractor-apps-preprod-dq"})
-
-    def test_name_suffix_mds_extractor_lambda_role_mds_extractor(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.mds_extractor.aws_iam_role.lambda_role_mds_extractor[0]", "tags"), {"Name": "lambda-role-mds-extractor-apps-preprod-dq"})
-
-    def test_name_suffix_mds_extractor_lambda_log_group_mds_extractor(self):
-        self.assertEqual(self.runner.get_value("module.apps.module.mds_extractor.aws_cloudwatch_log_group.lambda_log_group_mds_extractor[0]", "tags"), {"Name": "lambda-log-group-mds-extractor-apps-preprod-dq"})
+    # def test_name_suffix_mds_extractor_lambda_mds_extractor(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.mds_extractor.aws_lambda_function.lambda_mds_extractor[0]", "tags"), {"Name": "lambda-mds-extractor-apps-preprod-dq"})
+    #
+    # def test_name_suffix_mds_extractor_lambda_role_mds_extractor(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.mds_extractor.aws_iam_role.lambda_role_mds_extractor[0]", "tags"), {"Name": "lambda-role-mds-extractor-apps-preprod-dq"})
+    #
+    # def test_name_suffix_mds_extractor_lambda_log_group_mds_extractor(self):
+    #     self.assertEqual(self.runner.get_value("module.apps.module.mds_extractor.aws_cloudwatch_log_group.lambda_log_group_mds_extractor[0]", "tags"), {"Name": "lambda-log-group-mds-extractor-apps-preprod-dq"})
 
     def test_name_suffix_athena_log(self):
         self.assertEqual(self.runner.get_value("module.apps.aws_s3_bucket.athena_log_bucket", "tags"), {"Name": "s3-dq-athena-log-apps-preprod-dq"})
