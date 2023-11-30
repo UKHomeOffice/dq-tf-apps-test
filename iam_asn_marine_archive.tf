@@ -1,6 +1,5 @@
-resource "aws_iam_group_policy" "dq_asn_marine_archive_bucket_policy" {
-  name  = "dq_asn_marine_archive_bucket_policy"
-  group = aws_iam_group.dq_asn_marine_archive_bucket.id
+resource "aws_iam_policy" "dq_asn_marine_archive_bucket_policy" {
+  name = "dq_asn_marine_archive_bucket_policy"
 
   policy = <<EOF
 {
@@ -45,13 +44,13 @@ resource "aws_iam_group_policy" "dq_asn_marine_archive_bucket_policy" {
 EOF
 }
 
-resource "aws_iam_user" "dq_asn_marine_archive_bucket" {
-  name = "dq_asn_marine_archive_bucket_user"
+resource "aws_iam_group_policy_attachment" "dq_asn_marine_archive_bucket" {
+  group      = aws_iam_group.dq_asn_marine_archive_bucket.name
+  policy_arn = aws_iam_policy.dq_asn_marine_archive_bucket_policy.arn
 }
 
-
-resource "aws_iam_access_key" "dq_asn_marine_archive_bucket" {
-  user = aws_iam_user.dq_asn_marine_archive_bucket.name
+resource "aws_iam_user" "dq_asn_marine_archive_bucket" {
+  name = "dq_asn_marine_archive_bucket_user"
 }
 
 resource "aws_iam_group" "dq_asn_marine_archive_bucket" {
@@ -66,14 +65,3 @@ resource "aws_iam_group_membership" "dq_asn_marine_archive_bucket" {
   group = aws_iam_group.dq_asn_marine_archive_bucket.name
 }
 
-resource "aws_ssm_parameter" "dq_asn_marine_archive_bucket_id" {
-  name  = "asn-marine-archive-bucket-user-id-${local.naming_suffix}"
-  type  = "SecureString"
-  value = aws_iam_access_key.dq_asn_marine_archive_bucket.id
-}
-
-resource "aws_ssm_parameter" "dq_asn_marine_archive_bucket_key" {
-  name  = "asn-marine-archive-bucket-user-key-${local.naming_suffix}"
-  type  = "SecureString"
-  value = aws_iam_access_key.dq_asn_marine_archive_bucket.secret
-}
