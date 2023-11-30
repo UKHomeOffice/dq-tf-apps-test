@@ -62,23 +62,23 @@ module "internal_tableau" {
   account_id                            = var.account_id
 }
 
-#module "data_feeds" {
-#  source                       = "github.com/UKHomeOffice/dq-tf-datafeeds"
-#  appsvpc_id                   = aws_vpc.appsvpc.id
-#  opssubnet_cidr_block         = var.route_table_cidr_blocks["ops_cidr"]
-#  data_feeds_cidr_block        = "10.1.4.0/24"
-#  data_feeds_cidr_block_az2    = "10.1.5.0/24"
-#  peering_cidr_block           = "10.3.0.0/16"
-#  az                           = var.az
-#  az2                          = var.az2
-#  lambda_subnet                = module.lambda.lambda_subnet
-#  lambda_subnet_az2            = module.lambda.lambda_subnet_az2
-#  lambda_sgrp                  = module.lambda.lambda_sgrp
-#  naming_suffix                = local.naming_suffix
-#  route_table_id               = aws_route_table.apps_route_table.id
-#  rds_enhanced_monitoring_role = aws_iam_role.rds_enhanced_monitoring_role.arn
-#  environment                  = var.namespace
-#}
+module "data_feeds" {
+  source                       = "github.com/UKHomeOffice/dq-tf-datafeeds"
+  appsvpc_id                   = aws_vpc.appsvpc.id
+  opssubnet_cidr_block         = var.route_table_cidr_blocks["ops_cidr"]
+  data_feeds_cidr_block        = "10.1.4.0/24"
+  data_feeds_cidr_block_az2    = "10.1.5.0/24"
+  peering_cidr_block           = "10.3.0.0/16"
+  az                           = var.az
+  az2                          = var.az2
+  lambda_subnet                = module.lambda.lambda_subnet
+  lambda_subnet_az2            = module.lambda.lambda_subnet_az2
+  lambda_sgrp                  = module.lambda.lambda_sgrp
+  naming_suffix                = local.naming_suffix
+  route_table_id               = aws_route_table.apps_route_table.id
+  rds_enhanced_monitoring_role = aws_iam_role.rds_enhanced_monitoring_role.arn
+  environment                  = var.namespace
+}
 
 module "data_ingest" {
   source                       = "github.com/UKHomeOffice/dq-tf-dataingest"
@@ -299,22 +299,22 @@ module "acl_input_pipeline" {
 #  namespace         = var.namespace
 #}
 #
-#module "fms" {
-#  source     = "github.com/UKHomeOffice/dq-tf-fms-test"
-#  appsvpc_id = aws_vpc.appsvpc.id
-#
-#  opssubnet_cidr_block = var.route_table_cidr_blocks["ops_cidr"]
-#  fms_cidr_block       = "10.1.40.0/24"
-#  fms_cidr_block_az2   = "10.1.41.0/24"
-#  peering_cidr_block   = "10.3.0.0/16"
-#
-#  az                           = var.az
-#  az2                          = var.az2
-#  naming_suffix                = local.naming_suffix
-#  route_table_id               = aws_route_table.apps_route_table.id
-#  rds_enhanced_monitoring_role = aws_iam_role.rds_enhanced_monitoring_role.arn
-#  environment                  = var.namespace
-#}
+module "fms" {
+  source     = "github.com/UKHomeOffice/dq-tf-fms-test"
+  appsvpc_id = aws_vpc.appsvpc.id
+
+  opssubnet_cidr_block = var.route_table_cidr_blocks["ops_cidr"]
+  fms_cidr_block       = "10.1.40.0/24"
+  fms_cidr_block_az2   = "10.1.41.0/24"
+  peering_cidr_block   = "10.3.0.0/16"
+
+  az                           = var.az
+  az2                          = var.az2
+  naming_suffix                = local.naming_suffix
+  route_table_id               = aws_route_table.apps_route_table.id
+  rds_enhanced_monitoring_role = aws_iam_role.rds_enhanced_monitoring_role.arn
+  environment                  = var.namespace
+}
 
 module "ops_pipeline" {
   source                                = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-pipeline-ops.git"
