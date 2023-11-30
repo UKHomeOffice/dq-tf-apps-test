@@ -1,4 +1,10 @@
 ---
+global-variables:
+  acp-docker-image: &acp-docker-image 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
+  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:32
+#  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
+  vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
+
 kind: pipeline
 name: default
 type: kubernetes
@@ -7,36 +13,70 @@ platform:
   os: linux
   arch: amd64
 
+x-anchors:
+  retrieve-deployment-aws-key: &retrieve-deployment-aws-key
+    - vault --version
+    # Set AWS Account from step's environment variable AWS_ENV
+    - export AWS_CREDS_FILE="aws_creds_$${AWS_ENV}.json"
+    - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
+    # Retrieve vault secrets
+    - vault read aws_dacc_dq/creds/drone > $${AWS_CREDS_FILE}
+    - export LEASE_ID=$(cat $${AWS_CREDS_FILE} | grep lease_id | awk -F ' ' '{print $2}')
+    - export ACCESS_KEY=$(cat $${AWS_CREDS_FILE} | grep access_key | awk -F ' ' '{print $2}')
+    - export SECRET_KEY=$(cat $${AWS_CREDS_FILE} | grep secret_key | awk -F ' ' '{print $2}')
+    - export REGION=eu-west-2
+    # Update the token TTL to 10mins
+    - vault lease renew -increment=3600 $${LEASE_ID}
+    # Get the AWS credentials - to allow TestRunner access to the Target Account
+    - echo "export AWS_ACCESS_KEY_ID=$${ACCESS_KEY}" > $${AWS_SECRETS_FILE}
+    - echo "export AWS_SECRET_ACCESS_KEY=$${SECRET_KEY}" >> $${AWS_SECRETS_FILE}
+    - echo "export AWS_DEFAULT_REGION=$${REGION}" >> $${AWS_SECRETS_FILE}
+    # Since AWS is eventually consistent we need to sleep a little while so the AWS key is created and made available
+    - sleep 20
+
+  check-format: &check-format
+    - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check
+
+  run-testrunner: &run-testrunner
+    # Get AWS secrets for Target Account
+    - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
+    - source ./$${AWS_SECRETS_FILE}
+    - python -m unittest tests/*_test.py
+
 steps:
-- name: testsuite
+- name: retrieve_aws_secrets_test
   pull: if-not-exists
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
+  image: *vault-image
   commands:
-      # wait for docker service to be up before running docker build
-  - /usr/local/bin/wait
-  - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check && echo $?
+    *retrieve-deployment-aws-key
+  environment:
+    AWS_ENV: test
+    VAULT_ADDR:
+      from_secret: VAULT_ADDR_DEV
+    VAULT_TOKEN:
+      from_secret: VAULT_TOKEN_DEV
   when:
     event:
-    - push
+      - push
+
+- name: check-format
+  pull: always
+  image: *acp-docker-image
+  commands: *check-format
+  when:
+    event:
+      - push
 
 - name: run-testrunner-tests
   pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/tf-testrunner:32
-  commands:
-  - mkdir /root/.ssh && echo "$SSH_KEY" > /root/.ssh/id_rsa && chmod 0600 /root/.ssh/id_rsa
-  - ssh-keyscan -t rsa -p 2222 gitlab.digital.homeoffice.gov.uk >>  ~/.ssh/known_hosts
-  - python -m unittest tests/*_test.py
+  image: *testrunner-image
+  commands: *run-testrunner
   environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    SSH_KEY:
-      from_secret: SSH_KEY
+    AWS_ENV: test
   when:
     event:
-    - push
+      - push
 
 services:
   - name: docker
-    image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
+    image: *acp-docker-image
