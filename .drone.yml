@@ -76,7 +76,8 @@ steps:
   environment:
     AWS_ENV: test
     SSH_KEY:
-      from_secret: SSH_KEY  when:
+      from_secret: SSH_KEY
+  when:
     event:
       - push
 
