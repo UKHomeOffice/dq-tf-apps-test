@@ -1,38 +1,24 @@
-resource "aws_iam_group" "athena_maintenance" {
-  name = "iam-group-athena-maintenance-${local.naming_suffix}"
+resource "aws_iam_group" "monitor" {
+  name = "iam-group-monitor-${local.naming_suffix}"
 }
 
-resource "aws_iam_group_membership" "athena_maintenance" {
-  name = "iam-group-membership-athena-maintenance-${local.naming_suffix}"
+resource "aws_iam_group_membership" "monitor" {
+  name = "iam-group-membership-monitor-${local.naming_suffix}"
 
   users = [
-    aws_iam_user.athena_maintenance.name,
+    aws_iam_user.monitor.name,
   ]
 
-  group = aws_iam_group.athena_maintenance.name
+  group = aws_iam_group.monitor.name
 }
 
-resource "aws_iam_policy" "athena_maintenance" {
-  name = "iam-policy-athena-maintenance-${local.naming_suffix}"
-
+resource "aws_iam_policy" "monitor_athena" {
+  name = "iam-policy-monitor-athena-${local.naming_suffix}"
   policy = <<EOF
 {
   "Version": "2012-10-17",
-  "Statement": [{
-      "Action": [
-        "s3:GetBucketLocation",
-        "s3:GetObject",
-        "s3:ListBucket",
-        "s3:ListBucketMultipartUploads",
-        "s3:ListMultipartUploadParts"
-      ],
-      "Effect": "Allow",
-      "Resource": [
-        "arn:aws:s3:::${var.athena_maintenance_bucket}-${var.namespace}",
-        "arn:aws:s3:::${var.athena_maintenance_bucket}-${var.namespace}/*"
-      ]
-    },
-    {
+  "Statement": [
+  {
       "Action": [
         "s3:GetBucketLocation",
         "s3:GetObject",
@@ -88,15 +74,6 @@ resource "aws_iam_policy" "athena_maintenance" {
       "Resource": "*"
     },
     {
-      "Effect": "Allow",
-      "Action": [
-        "ssm:GetParameter"
-      ],
-      "Resource": [
-        "arn:aws:ssm:eu-west-2:*:parameter/slack_notification_webhook"
-      ]
-    },
-    {
       "Action": [
         "kms:Encrypt",
         "kms:Decrypt",
@@ -112,13 +89,13 @@ EOF
 
 }
 
-resource "aws_iam_group_policy_attachment" "athena_maintenance" {
-  group      = aws_iam_group.athena_maintenance.name
-  policy_arn = aws_iam_policy.athena_maintenance.arn
+resource "aws_iam_group_policy_attachment" "monitor_athena" {
+  group      = aws_iam_group.monitor.name
+  policy_arn = aws_iam_policy.monitor_athena.arn
 }
 
-resource "aws_iam_policy" "athena_maintenance_glue" {
-  name = "iam-policy-athena-maintenance-glue-${local.naming_suffix}"
+resource "aws_iam_policy" "monitor_glue" {
+  name = "iam-policy-monitor-glue-${local.naming_suffix}"
 
   policy = <<EOF
 {
@@ -126,14 +103,12 @@ resource "aws_iam_policy" "athena_maintenance_glue" {
   "Statement": [{
       "Action": [
         "glue:GetDatabase",
+        "glue:GetDatabases",
         "glue:GetTable",
         "glue:GetTables",
         "glue:GetPartition",
         "glue:GetPartitions",
-        "glue:CreatePartition",
-        "glue:DeletePartition",
-        "glue:BatchDeletePartition",
-        "glue:BatchCreatePartition"
+        "glue:BatchGetPartition"
       ],
       "Effect": "Allow",
       "Resource": [
@@ -144,6 +119,9 @@ resource "aws_iam_policy" "athena_maintenance_glue" {
     "arn:aws:glue:eu-west-2:${data.aws_caller_identity.current.account_id}:database/%s_%s",
     var.dq_pipeline_athena_readwrite_database_name_list,
     var.namespace,
+    ), formatlist(
+    "arn:aws:glue:eu-west-2:${data.aws_caller_identity.current.account_id}:database/%s",
+    var.dq_pipeline_athena_unscoped_readwrite_database_name_list,
   ),
   )}",
         "${join(
@@ -152,6 +130,9 @@ resource "aws_iam_policy" "athena_maintenance_glue" {
     "arn:aws:glue:eu-west-2:${data.aws_caller_identity.current.account_id}:table/%s_%s/*",
     var.dq_pipeline_athena_readwrite_database_name_list,
     var.namespace,
+    ), formatlist(
+    "arn:aws:glue:eu-west-2:${data.aws_caller_identity.current.account_id}:table/%s/*",
+    var.dq_pipeline_athena_unscoped_readwrite_database_name_list,
   ),
 )}"
         ]
@@ -162,27 +143,55 @@ EOF
 
 }
 
-resource "aws_iam_group_policy_attachment" "athena_maintenance_glue" {
-  group      = aws_iam_group.athena_maintenance.name
-  policy_arn = aws_iam_policy.athena_maintenance_glue.arn
+resource "aws_iam_group_policy_attachment" "monitor_glue" {
+  group      = aws_iam_group.monitor.name
+  policy_arn = aws_iam_policy.monitor_glue.arn
 }
 
-resource "aws_iam_user" "athena_maintenance" {
-  name = "iam-user-athena-maintenance-${local.naming_suffix}"
+resource "aws_iam_policy" "monitor_ssm" {
+  name = "iam-policy-monitor-ssm-${local.naming_suffix}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+        ],
+        "Resource": [
+          "${aws_kms_key.bucket_key.arn}"
+        ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:Describe*",
+        "ssm:Get*",
+        "ssm:List*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
 
-// resource "aws_iam_access_key" "athena_maintenance" {
-//   user = aws_iam_user.athena_maintenance.name
-// }
+resource "aws_iam_group_policy_attachment" "monitor_ssm" {
+  group      = aws_iam_group.monitor.name
+  policy_arn = aws_iam_policy.monitor_ssm.arn
+}
 
-// resource "aws_ssm_parameter" "athena_maintenance_id" {
-//   name  = "kubernetes-athena-maintenance-user-id-${local.naming_suffix}"
-//   type  = "SecureString"
-//   value = aws_iam_access_key.athena_maintenance.id
-// }
+resource "aws_iam_group_policy_attachment" "monitor_cw" {
+  group      = aws_iam_group.monitor.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsReadOnlyAccess"
+}
 
-// resource "aws_ssm_parameter" "athena_maintenance_key" {
-//   name  = "kubernetes-athena-maintenance-user-key-${local.naming_suffix}"
-//   type  = "SecureString"
-//   value = aws_iam_access_key.athena_maintenance.secret
-// }
+resource "aws_iam_user" "monitor" {
+  name = "iam-user-monitor-${local.naming_suffix}"
+}

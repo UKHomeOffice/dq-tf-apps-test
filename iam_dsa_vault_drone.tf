@@ -2,38 +2,6 @@ resource "aws_iam_group" "vault_drone" {
   name = "iam-group-vault-drone"
 }
 
-# resource "aws_iam_group_membership" "vault_drone" {
-#   name = "iam-group-membership-vault-drone"
-#
-#   users = [
-#     aws_iam_user.vault_drone.name,
-#   ]
-#
-#   group = aws_iam_group.vault_drone.name
-# }
-
-# variable "vault_drone_managed_policies" {
-#   type = list(string)
-#   default = [
-#     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-#     "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
-#     "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
-#     "arn:aws:iam::aws:policy/IAMFullAccess",
-#     "arn:aws:iam::aws:policy/AWSDirectoryServiceFullAccess",
-#     "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser",
-#     "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole",
-#     "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
-#     "arn:aws:iam::aws:policy/AWSStepFunctionsFullAccess",
-#     "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
-#   ]
-# }
-#
-# resource "aws_iam_group_policy_attachment" "vault_drone" {
-#   count      = length(var.vault_drone_managed_policies)
-#   group      = aws_iam_group.vault_drone.name
-#   policy_arn = var.vault_drone_managed_policies[count.index]
-# }
-
 resource "aws_iam_policy" "vault_drone_0" {
   name = "iam-vault-drone-policy-0"
 
@@ -401,23 +369,9 @@ resource "aws_iam_policy" "vault_drone_2" {
     },
     {
        "Sid": "KMSFullAccess",
-       "Effect": "Allow",
-       "Action": [
-           "kms:CreateAlias",
-           "kms:CreateKey",
-           "kms:DeleteAlias",
-           "kms:Describe*",
-           "kms:GenerateRandom",
-           "kms:Get*",
-           "kms:List*",
-           "kms:TagResource",
-           "kms:UntagResource",
-           "kms:PutKeyPolicy",
-           "iam:ListGroups",
-           "iam:ListRoles",
-           "iam:ListUsers"
-       ],
-       "Resource": "*"
+            "Effect": "Allow",
+            "Action": "kms:*",
+            "Resource": "*"
     },
     {
       "Sid": "StepFullAccess",
@@ -494,14 +448,6 @@ resource "aws_iam_policy" "vault_drone_2" {
        "Effect": "Allow",
        "Action": "iam:PassRole",
        "Resource": "arn:aws:iam::*:role/AWS_Events_Invoke_Targets"
-    },
-    {
-        "Sid": "ConfigFullAccess",
-        "Effect": "Allow",
-        "Action": [
-            "config:*"
-        ],
-        "Resource": "*"
     }
   ]
 }

@@ -34,6 +34,10 @@ variable "haproxy_private_ip2" {
 variable "namespace" {
 }
 
+variable "account_id" {
+  type = map(string)
+}
+
 variable "ad_sg_cidr_ingress" {
   description = "List of CIDR block ingress to AD machines SG"
   type        = list(string)
@@ -63,57 +67,78 @@ variable "s3_bucket_acl" {
   type        = map(string)
 }
 
-variable "account_id" {
-  type = map(string)
+variable "rds_db_name" {
+  description = "Supplies the database name for a Postgres deployment"
+  default     = "internal_tableau"
 }
 
+variable "dq_pipeline_ops_readwrite_database_name_list" {
+  default = [
+    "reference_data",
+    "acl",
+    "consolidated_schedule",
+    "api_record_level_score",
+    "api_cross_record_scored",
+    "api_input",
+    "oag_transform",
+    "internal_reporting",
+    "drt",
+    "airports_working",
+    "airports_input",
+    "fms",
+    "snsgb",
+    "asn_maritime",
+    "aftc_sc",
+    "pnr",
+    "ais_marinetraffic",
+  ]
+}
 
-# variable "rds_db_name" {
-#   description = "Supplies the database name for a Postgres deployment"
-#   default     = "internal_tableau"
-# }
-#
-# variable "dq_pipeline_ops_readwrite_database_name_list" {
-#   default = ["reference_data",
-#     "acl",
-#     "consolidated_schedule",
-#     "api_record_level_score",
-#     "api_cross_record_scored",
-#     "api_input",
-#     "oag_transform",
-#     "internal_reporting",
-#     "drt",
-#     "airports_working",
-#     "airports_input",
-#     "carrier_portal",
-#     "fms",
-#   ]
-# }
-#
-# variable "dq_pipeline_athena_readwrite_database_name_list" {
-#   default = ["reference_data",
-#     "acl",
-#     "consolidated_schedule",
-#     "api_record_level_score",
-#     "api_cross_record_scored",
-#     "api_input",
-#     "oag_transform",
-#     "internal_reporting",
-#     "drt",
-#     "airports_working",
-#     "airports_input",
-#     "carrier_portal",
-#     "fms",
-#     "nats_internal",
-#     "freight",
-#     "gait_working",
-#   ]
-# }
-#
-# variable "dq_pipeline_ops_readonly_database_name_list" {
-#   default = ["api_input"]
-# }
-# #
+variable "dq_pipeline_ops_unscoped_readwrite_database_name_list" {
+  default = [
+    "fedat_reporting",
+    "pnr_reporting",
+    "consolidated_schedule_reporting",
+  ]
+}
+
+variable "dq_pipeline_athena_readwrite_database_name_list" {
+  default = [
+    "reference_data",
+    "acl",
+    "consolidated_schedule",
+    "api_record_level_score",
+    "api_cross_record_scored",
+    "api_input",
+    "oag_transform",
+    "internal_reporting",
+    "drt",
+    "airports_working",
+    "airports_input",
+    "fms",
+    "nats_internal",
+    "freight",
+    "gait_working",
+    "snsgb",
+    "asn_maritime",
+    "aftc_sc",
+    "pnr",
+    "ais_marinetraffic",
+  ]
+}
+
+variable "dq_pipeline_athena_unscoped_readwrite_database_name_list" {
+  default = [
+    "fedat_reporting",
+    "pnr_reporting",
+    "consolidated_schedule_reporting",
+  ]
+}
+
+variable "dq_pipeline_ops_readonly_database_name_list" {
+  default = ["api_input"]
+}
+
 variable "dq_pipeline_ops_readwrite_bucket_list" {
   default = [
     "s3-dq-reference-data-internal",
@@ -130,8 +155,13 @@ variable "dq_pipeline_ops_readwrite_bucket_list" {
     "s3-dq-reporting-internal-working",
     "s3-dq-airports-working",
     "s3-dq-airports-internal",
-    "s3-dq-carrier-portal-working",
     "s3-dq-fms-working",
+    "s3-dq-snsgb-internal",
+    "s3-dq-asn-internal",
+    "s3-dq-asn-marine-internal",
+    "s3-dq-pnr-internal",
+    "s3-dq-ais-internal",
+    "s3-dq-test"
   ]
 }
 
@@ -160,21 +190,27 @@ variable "athena_maintenance_bucket" {
   default     = "s3-dq-athena-maintenance-bucket"
 }
 
-variable "dq_pub_ips" {
-  type    = list(string)
-  default = []
+variable "athena_adhoc_maintenance_database" {
+  description = "Athena maintenance database name"
+  default     = "api_input"
 }
 
-# variable "athena_adhoc_maintenance_database" {
-#   description = "Athena maintenance database name"
-#   default     = "api_input"
-# }
-# variable "athena_adhoc_maintenance_table" {
-#   description = "Athena maintenance table name"
-#   default     = "input_file_api"
-# }
-#
-# variable "athena_log_prefix" {
-#   description = "Keyprefix for Athena maintenance task"
-#   default     = "app"
-# }
+variable "athena_adhoc_maintenance_table" {
+  description = "Athena maintenance table name"
+  default     = "input_file_api"
+}
+
+variable "athena_log_prefix" {
+  description = "Keyprefix for Athena maintenance task"
+  default     = "app"
+}
+
+variable "kms_key_s3" {
+  type        = map(string)
+  description = "The ARN of the KMS key that is used to encrypt S3 buckets"
+  default = {
+    preprod = "arn:aws:kms:eu-west-2:797728447925:key/ad7169c4-6d6a-4d21-84ee-a3b54f4bef87"
+    notprod = "arn:aws:kms:eu-west-2:483846886818:key/24b0cd4f-3117-4e9b-ada8-fa46e7fd6d70"
+    prod    = "arn:aws:kms:eu-west-2:337779336338:key/ae75113d-f4f6-49c6-a15e-e8493fda0453"
+  }
+}
