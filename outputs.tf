@@ -28,7 +28,7 @@ output "log_archive_bucket_arn" {
 
 output "iam_roles" {
   value = concat(
-#    module.external_tableau.iam_roles,
+    # module.external_tableau.iam_roles,
     module.internal_tableau.iam_roles,
   )
 }
