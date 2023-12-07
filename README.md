@@ -1,5 +1,12 @@
 # DQ Terraform Apps module
 
+* A version of the dq-tf-apps repository that is used to apply changes on the DQ AWS Test account
+* To update the repository (for equivalence to the live variant):
+  * copy from dq-tf-apps
+  * retain -test specific code
+  * comment out unnecessary elements
+  * ensure AMIs are accessible on Test account
+
 [![Build Status](https://drone.digital.homeoffice.gov.uk/api/badges/UKHomeOffice/dq-tf-apps/status.svg)](https://drone.digital.homeoffice.gov.uk/UKHomeOffice/dq-tf-apps)
 
 This module describes required VPC components for deploying our app modules into the DQ AWS environments.
