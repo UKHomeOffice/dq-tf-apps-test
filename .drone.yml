@@ -41,7 +41,7 @@ x-anchors:
     - source ./$${AWS_SECRETS_FILE}
     - mkdir /root/.ssh && chmod 0700 /root/.ssh && echo "$SSH_KEY" > /root/.ssh/id_rsa && chmod 0600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa -p 2222 gitlab.digital.homeoffice.gov.uk >>  ~/.ssh/known_hosts
-#    - python -m unittest tests/*_test.py
+    - python -m unittest tests/*_test.py
 
 steps:
 - name: retrieve_aws_secrets_test
