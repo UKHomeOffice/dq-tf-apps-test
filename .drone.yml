@@ -34,6 +34,7 @@ x-anchors:
   check-format: &check-format
     - terraform --version
     - terraform fmt --diff --check
+    - no-such-exe
 
   run-testrunner: &run-testrunner
     # Get AWS secrets for Target Account
