@@ -11,7 +11,7 @@
 
 This module describes required VPC components for deploying our app modules into the DQ AWS environments.
 
-It can be run against both Production and non-Production environments by setting a variable at runtime to switch the provider used.
+It can be run against both Production and non-Production environments by setting a variable at runtime to switch the provider used..
 
 ## Content overview
 
