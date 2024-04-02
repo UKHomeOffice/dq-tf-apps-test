@@ -37,10 +37,9 @@ x-anchors:
 
   run-testrunner: &run-testrunner
     # Get AWS secrets for Target Account
+    # Get AWS secrets for Target Account
     - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
     - source ./$${AWS_SECRETS_FILE}
-    - mkdir /root/.ssh && chmod 0700 /root/.ssh && echo "$SSH_KEY" > /root/.ssh/id_rsa && chmod 0600 /root/.ssh/id_rsa
-    - ssh-keyscan -t rsa -p 2222 gitlab.digital.homeoffice.gov.uk >>  ~/.ssh/known_hosts
     - python -m unittest tests/*_test.py
 
   renew-vault-tokens: &renew-vault-tokens
