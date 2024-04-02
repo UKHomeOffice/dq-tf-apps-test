@@ -42,7 +42,7 @@ EOF
 resource "aws_s3_bucket" "log_archive_bucket" {
   bucket = var.s3_bucket_name["archive_log"]
   acl    = var.s3_bucket_acl["archive_log"]
-  region = var.region
+  # region = var.region
 
   server_side_encryption_configuration {
     rule {
@@ -2089,7 +2089,7 @@ resource "aws_s3_bucket" "api_arrivals_bucket" {
   }
 }
 
-resource "aws_s3_bucket_object" "s3-dq-api-arrivals-test" {
+resource "aws_s3_object" "s3-dq-api-arrivals-test" {
   bucket = var.s3_bucket_name["api_arrivals"]
   key    = "reference/"
 }
