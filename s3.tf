@@ -64,9 +64,8 @@ resource "aws_s3_bucket" "log_archive_bucket" {
 
 resource "aws_s3_bucket_lifecycle_configuration" "log_archive_bucket_lifecycle" {
   bucket = aws_s3_bucket.log_archive_bucket.id
-
-  lifecycle_rule {
-    enabled = true
+  rule {
+    id = "log_archive_bucket_rule_1"
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
@@ -75,6 +74,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "log_archive_bucket_lifecycle" 
       days          = 30
       storage_class = "STANDARD_IA"
     }
+    status = "Enabled"
   }
 }
 
@@ -172,31 +172,37 @@ resource "aws_s3_bucket_acl" "data_archive_bucket_acl" {
 resource "aws_s3_bucket_logging" "data_archive_bucket_logging" {
   bucket = var.s3_bucket_name["archive_data"]
 
-  target_bucket = aws_s3_bucket.log_bucket.id
-  target_prefix = "log/"
+  target_bucket = aws_s3_bucket.log_archive_bucket.id
+  target_prefix = "data_archive_bucket/"
 }
-
 
 resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle" {
   bucket = var.s3_bucket_name["archive_data"]
 
-  lifecycle_rule {
-    enabled = true
+  rule {
+    id = "standard_ia_transition"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
+
     noncurrent_version_transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
+
+    enabled = true
+    status  = "Enabled"
   }
 
-  lifecycle_rule {
+  rule {
     id      = "internal_tableau_green"
     enabled = true
 
-    prefix = "tableau-int/green/"
+    filter {
+      prefix = "tableau-int/green/"
+    }
 
     expiration {
       days = 15
@@ -205,13 +211,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     noncurrent_version_expiration {
       days = 1
     }
+
+    status = "Enabled"
   }
 
-  lifecycle_rule {
+  rule {
     id      = "internal_tableau_blue"
     enabled = true
 
-    prefix = "tableau-int/blue/"
+    filter {
+      prefix = "tableau-int/blue/"
+    }
 
     expiration {
       days = 15
@@ -220,13 +230,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     noncurrent_version_expiration {
       days = 1
     }
+
+    status = "Enabled"
   }
 
-  lifecycle_rule {
+  rule {
     id      = "internal_tableau_staging"
     enabled = true
 
-    prefix = "tableau-int/staging/"
+    filter {
+      prefix = "tableau-int/staging/"
+    }
 
     expiration {
       days = 15
@@ -235,13 +249,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     noncurrent_version_expiration {
       days = 1
     }
+
+    status = "Enabled"
   }
 
-  lifecycle_rule {
+  rule {
     id      = "external_tableau_green"
     enabled = true
 
-    prefix = "tableau-ext/green/"
+    filter {
+      prefix = "tableau-ext/green/"
+    }
 
     expiration {
       days = 15
@@ -250,13 +268,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     noncurrent_version_expiration {
       days = 1
     }
+
+    status = "Enabled"
   }
 
-  lifecycle_rule {
+  rule {
     id      = "external_tableau_blue"
     enabled = true
 
-    prefix = "tableau-ext/blue/"
+    filter {
+      prefix = "tableau-ext/blue/"
+    }
 
     expiration {
       days = 15
@@ -265,13 +287,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     noncurrent_version_expiration {
       days = 1
     }
+
+    status = "Enabled"
   }
 
-  lifecycle_rule {
+  rule {
     id      = "external_tableau_staging"
     enabled = true
 
-    prefix = "tableau-ext/staging/"
+    filter {
+      prefix = "tableau-ext/staging/"
+    }
 
     expiration {
       days = 15
@@ -280,8 +306,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     noncurrent_version_expiration {
       days = 1
     }
+
+    status = "Enabled"
   }
 }
+
 
 resource "aws_s3_bucket_metric" "data_archive_bucket_logging" {
   bucket = var.s3_bucket_name["archive_data"]
