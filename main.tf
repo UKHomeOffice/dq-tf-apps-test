@@ -298,6 +298,7 @@ module "acl_input_pipeline" {
 #}
 #
 module "fms" {
+  # contains attribute deprecation in resource "random_string" "username"
   source     = "github.com/UKHomeOffice/dq-tf-fms-test"
   appsvpc_id = aws_vpc.appsvpc.id
 
