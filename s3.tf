@@ -131,7 +131,7 @@ POLICY
 
 resource "aws_s3_bucket" "data_archive_bucket" {
   bucket = var.s3_bucket_name["archive_data"]
-  acl    = var.s3_bucket_acl["archive_data"]
+  # acl    = var.s3_bucket_acl["archive_data"]
   # region = var.region
 
   server_side_encryption_configuration {
@@ -143,14 +143,42 @@ resource "aws_s3_bucket" "data_archive_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  logging {
-    target_bucket = aws_s3_bucket.log_archive_bucket.id
-    target_prefix = "data_archive_bucket/"
+  # logging {
+  #   target_bucket = aws_s3_bucket.log_archive_bucket.id
+  #   target_prefix = "data_archive_bucket/"
+  # }
+
+  tags = {
+    Name = "s3-data-archive-bucket-${local.naming_suffix}"
   }
+}
+
+resource "aws_s3_bucket_versioning" "data_archive_bucket_versioning" {
+  bucket = var.s3_bucket_name["archive_data"]
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_acl" "data_archive_bucket_acl" {
+  bucket = var.s3_bucket_name["archive_data"]
+  acl    = var.s3_bucket_acl["archive_data"]
+}
+
+resource "aws_s3_bucket_logging" "data_archive_bucket_logging" {
+  bucket = var.s3_bucket_name["archive_data"]
+
+  target_bucket = aws_s3_bucket.log_bucket.id
+  target_prefix = "log/"
+}
+
+
+resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle" {
+  bucket = var.s3_bucket_name["archive_data"]
 
   lifecycle_rule {
     enabled = true
@@ -252,10 +280,6 @@ resource "aws_s3_bucket" "data_archive_bucket" {
     noncurrent_version_expiration {
       days = 1
     }
-  }
-
-  tags = {
-    Name = "s3-data-archive-bucket-${local.naming_suffix}"
   }
 }
 
