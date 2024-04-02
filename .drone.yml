@@ -43,15 +43,18 @@ x-anchors:
     - ssh-keyscan -t rsa -p 2222 gitlab.digital.homeoffice.gov.uk >>  ~/.ssh/known_hosts
     - python -m unittest tests/*_test.py
 
+  renew-vault-tokens: &renew-vault-tokens
+    # Renew the Dev Vault Token
+    - export VAULT_TOKEN=$${VAULT_TOKEN_DEV}
+    - export VAULT_ADDR=$${VAULT_ADDR_DEV}
+    - vault token renew > /dev/null
+    - unset VAULT_TOKEN
+
 steps:
 - name: renew-vault-tokens
   pull: if-not-exists
   image: *vault-image
-  commands:
-    # Renew Dev Drone Vault Token
-    - export VAULT_TOKEN=$${VAULT_TOKEN_DEV}
-    - export VAULT_ADDR=$${VAULT_ADDR_DEV}
-    - vault token renew > /dev/null
+  commands: *renew-vault-tokens
   environment:
     VAULT_TOKEN_DEV:
       from_secret: VAULT_TOKEN_DEV
