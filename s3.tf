@@ -71,8 +71,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "log_archive_bucket_lifecycle" 
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
     status = "Enabled"
   }
@@ -186,19 +186,16 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
       days          = 30
       storage_class = "STANDARD_IA"
     }
-
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
-
-    
-    status  = "Enabled"
+    status = "Enabled"
   }
 
   rule {
-    id      = "internal_tableau_green"
-    
+    id = "internal_tableau_green"
+
 
     filter {
       prefix = "tableau-int/green/"
@@ -216,8 +213,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
   }
 
   rule {
-    id      = "internal_tableau_blue"
-    
+    id = "internal_tableau_blue"
+
 
     filter {
       prefix = "tableau-int/blue/"
@@ -235,8 +232,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
   }
 
   rule {
-    id      = "internal_tableau_staging"
-    
+    id = "internal_tableau_staging"
+
 
     filter {
       prefix = "tableau-int/staging/"
@@ -254,8 +251,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
   }
 
   rule {
-    id      = "external_tableau_green"
-    
+    id = "external_tableau_green"
+
 
     filter {
       prefix = "tableau-ext/green/"
@@ -273,8 +270,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
   }
 
   rule {
-    id      = "external_tableau_blue"
-    
+    id = "external_tableau_blue"
+
 
     filter {
       prefix = "tableau-ext/blue/"
@@ -292,8 +289,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
   }
 
   rule {
-    id      = "external_tableau_staging"
-    
+    id = "external_tableau_staging"
+
 
     filter {
       prefix = "tableau-ext/staging/"
@@ -439,8 +436,8 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
   }
 
@@ -637,8 +634,8 @@ resource "aws_s3_bucket" "oag_archive_bucket" {
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
   }
 
@@ -838,8 +835,8 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
   }
 
@@ -973,8 +970,8 @@ resource "aws_s3_bucket" "reference_data_archive_bucket" {
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
   }
 
@@ -1175,8 +1172,8 @@ resource "aws_s3_bucket" "api_archive_bucket" {
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
   }
 
@@ -1962,8 +1959,8 @@ resource "aws_s3_bucket" "nats_archive_bucket" {
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
   }
 
@@ -3562,8 +3559,8 @@ resource "aws_s3_bucket" "carrier_portal_docs" {
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      noncurrent_days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
   }
 
