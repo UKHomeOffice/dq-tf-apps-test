@@ -2024,7 +2024,7 @@ resource "aws_s3_bucket_versioning" "athena_log_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "athena_log_bucket_bucket_server_side_encryption_configuration" {
-  bucket = aws_s3_bucket.athena_log_bucket_bucket.id
+  bucket = aws_s3_bucket.athena_log_bucket.id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -2329,7 +2329,8 @@ resource "aws_s3_bucket" "drt_export" {
 }
 
 resource "aws_s3_bucket_versioning" "drt_export_versioning" {
-  bucket = aws_s3_bucket.drt_export.id
+  count  = var.namespace == "notprod" ? 1 : 0
+  bucket = aws_s3_bucket.drt_export[count.index].id
   versioning_configuration {
     status = "Enabled"
   }
@@ -2525,7 +2526,7 @@ resource "aws_s3_bucket_versioning" "nats_archive_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "nats_archive_bucket-config" {
-  bucket = aws_s3_bucket.vnats_archive_bucket.id
+  bucket = aws_s3_bucket.nats_archive_bucket.id
 
   rule {
     id = "nats_archive_bucket_config"
@@ -4019,8 +4020,8 @@ resource "aws_s3_bucket" "dq_data_generator_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "dq_rm_internal_bucket_logging_versioning" {
-  bucket = aws_s3_bucket.dq_rm_internal_bucket_logging.id
+resource "aws_s3_bucket_versioning" "dq_data_generator_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_data_generator_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -4366,7 +4367,7 @@ resource "aws_s3_bucket_versioning" "dq_pnr_archive_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "dq_pnr_archive_bucket_bucket_server_side_encryption_configuration" {
-  bucket = aws_s3_bucket.dq_pnr_archive_bucket_bucket.id
+  bucket = aws_s3_bucket.dq_pnr_archive_bucket.id
 
   rule {
     apply_server_side_encryption_by_default {
