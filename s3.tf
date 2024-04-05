@@ -1339,8 +1339,8 @@ resource "aws_s3_bucket" "api_internal_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "api_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.api_archive_bucket.id
+resource "aws_s3_bucket_versioning" "api_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.api_internal_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3363,8 +3363,8 @@ resource "aws_s3_bucket" "dq_rm_internal_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "dq_rm_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_rm_internal_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3438,8 +3438,8 @@ resource "aws_s3_bucket" "dq_data_generator_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "dq_rm_internal_bucket_logging_versioning" {
+  bucket = aws_s3_bucket.dq_rm_internal_bucket_logging.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3519,8 +3519,8 @@ resource "aws_s3_bucket" "dq_ais_archive_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "dq_ais_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_ais_archive_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3591,8 +3591,8 @@ resource "aws_s3_bucket" "dq_ais_internal_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "dq_ais_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_ais_internal_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3670,8 +3670,8 @@ resource "aws_s3_bucket" "dq_gait_landing_staging_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "dq_gait_landing_staging_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_gait_landing_staging_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3737,8 +3737,8 @@ resource "aws_s3_bucket" "dq_pnr_archive_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "dq_pnr_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_pnr_archive_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3811,8 +3811,8 @@ resource "aws_s3_bucket" "dq_pnr_internal_bucket" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "dq_pnr_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_pnr_internal_bucket.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -3905,8 +3905,8 @@ resource "aws_s3_bucket" "carrier_portal_docs" {
   }
 }
 
-resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
-  bucket = aws_s3_bucket.log_archive_bucket.id
+resource "aws_s3_bucket_versioning" "carrier_portal_docs_versioning" {
+  bucket = aws_s3_bucket.carrier_portal_docs.id
   versioning_configuration {
     status = "Enabled"
   }
