@@ -85,7 +85,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "log_archive_bucket_lifecycle" 
       noncurrent_days = 30
       storage_class   = "STANDARD_IA"
     }
-    status = "Enabled"
   }
 }
 
@@ -228,7 +227,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     }
 
     noncurrent_version_expiration {
-      days = 1
+      noncurrent_days = 1
     }
 
     status = "Enabled"
@@ -247,7 +246,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     }
 
     noncurrent_version_expiration {
-      days = 1
+      noncurrent_days = 1
     }
 
     status = "Enabled"
@@ -266,7 +265,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     }
 
     noncurrent_version_expiration {
-      days = 1
+      noncurrent_days = 1
     }
 
     status = "Enabled"
@@ -285,7 +284,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     }
 
     noncurrent_version_expiration {
-      days = 1
+      noncurrent_days = 1
     }
 
     status = "Enabled"
@@ -304,7 +303,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     }
 
     noncurrent_version_expiration {
-      days = 1
+      noncurrent_days = 1
     }
 
     status = "Enabled"
@@ -323,7 +322,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle"
     }
 
     noncurrent_version_expiration {
-      days = 1
+      noncurrent_days = 1
     }
 
     status = "Enabled"
