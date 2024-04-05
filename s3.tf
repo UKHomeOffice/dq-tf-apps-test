@@ -2329,7 +2329,6 @@ resource "aws_s3_bucket" "drt_export" {
 }
 
 resource "aws_s3_bucket_versioning" "drt_export_versioning" {
-  count  = var.namespace == "notprod" ? 1 : 0
   bucket = aws_s3_bucket.drt_export[count.index].id
   versioning_configuration {
     status = "Enabled"
@@ -2337,7 +2336,7 @@ resource "aws_s3_bucket_versioning" "drt_export_versioning" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "drt_export_server_side_encryption_configuration" {
-  bucket = aws_s3_bucket.drt_export.id
+  bucket = aws_s3_bucket.drt_export[count.index].id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -4021,14 +4020,14 @@ resource "aws_s3_bucket" "dq_data_generator_bucket" {
 }
 
 resource "aws_s3_bucket_versioning" "dq_data_generator_bucket_versioning" {
-  bucket = aws_s3_bucket.dq_data_generator_bucket.id
+  bucket = aws_s3_bucket.dq_data_generator_bucket[count.index].id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "dq_data_generator_bucket_server_side_encryption_configuration" {
-  bucket = aws_s3_bucket.dq_data_generator_bucket.id
+  bucket = aws_s3_bucket.dq_data_generator_bucket[count.index].id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -4283,14 +4282,14 @@ resource "aws_s3_bucket" "dq_gait_landing_staging_bucket" {
 }
 
 resource "aws_s3_bucket_versioning" "dq_gait_landing_staging_bucket_versioning" {
-  bucket = aws_s3_bucket.dq_gait_landing_staging_bucket.id
+  bucket = aws_s3_bucket.dq_gait_landing_staging_bucket[count.index].id
   versioning_configuration {
     status = "Enabled"
   }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "dq_gait_landing_staging_bucket_server_side_encryption_configuration" {
-  bucket = aws_s3_bucket.dq_gait_landing_staging_bucket.id
+  bucket = aws_s3_bucket.dq_gait_landing_staging_bucket[count.index].id
 
   rule {
     apply_server_side_encryption_by_default {
