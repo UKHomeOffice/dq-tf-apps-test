@@ -494,7 +494,7 @@ resource "aws_s3_bucket_versioning" "airports_archive_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "airports_archive_bucket-config" {
-  bucket = aws_s3_bucket.versioning_bucket.id
+  bucket = aws_s3_bucket.airports_archive_bucket.id
 
   rule {
     id = "airports_archive_bucket_config"
@@ -759,7 +759,7 @@ resource "aws_s3_bucket" "oag_archive_bucket" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "oag_archive_bucket-config" {
-  bucket = aws_s3_bucket.versioning_bucket.id
+  bucket = aws_s3_bucket.oag_archive_bucket.id
 
   rule {
     id = "oag_archive_bucket_config"
@@ -1042,7 +1042,7 @@ resource "aws_s3_bucket_versioning" "acl_archive_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "acl_archive_bucket-config" {
-  bucket = aws_s3_bucket.versioning_bucket.id
+  bucket = aws_s3_bucket.acl_archive_bucket.id
 
   rule {
     id = "acl_archive_bucket_config"
@@ -1232,7 +1232,7 @@ resource "aws_s3_bucket_versioning" "reference_data_archive_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "reference_data_archive_bucket-config" {
-  bucket = aws_s3_bucket.versioning_bucket.id
+  bucket = aws_s3_bucket.reference_data_archive_bucket.id
 
   rule {
     id = "reference_data_archive_bucket_config"
@@ -1500,7 +1500,7 @@ resource "aws_s3_bucket" "api_archive_bucket" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "api_archive_bucket-config" {
-  bucket = aws_s3_bucket.versioning_bucket.id
+  bucket = aws_s3_bucket.api_archive_bucket.id
 
   rule {
     id = "api_archive_bucket_config"
@@ -2525,7 +2525,7 @@ resource "aws_s3_bucket_versioning" "nats_archive_bucket_versioning" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "nats_archive_bucket-config" {
-  bucket = aws_s3_bucket.versioning_bucket.id
+  bucket = aws_s3_bucket.vnats_archive_bucket.id
 
   rule {
     id = "nats_archive_bucket_config"
@@ -4547,7 +4547,7 @@ resource "aws_s3_bucket" "carrier_portal_docs" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "carrier_portal_docs-config" {
-  bucket = aws_s3_bucket.versioning_bucket.id
+  bucket = aws_s3_bucket.carrier_portal_docs.id
 
   rule {
     id = "carrier_portal_docs_config"
