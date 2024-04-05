@@ -85,6 +85,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "log_archive_bucket_lifecycle" 
       noncurrent_days = 30
       storage_class   = "STANDARD_IA"
     }
+    status = "Enabled"
   }
 }
 
@@ -468,17 +469,17 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
     target_prefix = "airports_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-    noncurrent_version_transition {
-      noncurrent_days = 30
-      storage_class   = "STANDARD_IA"
-    }
-  }
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
 
   tags = {
     Name = "s3-dq-airports-archive-${local.naming_suffix}"
@@ -488,6 +489,26 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
 resource "aws_s3_bucket_versioning" "airports_archive_bucket_versioning" {
   bucket = aws_s3_bucket.airports_archive_bucket.id
   versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "airports_archive_bucket-config" {
+  bucket = aws_s3_bucket.versioning_bucket.id
+
+  rule {
+    id = "airports_archive_bucket_config"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
     status = "Enabled"
   }
 }
@@ -720,22 +741,44 @@ resource "aws_s3_bucket" "oag_archive_bucket" {
     target_prefix = "oag_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-    noncurrent_version_transition {
-      noncurrent_days = 30
-      storage_class   = "STANDARD_IA"
-    }
-  }
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
 
   tags = {
     Name = "s3-dq-oag-archive-${local.naming_suffix}"
   }
 }
+
+resource "aws_s3_bucket_lifecycle_configuration" "oag_archive_bucket-config" {
+  bucket = aws_s3_bucket.versioning_bucket.id
+
+  rule {
+    id = "oag_archive_bucket_config"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+
 
 resource "aws_s3_bucket_versioning" "oag_archive_bucket_versioning" {
   bucket = aws_s3_bucket.oag_archive_bucket.id
@@ -974,17 +1017,17 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
     target_prefix = "acl_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-    noncurrent_version_transition {
-      noncurrent_days = 30
-      storage_class   = "STANDARD_IA"
-    }
-  }
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
 
   tags = {
     Name = "s3-dq-acl-archive-${local.naming_suffix}"
@@ -994,6 +1037,26 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
 resource "aws_s3_bucket_versioning" "acl_archive_bucket_versioning" {
   bucket = aws_s3_bucket.acl_archive_bucket.id
   versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "acl_archive_bucket-config" {
+  bucket = aws_s3_bucket.versioning_bucket.id
+
+  rule {
+    id = "acl_archive_bucket_config"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
     status = "Enabled"
   }
 }
@@ -1144,17 +1207,17 @@ resource "aws_s3_bucket" "reference_data_archive_bucket" {
     target_prefix = "reference_data_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-    noncurrent_version_transition {
-      noncurrent_days = 30
-      storage_class   = "STANDARD_IA"
-    }
-  }
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
 
   tags = {
     Name = "s3-dq-reference-data-archive-${local.naming_suffix}"
@@ -1164,6 +1227,26 @@ resource "aws_s3_bucket" "reference_data_archive_bucket" {
 resource "aws_s3_bucket_versioning" "reference_data_archive_bucket_versioning" {
   bucket = aws_s3_bucket.reference_data_archive_bucket.id
   versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "reference_data_archive_bucket-config" {
+  bucket = aws_s3_bucket.versioning_bucket.id
+
+  rule {
+    id = "reference_data_archive_bucket_config"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
     status = "Enabled"
   }
 }
@@ -1399,20 +1482,40 @@ resource "aws_s3_bucket" "api_archive_bucket" {
     target_prefix = "api_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-api-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "api_archive_bucket-config" {
+  bucket = aws_s3_bucket.versioning_bucket.id
+
+  rule {
+    id = "api_archive_bucket_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
+
     noncurrent_version_transition {
       noncurrent_days = 30
       storage_class   = "STANDARD_IA"
     }
-  }
 
-  tags = {
-    Name = "s3-dq-api-archive-${local.naming_suffix}"
+    status = "Enabled"
   }
 }
 
@@ -2397,17 +2500,17 @@ resource "aws_s3_bucket" "nats_archive_bucket" {
     target_prefix = "nats_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-    noncurrent_version_transition {
-      noncurrent_days = 30
-      storage_class   = "STANDARD_IA"
-    }
-  }
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
 
   tags = {
     Name = "s3-dq-nats-archive-${local.naming_suffix}"
@@ -2417,6 +2520,26 @@ resource "aws_s3_bucket" "nats_archive_bucket" {
 resource "aws_s3_bucket_versioning" "nats_archive_bucket_versioning" {
   bucket = aws_s3_bucket.nats_archive_bucket.id
   versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "nats_archive_bucket-config" {
+  bucket = aws_s3_bucket.versioning_bucket.id
+
+  rule {
+    id = "nats_archive_bucket_config"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
     status = "Enabled"
   }
 }
@@ -4406,20 +4529,40 @@ resource "aws_s3_bucket" "carrier_portal_docs" {
     target_prefix = "carrier_portal_docs/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-carrier-portal-docs-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "carrier_portal_docs-config" {
+  bucket = aws_s3_bucket.versioning_bucket.id
+
+  rule {
+    id = "carrier_portal_docs_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
+
     noncurrent_version_transition {
       noncurrent_days = 30
       storage_class   = "STANDARD_IA"
     }
-  }
 
-  tags = {
-    Name = "s3-dq-carrier-portal-docs-${local.naming_suffix}"
+    status = "Enabled"
   }
 }
 
