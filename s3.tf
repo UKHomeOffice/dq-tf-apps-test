@@ -353,9 +353,9 @@ resource "aws_s3_bucket" "data_working_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -364,6 +364,13 @@ resource "aws_s3_bucket" "data_working_bucket" {
 
   tags = {
     Name = "s3-data-working-bucket-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "data_working_bucket_versioning" {
+  bucket = aws_s3_bucket.data_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -420,9 +427,9 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -443,6 +450,13 @@ resource "aws_s3_bucket" "airports_archive_bucket" {
 
   tags = {
     Name = "s3-dq-airports-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "airports_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.airports_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -494,9 +508,9 @@ resource "aws_s3_bucket" "airports_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -505,6 +519,13 @@ resource "aws_s3_bucket" "airports_internal_bucket" {
 
   tags = {
     Name = "s3-dq-airports-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "airports_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.airports_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -556,9 +577,9 @@ resource "aws_s3_bucket" "airports_working_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -567,6 +588,13 @@ resource "aws_s3_bucket" "airports_working_bucket" {
 
   tags = {
     Name = "s3-dq-airports-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "airports_working_bucket_versioning" {
+  bucket = aws_s3_bucket.airports_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -618,9 +646,9 @@ resource "aws_s3_bucket" "oag_archive_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -641,6 +669,13 @@ resource "aws_s3_bucket" "oag_archive_bucket" {
 
   tags = {
     Name = "s3-dq-oag-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "oag_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.oag_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -691,9 +726,9 @@ resource "aws_s3_bucket" "oag_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -702,6 +737,13 @@ resource "aws_s3_bucket" "oag_internal_bucket" {
 
   tags = {
     Name = "s3-dq-oag-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "oag_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.oag_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -752,9 +794,9 @@ resource "aws_s3_bucket" "oag_transform_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -763,6 +805,13 @@ resource "aws_s3_bucket" "oag_transform_bucket" {
 
   tags = {
     Name = "s3-dq-oag-transform-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "oag_transform_bucket_versioning" {
+  bucket = aws_s3_bucket.oag_transform_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -819,9 +868,9 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -842,6 +891,13 @@ resource "aws_s3_bucket" "acl_archive_bucket" {
 
   tags = {
     Name = "s3-dq-acl-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "acl_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.acl_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -892,9 +948,9 @@ resource "aws_s3_bucket" "acl_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -903,6 +959,13 @@ resource "aws_s3_bucket" "acl_internal_bucket" {
 
   tags = {
     Name = "s3-dq-acl-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "acl_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.acl_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -954,9 +1017,9 @@ resource "aws_s3_bucket" "reference_data_archive_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -977,6 +1040,13 @@ resource "aws_s3_bucket" "reference_data_archive_bucket" {
 
   tags = {
     Name = "s3-dq-reference-data-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "reference_data_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.reference_data_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1028,9 +1098,9 @@ resource "aws_s3_bucket" "reference_data_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1039,6 +1109,13 @@ resource "aws_s3_bucket" "reference_data_internal_bucket" {
 
   tags = {
     Name = "s3-dq-reference-data-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "reference_data_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.reference_data_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1089,9 +1166,9 @@ resource "aws_s3_bucket" "consolidated_schedule_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1100,6 +1177,13 @@ resource "aws_s3_bucket" "consolidated_schedule_bucket" {
 
   tags = {
     Name = "s3-dq-consolidated-schedule-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "consolidated_schedule_bucket_versioning" {
+  bucket = aws_s3_bucket.consolidated_schedule_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1156,9 +1240,9 @@ resource "aws_s3_bucket" "api_archive_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1179,6 +1263,13 @@ resource "aws_s3_bucket" "api_archive_bucket" {
 
   tags = {
     Name = "s3-dq-api-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.api_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1234,9 +1325,9 @@ resource "aws_s3_bucket" "api_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1245,6 +1336,13 @@ resource "aws_s3_bucket" "api_internal_bucket" {
 
   tags = {
     Name = "s3-dq-api-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.api_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1300,9 +1398,9 @@ resource "aws_s3_bucket" "api_record_level_scoring_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1311,6 +1409,13 @@ resource "aws_s3_bucket" "api_record_level_scoring_bucket" {
 
   tags = {
     Name = "s3-dq-api-record-level-scoring-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_record_level_scoring_bucket_versioning" {
+  bucket = aws_s3_bucket.api_record_level_scoring_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1366,9 +1471,9 @@ resource "aws_s3_bucket" "cross_record_scored_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1377,6 +1482,13 @@ resource "aws_s3_bucket" "cross_record_scored_bucket" {
 
   tags = {
     Name = "s3-dq-cross-record-scored-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "cross_record_scored_bucket_versioning" {
+  bucket = aws_s3_bucket.cross_record_scored_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1433,9 +1545,9 @@ resource "aws_s3_bucket" "gait_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1444,6 +1556,13 @@ resource "aws_s3_bucket" "gait_internal_bucket" {
 
   tags = {
     Name = "s3-dq-gait-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "gait_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.gait_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1494,9 +1613,9 @@ resource "aws_s3_bucket" "reporting_internal_working_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1505,6 +1624,13 @@ resource "aws_s3_bucket" "reporting_internal_working_bucket" {
 
   tags = {
     Name = "s3-dq-reporting-internal-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "reporting_internal_working_bucket_versioning" {
+  bucket = aws_s3_bucket.reporting_internal_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1561,9 +1687,9 @@ resource "aws_s3_bucket" "athena_log_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1572,6 +1698,13 @@ resource "aws_s3_bucket" "athena_log_bucket" {
 
   tags = {
     Name = "s3-dq-athena-log-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "athena_log_bucket_versioning" {
+  bucket = aws_s3_bucket.athena_log_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1614,9 +1747,9 @@ resource "aws_s3_bucket" "mds_extract_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1625,6 +1758,13 @@ resource "aws_s3_bucket" "mds_extract_bucket" {
 
   tags = {
     Name = "s3-dq-mds-extract-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "mds_extract_bucket_versioning" {
+  bucket = aws_s3_bucket.mds_extract_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1676,9 +1816,9 @@ resource "aws_s3_bucket" "raw_file_index_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1687,6 +1827,13 @@ resource "aws_s3_bucket" "raw_file_index_internal_bucket" {
 
   tags = {
     Name = "s3-dq-raw-file-retrieval-index-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "raw_file_index_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.raw_file_index_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1738,9 +1885,9 @@ resource "aws_s3_bucket" "fms_working_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1749,6 +1896,13 @@ resource "aws_s3_bucket" "fms_working_bucket" {
 
   tags = {
     Name = "s3-dq-fms-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "fms_working_bucket_versioning" {
+  bucket = aws_s3_bucket.fms_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1801,9 +1955,9 @@ resource "aws_s3_bucket" "drt_export" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1812,6 +1966,13 @@ resource "aws_s3_bucket" "drt_export" {
 
   tags = {
     Name = "s3-dq-drt-extra-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "drt_export_versioning" {
+  bucket = aws_s3_bucket.drt_export.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1877,9 +2038,9 @@ resource "aws_s3_bucket" "drt_working_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1888,6 +2049,13 @@ resource "aws_s3_bucket" "drt_working_bucket" {
 
   tags = {
     Name = "s3-dq-drt-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "drt_working_bucket_versioning" {
+  bucket = aws_s3_bucket.drt_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -1943,9 +2111,9 @@ resource "aws_s3_bucket" "nats_archive_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1966,6 +2134,13 @@ resource "aws_s3_bucket" "nats_archive_bucket" {
 
   tags = {
     Name = "s3-dq-nats-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "nats_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.nats_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2016,9 +2191,9 @@ resource "aws_s3_bucket" "nats_internal_bucket" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2027,6 +2202,13 @@ resource "aws_s3_bucket" "nats_internal_bucket" {
 
   tags = {
     Name = "nats-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "nats_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.nats_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2068,9 +2250,9 @@ resource "aws_s3_bucket" "cdlz_bitd_input" {
   bucket = var.s3_bucket_name["cdlz_bitd_input"]
   acl    = var.s3_bucket_acl["cdlz_bitd_input"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2087,6 +2269,13 @@ resource "aws_s3_bucket" "cdlz_bitd_input" {
 
   tags = {
     Name = "s3-dq-cdlz-bitd-input-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "cdlz_bitd_input_versioning" {
+  bucket = aws_s3_bucket.cdlz_bitd_input.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2133,9 +2322,9 @@ resource "aws_s3_bucket" "api_arrivals_bucket" {
   bucket = var.s3_bucket_name["api_arrivals"]
   acl    = var.s3_bucket_acl["api_arrivals"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2152,6 +2341,13 @@ resource "aws_s3_bucket" "api_arrivals_bucket" {
 
   tags = {
     Name = "s3-dq-api-arrivals-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_arrivals_bucket_versioning" {
+  bucket = aws_s3_bucket.api_arrivals_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2203,9 +2399,9 @@ resource "aws_s3_bucket" "accuracy_score_bucket" {
   bucket = var.s3_bucket_name["accuracy_score"]
   acl    = var.s3_bucket_acl["accuracy_score"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2222,6 +2418,13 @@ resource "aws_s3_bucket" "accuracy_score_bucket" {
 
   tags = {
     Name = "s3-dq-accuracy-score-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "accuracy_score_bucket_versioning" {
+  bucket = aws_s3_bucket.accuracy_score_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2268,9 +2471,9 @@ resource "aws_s3_bucket" "api_cdlz_msk_bucket" {
   bucket = var.s3_bucket_name["api_cdlz_msk"]
   acl    = var.s3_bucket_acl["api_cdlz_msk"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2287,6 +2490,13 @@ resource "aws_s3_bucket" "api_cdlz_msk_bucket" {
 
   tags = {
     Name = "s3-dq-api-cdlz-msk-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_cdlz_msk_bucket_versioning" {
+  bucket = aws_s3_bucket.api_cdlz_msk_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2333,9 +2543,9 @@ resource "aws_s3_bucket" "api_rls_xrs_reconciliation" {
   bucket = var.s3_bucket_name["api_rls_xrs_reconciliation"]
   acl    = var.s3_bucket_acl["api_rls_xrs_reconciliation"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2352,6 +2562,13 @@ resource "aws_s3_bucket" "api_rls_xrs_reconciliation" {
 
   tags = {
     Name = "s3-dq-rls-xrs-reconciliation-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_rls_xrs_reconciliation_versioning" {
+  bucket = aws_s3_bucket.api_rls_xrs_reconciliation.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2398,9 +2615,9 @@ resource "aws_s3_bucket" "dq_fs_archive" {
   bucket = var.s3_bucket_name["dq_fs_archive"]
   acl    = var.s3_bucket_acl["dq_fs_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2417,6 +2634,13 @@ resource "aws_s3_bucket" "dq_fs_archive" {
 
   tags = {
     Name = "s3-dq-fs-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_fs_archive_versioning" {
+  bucket = aws_s3_bucket.dq_fs_archive.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2463,9 +2687,9 @@ resource "aws_s3_bucket" "dq_fs_internal" {
   bucket = var.s3_bucket_name["dq_fs_internal"]
   acl    = var.s3_bucket_acl["dq_fs_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2482,6 +2706,13 @@ resource "aws_s3_bucket" "dq_fs_internal" {
 
   tags = {
     Name = "s3-dq-fs-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_fs_internal_versioning" {
+  bucket = aws_s3_bucket.dq_fs_internal.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2528,9 +2759,9 @@ resource "aws_s3_bucket" "dq_aws_config_bucket" {
   bucket = var.s3_bucket_name["dq_aws_config"]
   acl    = var.s3_bucket_acl["dq_aws_config"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2547,6 +2778,13 @@ resource "aws_s3_bucket" "dq_aws_config_bucket" {
 
   tags = {
     Name = "s3-dq-aws-config-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_aws_config_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_aws_config_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2593,9 +2831,9 @@ resource "aws_s3_bucket" "dq_asn_archive_bucket" {
   bucket = var.s3_bucket_name["dq_asn_archive"]
   acl    = var.s3_bucket_acl["dq_asn_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2612,6 +2850,13 @@ resource "aws_s3_bucket" "dq_asn_archive_bucket" {
 
   tags = {
     Name = "s3-dq-asn-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2658,9 +2903,9 @@ resource "aws_s3_bucket" "dq_asn_internal_bucket" {
   bucket = var.s3_bucket_name["dq_asn_internal"]
   acl    = var.s3_bucket_acl["dq_asn_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  # enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2677,6 +2922,13 @@ resource "aws_s3_bucket" "dq_asn_internal_bucket" {
 
   tags = {
     Name = "s3-dq-asn-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2723,9 +2975,9 @@ resource "aws_s3_bucket" "dq_snsgb_archive_bucket" {
   bucket = var.s3_bucket_name["dq_snsgb_archive"]
   acl    = var.s3_bucket_acl["dq_snsgb_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2742,6 +2994,13 @@ resource "aws_s3_bucket" "dq_snsgb_archive_bucket" {
 
   tags = {
     Name = "s3-dq-snsgb-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_snsgb_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_snsgb_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2788,9 +3047,9 @@ resource "aws_s3_bucket" "dq_snsgb_internal_bucket" {
   bucket = var.s3_bucket_name["dq_snsgb_internal"]
   acl    = var.s3_bucket_acl["dq_snsgb_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2807,6 +3066,13 @@ resource "aws_s3_bucket" "dq_snsgb_internal_bucket" {
 
   tags = {
     Name = "s3-dq-snsgb-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_snsgb_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_snsgb_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2853,9 +3119,9 @@ resource "aws_s3_bucket" "dq_asn_marine_archive_bucket" {
   bucket = var.s3_bucket_name["dq_asn_marine_archive"]
   acl    = var.s3_bucket_acl["dq_asn_marine_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2872,6 +3138,13 @@ resource "aws_s3_bucket" "dq_asn_marine_archive_bucket" {
 
   tags = {
     Name = "s3-dq-asn-marine-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_marine_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_marine_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2920,9 +3193,9 @@ resource "aws_s3_bucket" "dq_asn_marine_internal_bucket" {
   bucket = var.s3_bucket_name["dq_asn_marine_internal"]
   acl    = var.s3_bucket_acl["dq_asn_marine_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -2939,6 +3212,13 @@ resource "aws_s3_bucket" "dq_asn_marine_internal_bucket" {
 
   tags = {
     Name = "s3-dq-asn-marine-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_marine_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_marine_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -2987,9 +3267,9 @@ resource "aws_s3_bucket" "dq_rm_archive_bucket" {
   bucket = var.s3_bucket_name["dq_rm_archive"]
   acl    = var.s3_bucket_acl["dq_rm_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3006,6 +3286,13 @@ resource "aws_s3_bucket" "dq_rm_archive_bucket" {
 
   tags = {
     Name = "s3-dq-rm-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_rm_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_rm_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3054,9 +3341,9 @@ resource "aws_s3_bucket" "dq_rm_internal_bucket" {
   bucket = var.s3_bucket_name["dq_rm_internal"]
   acl    = var.s3_bucket_acl["dq_rm_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3073,6 +3360,13 @@ resource "aws_s3_bucket" "dq_rm_internal_bucket" {
 
   tags = {
     Name = "s3-dq-rm-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3122,9 +3416,9 @@ resource "aws_s3_bucket" "dq_data_generator_bucket" {
   bucket = var.s3_bucket_name["dq_data_generator"]
   acl    = var.s3_bucket_acl["dq_data_generator"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3141,6 +3435,13 @@ resource "aws_s3_bucket" "dq_data_generator_bucket" {
 
   tags = {
     Name = "s3-dq-data-generator-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3196,9 +3497,9 @@ resource "aws_s3_bucket" "dq_ais_archive_bucket" {
   bucket = var.s3_bucket_name["dq_ais_archive"]
   acl    = var.s3_bucket_acl["dq_ais_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3215,6 +3516,13 @@ resource "aws_s3_bucket" "dq_ais_archive_bucket" {
 
   tags = {
     Name = "s3-dq-dq-ais-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3261,9 +3569,9 @@ resource "aws_s3_bucket" "dq_ais_internal_bucket" {
   bucket = var.s3_bucket_name["dq_ais_internal"]
   acl    = var.s3_bucket_acl["dq_ais_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3280,6 +3588,13 @@ resource "aws_s3_bucket" "dq_ais_internal_bucket" {
 
   tags = {
     Name = "s3-dq-ais-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3333,9 +3648,9 @@ resource "aws_s3_bucket" "dq_gait_landing_staging_bucket" {
   bucket = var.s3_bucket_name["dq_gait_landing_staging"]
   acl    = var.s3_bucket_acl["dq_gait_landing_staging"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3352,6 +3667,13 @@ resource "aws_s3_bucket" "dq_gait_landing_staging_bucket" {
 
   tags = {
     Name = "s3-dq-gait-landing-staging"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3393,9 +3715,9 @@ resource "aws_s3_bucket" "dq_pnr_archive_bucket" {
   bucket = var.s3_bucket_name["dq_pnr_archive"]
   acl    = var.s3_bucket_acl["dq_pnr_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3412,6 +3734,13 @@ resource "aws_s3_bucket" "dq_pnr_archive_bucket" {
 
   tags = {
     Name = "s3-dq-pnr-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3460,9 +3789,9 @@ resource "aws_s3_bucket" "dq_pnr_internal_bucket" {
   bucket = var.s3_bucket_name["dq_pnr_internal"]
   acl    = var.s3_bucket_acl["dq_pnr_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   server_side_encryption_configuration {
     rule {
@@ -3479,6 +3808,13 @@ resource "aws_s3_bucket" "dq_pnr_internal_bucket" {
 
   tags = {
     Name = "s3-dq-pnr-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -3543,9 +3879,9 @@ resource "aws_s3_bucket" "carrier_portal_docs" {
     }
   }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3566,6 +3902,13 @@ resource "aws_s3_bucket" "carrier_portal_docs" {
 
   tags = {
     Name = "s3-dq-carrier-portal-docs-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
