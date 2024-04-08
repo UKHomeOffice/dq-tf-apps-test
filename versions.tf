@@ -12,5 +12,3 @@ terraform {
     }
   }
 }
-
-#re-running CICD pipeline

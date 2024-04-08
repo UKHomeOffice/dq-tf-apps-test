@@ -299,7 +299,7 @@ module "acl_input_pipeline" {
 #
 module "fms" {
   # contains attribute deprecation in resource "random_string" "username"
-  source     = "github.com/UKHomeOffice/dq-tf-fms-test"
+  source     = "github.com/UKHomeOffice/dq-tf-fms-test?ref=migrate-to-tf1.5"
   appsvpc_id = aws_vpc.appsvpc.id
 
   opssubnet_cidr_block = var.route_table_cidr_blocks["ops_cidr"]
