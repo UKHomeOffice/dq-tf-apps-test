@@ -1,6 +1,3 @@
-provider "aws" {
-}
-
 locals {
   naming_suffix = "apps-${var.naming_suffix}"
 }
@@ -162,6 +159,7 @@ module "lambda" {
 #}
 
 module "acl_input_pipeline" {
+  # source of tf warning on last_modified attribute of ignore_changes code block 
   source        = "git::ssh://git@gitlab.digital.homeoffice.gov.uk:2222/dacc-dq/dq-tf-acl-input-pipeline.git"
   kms_key_s3    = aws_kms_key.bucket_key.arn
   naming_suffix = local.naming_suffix
@@ -300,7 +298,8 @@ module "acl_input_pipeline" {
 #}
 #
 module "fms" {
-  source     = "github.com/UKHomeOffice/dq-tf-fms-test"
+  # contains attribute deprecation in resource "random_string" "username"
+  source     = "github.com/UKHomeOffice/dq-tf-fms-test?ref=migrate-to-tf1.5"
   appsvpc_id = aws_vpc.appsvpc.id
 
   opssubnet_cidr_block = var.route_table_cidr_blocks["ops_cidr"]
@@ -417,7 +416,7 @@ resource "aws_route" "igw" {
 }
 
 resource "aws_eip" "appseip" {
-  vpc = true
+  domain = "vpc"
 }
 
 resource "aws_nat_gateway" "appsnatgw" {

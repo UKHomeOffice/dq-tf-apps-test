@@ -41,37 +41,64 @@ EOF
 
 resource "aws_s3_bucket" "log_archive_bucket" {
   bucket = var.s3_bucket_name["archive_log"]
-  acl    = var.s3_bucket_acl["archive_log"]
-  region = var.region
+  # acl    = var.s3_bucket_acl["archive_log"]
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
+
+  # versioning {
+  #  enabled = true
+  # }
+
+  tags = {
+    Name = "s3-log-archive-bucket-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "log_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
     }
   }
+}
 
-  versioning {
-    enabled = true
-  }
-
-  lifecycle_rule {
-    enabled = true
+resource "aws_s3_bucket_lifecycle_configuration" "log_archive_bucket_lifecycle" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  rule {
+    id = "log_archive_bucket_rule_1"
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
     noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
     }
+    status = "Enabled"
   }
+}
 
-  tags = {
-    Name = "s3-log-archive-bucket-${local.naming_suffix}"
+resource "aws_s3_bucket_versioning" "log_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
+}
+
+resource "aws_s3_bucket_acl" "log_archive_bucket_acl" {
+  bucket = aws_s3_bucket.log_archive_bucket.id
+  acl    = var.s3_bucket_acl["archive_log"]
 }
 
 resource "aws_s3_bucket_metric" "log_archive_bucket_logging" {
@@ -115,133 +142,194 @@ POLICY
 
 resource "aws_s3_bucket" "data_archive_bucket" {
   bucket = var.s3_bucket_name["archive_data"]
-  acl    = var.s3_bucket_acl["archive_data"]
-  region = var.region
+  # acl    = var.s3_bucket_acl["archive_data"]
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  logging {
-    target_bucket = aws_s3_bucket.log_archive_bucket.id
-    target_prefix = "data_archive_bucket/"
-  }
-
-  lifecycle_rule {
-    enabled = true
-    transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
-
-  lifecycle_rule {
-    id      = "internal_tableau_green"
-    enabled = true
-
-    prefix = "tableau-int/green/"
-
-    expiration {
-      days = 15
-    }
-
-    noncurrent_version_expiration {
-      days = 1
-    }
-  }
-
-  lifecycle_rule {
-    id      = "internal_tableau_blue"
-    enabled = true
-
-    prefix = "tableau-int/blue/"
-
-    expiration {
-      days = 15
-    }
-
-    noncurrent_version_expiration {
-      days = 1
-    }
-  }
-
-  lifecycle_rule {
-    id      = "internal_tableau_staging"
-    enabled = true
-
-    prefix = "tableau-int/staging/"
-
-    expiration {
-      days = 15
-    }
-
-    noncurrent_version_expiration {
-      days = 1
-    }
-  }
-
-  lifecycle_rule {
-    id      = "external_tableau_green"
-    enabled = true
-
-    prefix = "tableau-ext/green/"
-
-    expiration {
-      days = 15
-    }
-
-    noncurrent_version_expiration {
-      days = 1
-    }
-  }
-
-  lifecycle_rule {
-    id      = "external_tableau_blue"
-    enabled = true
-
-    prefix = "tableau-ext/blue/"
-
-    expiration {
-      days = 15
-    }
-
-    noncurrent_version_expiration {
-      days = 1
-    }
-  }
-
-  lifecycle_rule {
-    id      = "external_tableau_staging"
-    enabled = true
-
-    prefix = "tableau-ext/staging/"
-
-    expiration {
-      days = 15
-    }
-
-    noncurrent_version_expiration {
-      days = 1
-    }
-  }
+  # logging {
+  #   target_bucket = aws_s3_bucket.log_archive_bucket.id
+  #   target_prefix = "data_archive_bucket/"
+  # }
 
   tags = {
     Name = "s3-data-archive-bucket-${local.naming_suffix}"
   }
 }
+
+resource "aws_s3_bucket_versioning" "data_archive_bucket_versioning" {
+  bucket = var.s3_bucket_name["archive_data"]
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "data_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.data_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
+resource "aws_s3_bucket_acl" "data_archive_bucket_acl" {
+  bucket = var.s3_bucket_name["archive_data"]
+  acl    = var.s3_bucket_acl["archive_data"]
+}
+
+resource "aws_s3_bucket_logging" "data_archive_bucket_logging" {
+  bucket = var.s3_bucket_name["archive_data"]
+
+  target_bucket = aws_s3_bucket.log_archive_bucket.id
+  target_prefix = "data_archive_bucket/"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "data_archive_bucket_lifecycle" {
+  bucket = var.s3_bucket_name["archive_data"]
+
+  rule {
+    id = "standard_ia_transition"
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+    status = "Enabled"
+  }
+
+  rule {
+    id = "internal_tableau_green"
+
+
+    filter {
+      prefix = "tableau-int/green/"
+    }
+
+    expiration {
+      days = 15
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "internal_tableau_blue"
+
+
+    filter {
+      prefix = "tableau-int/blue/"
+    }
+
+    expiration {
+      days = 15
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "internal_tableau_staging"
+
+
+    filter {
+      prefix = "tableau-int/staging/"
+    }
+
+    expiration {
+      days = 15
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "external_tableau_green"
+
+
+    filter {
+      prefix = "tableau-ext/green/"
+    }
+
+    expiration {
+      days = 15
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "external_tableau_blue"
+
+
+    filter {
+      prefix = "tableau-ext/blue/"
+    }
+
+    expiration {
+      days = 15
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "external_tableau_staging"
+
+
+    filter {
+      prefix = "tableau-ext/staging/"
+    }
+
+    expiration {
+      days = 15
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+
+    status = "Enabled"
+  }
+}
+
 
 resource "aws_s3_bucket_metric" "data_archive_bucket_logging" {
   bucket = var.s3_bucket_name["archive_data"]
@@ -276,20 +364,20 @@ POLICY
 resource "aws_s3_bucket" "data_working_bucket" {
   bucket = var.s3_bucket_name["working_data"]
   acl    = var.s3_bucket_acl["working_data"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -298,6 +386,24 @@ resource "aws_s3_bucket" "data_working_bucket" {
 
   tags = {
     Name = "s3-data-working-bucket-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "data_working_bucket_versioning" {
+  bucket = aws_s3_bucket.data_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "data_working_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.data_working_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -343,40 +449,78 @@ POLICY
 resource "aws_s3_bucket" "airports_archive_bucket" {
   bucket = var.s3_bucket_name["airports_archive"]
   acl    = var.s3_bucket_acl["airports_archive"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "airports_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-airports-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "airports_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.airports_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "airports_archive_bucket-config" {
+  bucket = aws_s3_bucket.airports_archive_bucket.id
+
+  rule {
+    id = "airports_archive_bucket_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 
-  tags = {
-    Name = "s3-dq-airports-archive-${local.naming_suffix}"
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "airports_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.airports_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -417,20 +561,20 @@ POLICY
 resource "aws_s3_bucket" "airports_internal_bucket" {
   bucket = var.s3_bucket_name["airports_internal"]
   acl    = var.s3_bucket_acl["airports_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -439,6 +583,24 @@ resource "aws_s3_bucket" "airports_internal_bucket" {
 
   tags = {
     Name = "s3-dq-airports-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "airports_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.airports_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "airports_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.airports_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -479,20 +641,20 @@ POLICY
 resource "aws_s3_bucket" "airports_working_bucket" {
   bucket = var.s3_bucket_name["airports_working"]
   acl    = var.s3_bucket_acl["airports_working"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -501,6 +663,24 @@ resource "aws_s3_bucket" "airports_working_bucket" {
 
   tags = {
     Name = "s3-dq-airports-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "airports_working_bucket_versioning" {
+  bucket = aws_s3_bucket.airports_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "airports_working_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.airports_working_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -541,40 +721,80 @@ POLICY
 resource "aws_s3_bucket" "oag_archive_bucket" {
   bucket = var.s3_bucket_name["oag_archive"]
   acl    = var.s3_bucket_acl["oag_archive"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  # rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "oag_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-oag-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "oag_archive_bucket-config" {
+  bucket = aws_s3_bucket.oag_archive_bucket.id
+
+  rule {
+    id = "oag_archive_bucket_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 
-  tags = {
-    Name = "s3-dq-oag-archive-${local.naming_suffix}"
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+
+
+resource "aws_s3_bucket_versioning" "oag_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.oag_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "oag_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.oag_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -615,19 +835,19 @@ POLICY
 resource "aws_s3_bucket" "oag_internal_bucket" {
   bucket = var.s3_bucket_name["oag_internal"]
   acl    = var.s3_bucket_acl["oag_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -636,6 +856,24 @@ resource "aws_s3_bucket" "oag_internal_bucket" {
 
   tags = {
     Name = "s3-dq-oag-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "oag_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.oag_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "oag_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.oag_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -676,19 +914,19 @@ POLICY
 resource "aws_s3_bucket" "oag_transform_bucket" {
   bucket = var.s3_bucket_name["oag_transform"]
   acl    = var.s3_bucket_acl["oag_transform"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  # rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -697,6 +935,23 @@ resource "aws_s3_bucket" "oag_transform_bucket" {
 
   tags = {
     Name = "s3-dq-oag-transform-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "oag_transform_bucket_versioning" {
+  bucket = aws_s3_bucket.oag_transform_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "oag_transform_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.oag_transform_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -742,40 +997,78 @@ resource "aws_s3_bucket_metric" "oag_transform_bucket_logging" {
 resource "aws_s3_bucket" "acl_archive_bucket" {
   bucket = var.s3_bucket_name["acl_archive"]
   acl    = var.s3_bucket_acl["acl_archive"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "acl_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-acl-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "acl_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.acl_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "acl_archive_bucket-config" {
+  bucket = aws_s3_bucket.acl_archive_bucket.id
+
+  rule {
+    id = "acl_archive_bucket_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 
-  tags = {
-    Name = "s3-dq-acl-archive-${local.naming_suffix}"
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "acl_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.acl_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -816,19 +1109,19 @@ POLICY
 resource "aws_s3_bucket" "acl_internal_bucket" {
   bucket = var.s3_bucket_name["acl_internal"]
   acl    = var.s3_bucket_acl["acl_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -837,6 +1130,23 @@ resource "aws_s3_bucket" "acl_internal_bucket" {
 
   tags = {
     Name = "s3-dq-acl-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "acl_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.acl_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "acl_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.acl_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -877,40 +1187,78 @@ POLICY
 resource "aws_s3_bucket" "reference_data_archive_bucket" {
   bucket = var.s3_bucket_name["reference_data_archive"]
   acl    = var.s3_bucket_acl["reference_data_archive"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "reference_data_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-reference-data-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "reference_data_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.reference_data_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "reference_data_archive_bucket-config" {
+  bucket = aws_s3_bucket.reference_data_archive_bucket.id
+
+  rule {
+    id = "reference_data_archive_bucket_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 
-  tags = {
-    Name = "s3-dq-reference-data-archive-${local.naming_suffix}"
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "reference_data_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.reference_data_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -951,20 +1299,20 @@ POLICY
 resource "aws_s3_bucket" "reference_data_internal_bucket" {
   bucket = var.s3_bucket_name["reference_data_internal"]
   acl    = var.s3_bucket_acl["reference_data_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -973,6 +1321,24 @@ resource "aws_s3_bucket" "reference_data_internal_bucket" {
 
   tags = {
     Name = "s3-dq-reference-data-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "reference_data_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.reference_data_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "reference_data_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.reference_data_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1013,19 +1379,19 @@ POLICY
 resource "aws_s3_bucket" "consolidated_schedule_bucket" {
   bucket = var.s3_bucket_name["consolidated_schedule"]
   acl    = var.s3_bucket_acl["consolidated_schedule"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1034,6 +1400,23 @@ resource "aws_s3_bucket" "consolidated_schedule_bucket" {
 
   tags = {
     Name = "s3-dq-consolidated-schedule-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "consolidated_schedule_bucket_versioning" {
+  bucket = aws_s3_bucket.consolidated_schedule_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "consolidated_schedule_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.consolidated_schedule_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -1079,40 +1462,78 @@ resource "aws_s3_bucket_metric" "consolidated_schedule_bucket_logging" {
 resource "aws_s3_bucket" "api_archive_bucket" {
   bucket = var.s3_bucket_name["api_archive"]
   acl    = var.s3_bucket_acl["api_archive"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "api_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-api-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "api_archive_bucket-config" {
+  bucket = aws_s3_bucket.api_archive_bucket.id
+
+  rule {
+    id = "api_archive_bucket_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 
-  tags = {
-    Name = "s3-dq-api-archive-${local.naming_suffix}"
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.api_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "api_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.api_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1158,19 +1579,19 @@ resource "aws_s3_bucket_metric" "api_archive_bucket_logging" {
 resource "aws_s3_bucket" "api_internal_bucket" {
   bucket = var.s3_bucket_name["api_internal"]
   acl    = var.s3_bucket_acl["api_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1179,6 +1600,23 @@ resource "aws_s3_bucket" "api_internal_bucket" {
 
   tags = {
     Name = "s3-dq-api-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.api_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "api_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.api_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -1224,19 +1662,19 @@ resource "aws_s3_bucket_metric" "api_internal_bucket_logging" {
 resource "aws_s3_bucket" "api_record_level_scoring_bucket" {
   bucket = var.s3_bucket_name["api_record_level_scoring"]
   acl    = var.s3_bucket_acl["api_record_level_scoring"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1245,6 +1683,23 @@ resource "aws_s3_bucket" "api_record_level_scoring_bucket" {
 
   tags = {
     Name = "s3-dq-api-record-level-scoring-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_record_level_scoring_bucket_versioning" {
+  bucket = aws_s3_bucket.api_record_level_scoring_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "api_record_level_scoring_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.api_record_level_scoring_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -1290,19 +1745,19 @@ resource "aws_s3_bucket_metric" "api_record_level_scoring_logging" {
 resource "aws_s3_bucket" "cross_record_scored_bucket" {
   bucket = var.s3_bucket_name["cross_record_scored"]
   acl    = var.s3_bucket_acl["cross_record_scored"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1311,6 +1766,23 @@ resource "aws_s3_bucket" "cross_record_scored_bucket" {
 
   tags = {
     Name = "s3-dq-cross-record-scored-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "cross_record_scored_bucket_versioning" {
+  bucket = aws_s3_bucket.cross_record_scored_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "cross_record_scored_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.cross_record_scored_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -1356,20 +1828,20 @@ resource "aws_s3_bucket_metric" "cross_record_scored_logging" {
 resource "aws_s3_bucket" "gait_internal_bucket" {
   bucket = var.s3_bucket_name["gait_internal"]
   acl    = var.s3_bucket_acl["gait_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1378,6 +1850,24 @@ resource "aws_s3_bucket" "gait_internal_bucket" {
 
   tags = {
     Name = "s3-dq-gait-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "gait_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.gait_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "gait_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.gait_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1418,19 +1908,19 @@ POLICY
 resource "aws_s3_bucket" "reporting_internal_working_bucket" {
   bucket = var.s3_bucket_name["reporting_internal_working"]
   acl    = var.s3_bucket_acl["reporting_internal_working"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1439,6 +1929,23 @@ resource "aws_s3_bucket" "reporting_internal_working_bucket" {
 
   tags = {
     Name = "s3-dq-reporting-internal-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "reporting_internal_working_bucket_versioning" {
+  bucket = aws_s3_bucket.reporting_internal_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "reporting_internal_working_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.reporting_internal_working_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -1484,20 +1991,20 @@ resource "aws_s3_bucket_metric" "reporting_internal_working_logging" {
 resource "aws_s3_bucket" "athena_log_bucket" {
   bucket = var.s3_bucket_name["athena_log"]
   acl    = var.s3_bucket_acl["athena_log"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1506,6 +2013,24 @@ resource "aws_s3_bucket" "athena_log_bucket" {
 
   tags = {
     Name = "s3-dq-athena-log-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "athena_log_bucket_versioning" {
+  bucket = aws_s3_bucket.athena_log_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "athena_log_bucket_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.athena_log_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1537,20 +2062,20 @@ POLICY
 resource "aws_s3_bucket" "mds_extract_bucket" {
   bucket = var.s3_bucket_name["mds_extract"]
   acl    = var.s3_bucket_acl["mds_extract"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1559,6 +2084,24 @@ resource "aws_s3_bucket" "mds_extract_bucket" {
 
   tags = {
     Name = "s3-dq-mds-extract-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "mds_extract_bucket_versioning" {
+  bucket = aws_s3_bucket.mds_extract_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "mds_extract_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.mds_extract_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1599,20 +2142,20 @@ POLICY
 resource "aws_s3_bucket" "raw_file_index_internal_bucket" {
   bucket = var.s3_bucket_name["raw_file_index_internal"]
   acl    = var.s3_bucket_acl["raw_file_index_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1621,6 +2164,24 @@ resource "aws_s3_bucket" "raw_file_index_internal_bucket" {
 
   tags = {
     Name = "s3-dq-raw-file-retrieval-index-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "raw_file_index_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.raw_file_index_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "raw_file_index_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.raw_file_index_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1661,20 +2222,20 @@ POLICY
 resource "aws_s3_bucket" "fms_working_bucket" {
   bucket = var.s3_bucket_name["fms_working"]
   acl    = var.s3_bucket_acl["fms_working"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1683,6 +2244,24 @@ resource "aws_s3_bucket" "fms_working_bucket" {
 
   tags = {
     Name = "s3-dq-fms-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "fms_working_bucket_versioning" {
+  bucket = aws_s3_bucket.fms_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "fms_working_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.fms_working_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1724,20 +2303,20 @@ resource "aws_s3_bucket" "drt_export" {
   count  = var.namespace == "notprod" ? 1 : 0
   bucket = var.s3_bucket_name["drt_export"]
   acl    = var.s3_bucket_acl["drt_export"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1746,6 +2325,26 @@ resource "aws_s3_bucket" "drt_export" {
 
   tags = {
     Name = "s3-dq-drt-extra-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "drt_export_versioning" {
+  count  = var.namespace == "notprod" ? 1 : 0
+  bucket = aws_s3_bucket.drt_export[count.index].id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "drt_export_server_side_encryption_configuration" {
+  count  = var.namespace == "notprod" ? 1 : 0
+  bucket = aws_s3_bucket.drt_export[count.index].id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 
@@ -1801,19 +2400,19 @@ resource "aws_ssm_parameter" "drt_export_S3_kms" {
 resource "aws_s3_bucket" "drt_working_bucket" {
   bucket = var.s3_bucket_name["drt_working"]
   acl    = var.s3_bucket_acl["drt_working"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1822,6 +2421,23 @@ resource "aws_s3_bucket" "drt_working_bucket" {
 
   tags = {
     Name = "s3-dq-drt-working-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "drt_working_bucket_versioning" {
+  bucket = aws_s3_bucket.drt_working_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "drt_working_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.drt_working_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "aws:kms"
+    }
   }
 }
 
@@ -1867,39 +2483,76 @@ resource "aws_s3_bucket_metric" "drt_working_logging" {
 resource "aws_s3_bucket" "nats_archive_bucket" {
   bucket = var.s3_bucket_name["nats_archive"]
   acl    = var.s3_bucket_acl["nats_archive"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "nats_archive_bucket/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-nats-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "nats_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.nats_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "nats_archive_bucket-config" {
+  bucket = aws_s3_bucket.nats_archive_bucket.id
+
+  rule {
+    id = "nats_archive_bucket_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 
-  tags = {
-    Name = "s3-dq-nats-archive-${local.naming_suffix}"
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "nats_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.nats_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -1940,19 +2593,19 @@ POLICY
 resource "aws_s3_bucket" "nats_internal_bucket" {
   bucket = var.s3_bucket_name["nats_internal"]
   acl    = var.s3_bucket_acl["nats_internal"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -1961,6 +2614,23 @@ resource "aws_s3_bucket" "nats_internal_bucket" {
 
   tags = {
     Name = "nats-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "nats_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.nats_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "nats_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.nats_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2002,17 +2672,17 @@ resource "aws_s3_bucket" "cdlz_bitd_input" {
   bucket = var.s3_bucket_name["cdlz_bitd_input"]
   acl    = var.s3_bucket_acl["cdlz_bitd_input"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2021,6 +2691,23 @@ resource "aws_s3_bucket" "cdlz_bitd_input" {
 
   tags = {
     Name = "s3-dq-cdlz-bitd-input-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "cdlz_bitd_input_versioning" {
+  bucket = aws_s3_bucket.cdlz_bitd_input.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "cdlz_bitd_input_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.cdlz_bitd_input.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2067,17 +2754,17 @@ resource "aws_s3_bucket" "api_arrivals_bucket" {
   bucket = var.s3_bucket_name["api_arrivals"]
   acl    = var.s3_bucket_acl["api_arrivals"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2089,7 +2776,24 @@ resource "aws_s3_bucket" "api_arrivals_bucket" {
   }
 }
 
-resource "aws_s3_bucket_object" "s3-dq-api-arrivals-test" {
+resource "aws_s3_bucket_versioning" "api_arrivals_bucket_versioning" {
+  bucket = aws_s3_bucket.api_arrivals_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "api_arrivals_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.api_arrivals_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_object" "s3-dq-api-arrivals-test" {
   bucket = var.s3_bucket_name["api_arrivals"]
   key    = "reference/"
 }
@@ -2137,17 +2841,17 @@ resource "aws_s3_bucket" "accuracy_score_bucket" {
   bucket = var.s3_bucket_name["accuracy_score"]
   acl    = var.s3_bucket_acl["accuracy_score"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2156,6 +2860,23 @@ resource "aws_s3_bucket" "accuracy_score_bucket" {
 
   tags = {
     Name = "s3-dq-accuracy-score-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "accuracy_score_bucket_versioning" {
+  bucket = aws_s3_bucket.accuracy_score_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "accuracy_score_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.accuracy_score_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2202,17 +2923,17 @@ resource "aws_s3_bucket" "api_cdlz_msk_bucket" {
   bucket = var.s3_bucket_name["api_cdlz_msk"]
   acl    = var.s3_bucket_acl["api_cdlz_msk"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2221,6 +2942,23 @@ resource "aws_s3_bucket" "api_cdlz_msk_bucket" {
 
   tags = {
     Name = "s3-dq-api-cdlz-msk-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "api_cdlz_msk_bucket_versioning" {
+  bucket = aws_s3_bucket.api_cdlz_msk_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "api_cdlz_msk_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.api_cdlz_msk_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2267,17 +3005,17 @@ resource "aws_s3_bucket" "api_rls_xrs_reconciliation" {
   bucket = var.s3_bucket_name["api_rls_xrs_reconciliation"]
   acl    = var.s3_bucket_acl["api_rls_xrs_reconciliation"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2288,6 +3026,24 @@ resource "aws_s3_bucket" "api_rls_xrs_reconciliation" {
     Name = "s3-dq-rls-xrs-reconciliation-${local.naming_suffix}"
   }
 }
+
+resource "aws_s3_bucket_versioning" "api_rls_xrs_reconciliation_versioning" {
+  bucket = aws_s3_bucket.api_rls_xrs_reconciliation.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "api_rls_xrs_reconciliation_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.api_rls_xrs_reconciliation.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 
 resource "aws_s3_bucket_public_access_block" "api_rls_xrs_reconciliation_pub_block" {
   bucket = aws_s3_bucket.api_rls_xrs_reconciliation.id
@@ -2332,17 +3088,17 @@ resource "aws_s3_bucket" "dq_fs_archive" {
   bucket = var.s3_bucket_name["dq_fs_archive"]
   acl    = var.s3_bucket_acl["dq_fs_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2351,6 +3107,23 @@ resource "aws_s3_bucket" "dq_fs_archive" {
 
   tags = {
     Name = "s3-dq-fs-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_fs_archive_versioning" {
+  bucket = aws_s3_bucket.dq_fs_archive.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_fs_archive_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_fs_archive.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2397,17 +3170,17 @@ resource "aws_s3_bucket" "dq_fs_internal" {
   bucket = var.s3_bucket_name["dq_fs_internal"]
   acl    = var.s3_bucket_acl["dq_fs_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2416,6 +3189,23 @@ resource "aws_s3_bucket" "dq_fs_internal" {
 
   tags = {
     Name = "s3-dq-fs-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_fs_internal_versioning" {
+  bucket = aws_s3_bucket.dq_fs_internal.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_fs_internal_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_fs_internal.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2462,17 +3252,17 @@ resource "aws_s3_bucket" "dq_aws_config_bucket" {
   bucket = var.s3_bucket_name["dq_aws_config"]
   acl    = var.s3_bucket_acl["dq_aws_config"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2481,6 +3271,23 @@ resource "aws_s3_bucket" "dq_aws_config_bucket" {
 
   tags = {
     Name = "s3-dq-aws-config-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_aws_config_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_aws_config_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_aws_config_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_aws_config_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2527,17 +3334,17 @@ resource "aws_s3_bucket" "dq_asn_archive_bucket" {
   bucket = var.s3_bucket_name["dq_asn_archive"]
   acl    = var.s3_bucket_acl["dq_asn_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2546,6 +3353,23 @@ resource "aws_s3_bucket" "dq_asn_archive_bucket" {
 
   tags = {
     Name = "s3-dq-asn-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_asn_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_asn_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2592,17 +3416,17 @@ resource "aws_s3_bucket" "dq_asn_internal_bucket" {
   bucket = var.s3_bucket_name["dq_asn_internal"]
   acl    = var.s3_bucket_acl["dq_asn_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  # enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2611,6 +3435,23 @@ resource "aws_s3_bucket" "dq_asn_internal_bucket" {
 
   tags = {
     Name = "s3-dq-asn-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_asn_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_asn_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2657,17 +3498,17 @@ resource "aws_s3_bucket" "dq_snsgb_archive_bucket" {
   bucket = var.s3_bucket_name["dq_snsgb_archive"]
   acl    = var.s3_bucket_acl["dq_snsgb_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2676,6 +3517,23 @@ resource "aws_s3_bucket" "dq_snsgb_archive_bucket" {
 
   tags = {
     Name = "s3-dq-snsgb-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_snsgb_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_snsgb_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_snsgb_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_snsgb_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2722,17 +3580,17 @@ resource "aws_s3_bucket" "dq_snsgb_internal_bucket" {
   bucket = var.s3_bucket_name["dq_snsgb_internal"]
   acl    = var.s3_bucket_acl["dq_snsgb_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2741,6 +3599,23 @@ resource "aws_s3_bucket" "dq_snsgb_internal_bucket" {
 
   tags = {
     Name = "s3-dq-snsgb-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_snsgb_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_snsgb_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_snsgb_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_snsgb_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2787,17 +3662,17 @@ resource "aws_s3_bucket" "dq_asn_marine_archive_bucket" {
   bucket = var.s3_bucket_name["dq_asn_marine_archive"]
   acl    = var.s3_bucket_acl["dq_asn_marine_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2806,6 +3681,23 @@ resource "aws_s3_bucket" "dq_asn_marine_archive_bucket" {
 
   tags = {
     Name = "s3-dq-asn-marine-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_marine_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_marine_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_asn_marine_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_asn_marine_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2854,17 +3746,17 @@ resource "aws_s3_bucket" "dq_asn_marine_internal_bucket" {
   bucket = var.s3_bucket_name["dq_asn_marine_internal"]
   acl    = var.s3_bucket_acl["dq_asn_marine_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2873,6 +3765,23 @@ resource "aws_s3_bucket" "dq_asn_marine_internal_bucket" {
 
   tags = {
     Name = "s3-dq-asn-marine-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_asn_marine_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_asn_marine_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_asn_marine_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_asn_marine_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2921,17 +3830,17 @@ resource "aws_s3_bucket" "dq_rm_archive_bucket" {
   bucket = var.s3_bucket_name["dq_rm_archive"]
   acl    = var.s3_bucket_acl["dq_rm_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -2940,6 +3849,23 @@ resource "aws_s3_bucket" "dq_rm_archive_bucket" {
 
   tags = {
     Name = "s3-dq-rm-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_rm_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_rm_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_rm_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_rm_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -2988,17 +3914,17 @@ resource "aws_s3_bucket" "dq_rm_internal_bucket" {
   bucket = var.s3_bucket_name["dq_rm_internal"]
   acl    = var.s3_bucket_acl["dq_rm_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3007,6 +3933,23 @@ resource "aws_s3_bucket" "dq_rm_internal_bucket" {
 
   tags = {
     Name = "s3-dq-rm-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_rm_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_rm_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_rm_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_rm_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -3056,17 +3999,17 @@ resource "aws_s3_bucket" "dq_data_generator_bucket" {
   bucket = var.s3_bucket_name["dq_data_generator"]
   acl    = var.s3_bucket_acl["dq_data_generator"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3075,6 +4018,25 @@ resource "aws_s3_bucket" "dq_data_generator_bucket" {
 
   tags = {
     Name = "s3-dq-data-generator-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_data_generator_bucket_versioning" {
+  count  = var.namespace == "notprod" ? 1 : 0
+  bucket = aws_s3_bucket.dq_data_generator_bucket[count.index].id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_data_generator_bucket_server_side_encryption_configuration" {
+  count  = var.namespace == "notprod" ? 1 : 0
+  bucket = aws_s3_bucket.dq_data_generator_bucket[count.index].id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -3130,17 +4092,17 @@ resource "aws_s3_bucket" "dq_ais_archive_bucket" {
   bucket = var.s3_bucket_name["dq_ais_archive"]
   acl    = var.s3_bucket_acl["dq_ais_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3149,6 +4111,23 @@ resource "aws_s3_bucket" "dq_ais_archive_bucket" {
 
   tags = {
     Name = "s3-dq-dq-ais-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_ais_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_ais_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_ais_archive_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_ais_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -3195,17 +4174,17 @@ resource "aws_s3_bucket" "dq_ais_internal_bucket" {
   bucket = var.s3_bucket_name["dq_ais_internal"]
   acl    = var.s3_bucket_acl["dq_ais_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3214,6 +4193,23 @@ resource "aws_s3_bucket" "dq_ais_internal_bucket" {
 
   tags = {
     Name = "s3-dq-ais-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_ais_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_ais_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_ais_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_ais_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -3267,17 +4263,17 @@ resource "aws_s3_bucket" "dq_gait_landing_staging_bucket" {
   bucket = var.s3_bucket_name["dq_gait_landing_staging"]
   acl    = var.s3_bucket_acl["dq_gait_landing_staging"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3286,6 +4282,25 @@ resource "aws_s3_bucket" "dq_gait_landing_staging_bucket" {
 
   tags = {
     Name = "s3-dq-gait-landing-staging"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_gait_landing_staging_bucket_versioning" {
+  count  = var.namespace == "notprod" ? 1 : 0
+  bucket = aws_s3_bucket.dq_gait_landing_staging_bucket[count.index].id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_gait_landing_staging_bucket_server_side_encryption_configuration" {
+  count  = var.namespace == "notprod" ? 1 : 0
+  bucket = aws_s3_bucket.dq_gait_landing_staging_bucket[count.index].id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -3327,17 +4342,17 @@ resource "aws_s3_bucket" "dq_pnr_archive_bucket" {
   bucket = var.s3_bucket_name["dq_pnr_archive"]
   acl    = var.s3_bucket_acl["dq_pnr_archive"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3346,6 +4361,23 @@ resource "aws_s3_bucket" "dq_pnr_archive_bucket" {
 
   tags = {
     Name = "s3-dq-pnr-archive-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_pnr_archive_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_pnr_archive_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_pnr_archive_bucket_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_pnr_archive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -3394,17 +4426,17 @@ resource "aws_s3_bucket" "dq_pnr_internal_bucket" {
   bucket = var.s3_bucket_name["dq_pnr_internal"]
   acl    = var.s3_bucket_acl["dq_pnr_internal"]
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #  enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      sse_algorithm = "AES256"
+  #    }
+  #  }
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
@@ -3413,6 +4445,23 @@ resource "aws_s3_bucket" "dq_pnr_internal_bucket" {
 
   tags = {
     Name = "s3-dq-pnr-internal-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "dq_pnr_internal_bucket_versioning" {
+  bucket = aws_s3_bucket.dq_pnr_internal_bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dq_pnr_internal_bucket_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.dq_pnr_internal_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
@@ -3466,40 +4515,78 @@ resource "aws_vpc_endpoint" "s3_endpoint" {
 resource "aws_s3_bucket" "carrier_portal_docs" {
   bucket = var.s3_bucket_name["carrier_portal_docs"]
   acl    = var.s3_bucket_acl["carrier_portal_docs"]
-  region = var.region
+  # region = var.region
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.bucket_key.arn
-        sse_algorithm     = "aws:kms"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #  rule {
+  #    apply_server_side_encryption_by_default {
+  #      kms_master_key_id = aws_kms_key.bucket_key.arn
+  #      sse_algorithm     = "aws:kms"
+  #    }
+  #  }
+  # }
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
   logging {
     target_bucket = aws_s3_bucket.log_archive_bucket.id
     target_prefix = "carrier_portal_docs/"
   }
 
-  lifecycle_rule {
-    enabled = true
+  # lifecycle_rule {
+  #  enabled = true
+  #  transition {
+  #    days          = 30
+  #    storage_class = "STANDARD_IA"
+  #  }
+  #  noncurrent_version_transition {
+  #    noncurrent_days = 30
+  #    storage_class   = "STANDARD_IA"
+  #  }
+  # }
+
+  tags = {
+    Name = "s3-dq-carrier-portal-docs-${local.naming_suffix}"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "carrier_portal_docs-config" {
+  bucket = aws_s3_bucket.carrier_portal_docs.id
+
+  rule {
+    id = "carrier_portal_docs_config"
+
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
     }
-    noncurrent_version_transition {
-      days          = 30
-      storage_class = "STANDARD_IA"
-    }
-  }
 
-  tags = {
-    Name = "s3-dq-carrier-portal-docs-${local.naming_suffix}"
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "carrier_portal_docs_versioning" {
+  bucket = aws_s3_bucket.carrier_portal_docs.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "carrier_portal_docs_server_side_encryption_configuration" {
+  bucket = aws_s3_bucket.carrier_portal_docs.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = aws_kms_key.bucket_key.arn
+      sse_algorithm     = "aws:kms"
+    }
   }
 }
 

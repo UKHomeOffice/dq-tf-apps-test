@@ -1,6 +1,6 @@
 ---
 global-variables:
-  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:32
+  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
 #  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
   vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
 
@@ -37,13 +37,36 @@ x-anchors:
 
   run-testrunner: &run-testrunner
     # Get AWS secrets for Target Account
+    # SSH key required to import DQ terraform modules hosted on github
     - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
     - source ./$${AWS_SECRETS_FILE}
     - mkdir /root/.ssh && chmod 0700 /root/.ssh && echo "$SSH_KEY" > /root/.ssh/id_rsa && chmod 0600 /root/.ssh/id_rsa
     - ssh-keyscan -t rsa -p 2222 gitlab.digital.homeoffice.gov.uk >>  ~/.ssh/known_hosts
     - python -m unittest tests/*_test.py
 
+  renew-vault-tokens: &renew-vault-tokens
+    # Renew the Dev Vault Token
+    - export VAULT_TOKEN=$${VAULT_TOKEN_DEV}
+    - export VAULT_ADDR=$${VAULT_ADDR_DEV}
+    - vault token renew > /dev/null
+    - unset VAULT_TOKEN
+
 steps:
+- name: renew-vault-tokens
+  pull: if-not-exists
+  image: *vault-image
+  commands: *renew-vault-tokens
+  environment:
+    VAULT_TOKEN_DEV:
+      from_secret: VAULT_TOKEN_DEV
+    VAULT_ADDR_DEV:
+      from_secret: VAULT_ADDR_DEV
+  when:
+    event:
+      - cron
+    cron:
+      - renew-vault-tokens
+
 - name: retrieve_aws_secrets_test
   pull: if-not-exists
   image: *vault-image
