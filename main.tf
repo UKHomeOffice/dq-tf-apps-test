@@ -304,14 +304,14 @@ module "fms" {
 
   opssubnet_cidr_block = var.route_table_cidr_blocks["ops_cidr"]
   fms_cidr_block       = "10.1.40.0/24"
-  fms_cidr_block_az2   = "10.1.41.0/24"
-  peering_cidr_block   = "10.3.0.0/16"
+  #fms_cidr_block_az2   = "10.1.41.0/24"
+  #peering_cidr_block   = "10.3.0.0/16"
 
-  az                           = var.az
-  az2                          = var.az2
-  naming_suffix                = local.naming_suffix
-  route_table_id               = aws_route_table.apps_route_table.id
-  environment                  = var.namespace
+  #az                           = var.az
+  #az2                          = var.az2
+  #naming_suffix                = local.naming_suffix
+  #route_table_id               = aws_route_table.apps_route_table.id
+  #environment                  = var.namespace
 }
 
 module "ops_pipeline" {
